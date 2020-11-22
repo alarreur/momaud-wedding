@@ -1,0 +1,56 @@
+<div
+  class="momo-menu"
+  *ngIf="{
+    isSmallSscreen: isSmallSscreen$ | async,
+    user: user$ | async
+  } as menuInfo"
+>
+  <!-- BUTTONS -->
+  <div class="button-container">
+    <button
+      *ngIf="menuInfo.user as user"
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-sign-out"
+      class="user-button p-button-rounded p-button-text"
+      (click)="signOut()"
+      pTooltip="Sign Out {{ user.email }}"
+    ></button>
+
+    <button
+      *ngIf="menuInfo.isSmallSscreen"
+      pButton
+      pRipple
+      type="button"
+      icon="pi {{ isMenuOpen ? 'pi-times' : 'pi-bars' }}"
+      class="burger-menu-button p-button-rounded p-button-text"
+      (click)="isMenuOpen = !isMenuOpen"
+    ></button>
+  </div>
+
+  <!-- MENU -->
+  <ng-container *ngIf="menuInfo.isSmallSscreen; else menuList">
+    <p-sidebar [(visible)]="isMenuOpen" [showCloseIcon]="false">
+      <ng-container *ngTemplateOutlet="menuList"></ng-container>
+    </p-sidebar>
+  </ng-container>
+</div>
+
+<ng-template #menuList>
+  <ul>
+    <li><a [routerLink]="AppRoutes.Rsvp" routerLinkActive="active" (click)="isMenuOpen = false">RSVP</a></li>
+    <li>
+      <a [routerLink]="AppRoutes.Program" routerLinkActive="active" (click)="isMenuOpen = false">Programme</a>
+    </li>
+    <li>
+      <a [routerLink]="AppRoutes.Accommodations" routerLinkActive="active" (click)="isMenuOpen = false">Hébergement</a>
+    </li>
+    <li>
+      <a [routerLink]="AppRoutes.WhishList" routerLinkActive="active" (click)="isMenuOpen = false">Liste de Marage</a>
+    </li>
+    <li>
+      <a [routerLink]="AppRoutes.Info" routerLinkActive="active" (click)="isMenuOpen = false">Informations Utiles</a>
+    </li>
+  </ul>
+</ng-template>

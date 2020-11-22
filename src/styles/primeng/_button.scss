@@ -1,0 +1,14 @@
+$primary-button-color: $primary-color;
+
+.p-button {
+  background: $primary-button-color;
+  border-color: $primary-button-color;
+
+  &:enabled:hover {
+    background: lighten($color: $primary-button-color, $amount: 10);
+    border-color: lighten($color: $primary-button-color, $amount: 10);
+  }
+  .p-button-label {
+    color: #fff;
+  }
+}

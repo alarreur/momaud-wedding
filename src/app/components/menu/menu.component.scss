@@ -1,0 +1,58 @@
+@import 'variables';
+
+.momo-menu {
+  margin-top: 20px;
+
+  display: flex;
+  justify-content: center;
+
+  ul {
+    list-style-type: none;
+    width: 30em;
+    display: flex;
+    justify-content: space-between;
+
+    font-family: $font-family-header;
+    font-size: 1.8em;
+
+    li a {
+      color: $primary-color;
+      text-decoration: none;
+
+      &.active {
+        cursor: default;
+        text-decoration: underline;
+        text-underline-position: under;
+      }
+    }
+  }
+
+  .button-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: flex-end;
+
+    ::ng-deep .p-button-icon {
+      font-size: 1.6rem;
+    }
+  }
+}
+
+/* Smartphones screen (portrait) properties */
+@media only screen and (max-width: $smartphone-width-breakpoint) {
+  .momo-menu {
+    ::ng-deep .p-sidebar {
+      background-color: #f9f7f1;
+    }
+
+    ul {
+      flex-direction: column;
+
+      li {
+        padding: 10px 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "momaud-wedding": {
+      "hosting": {
+        "momaud-wedding": [
+          "momaud-wedding"
+        ]
+      }
+    }
+  }
+}
