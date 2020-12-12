@@ -2,8 +2,11 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-export const environment = {
+import { IEnvironment } from './i-environment';
+
+export const environment: IEnvironment = {
   production: false,
+  adminBaseApi: 'http://localhost:5001/momaud-wedding/europe-west1/app',
   firebase: {
     apiKey: 'AIzaSyC-chbvja-gaRcFxn58lcxYEMNSqxy_l74',
     authDomain: 'momaud-wedding.firebaseapp.com',

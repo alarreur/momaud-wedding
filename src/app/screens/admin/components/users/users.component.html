@@ -1,1 +1,6 @@
-<p>power-users works!</p>
+<ag-grid-angular
+  class="ag-theme-alpine"
+  [rowData]="users$ | async"
+  style="width: 500px; height: 500px"
+  [gridOptions]="gridOptions"
+></ag-grid-angular>

@@ -7,7 +7,7 @@ import { Observable, of, ReplaySubject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class MediaService {
+export class MediaQueryService {
   public match(query: string): Observable<boolean> {
     // we need to make sure we are in browser
     if (window) {

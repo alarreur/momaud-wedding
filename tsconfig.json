@@ -15,7 +15,8 @@
     "lib": ["es2018", "dom"],
     "paths": {
       "@environment": ["src/environments/environment.ts"],
-      "@app/*": ["src/app/*"]
+      "@app/*": ["src/app/*"],
+      "@data/*": ["src/data/*"]
     }
   }
 }

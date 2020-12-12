@@ -1,0 +1,23 @@
+.momo-guests {
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    // .title {
+    // }
+
+    // .actions {
+    //   .add-button {
+    //   }
+    // }
+  }
+  ag-grid-angular {
+    width: 1000px;
+    height: 500px;
+  }
+}
+
+::ng-deep .add-dialog {
+  width: 500px;
+}

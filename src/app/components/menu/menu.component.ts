@@ -9,7 +9,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { from, Observable } from 'rxjs';
 
 // app
-import { MediaService } from '@app/services';
+import { MediaQueryService } from '@app/services';
 import { AppRoute } from '@app/models';
 
 @Component({
@@ -27,7 +27,7 @@ export class MenuComponent {
 
   public isMenuOpen: boolean = false;
 
-  constructor(mediaService: MediaService, private readonly _auth: AngularFireAuth, private readonly _router: Router) {
+  constructor(mediaService: MediaQueryService, private readonly _auth: AngularFireAuth, private readonly _router: Router) {
     this.isSmallSscreen$ = mediaService.match('only screen and (max-width: 500px)');
     this.user$ = this._auth.user;
   }

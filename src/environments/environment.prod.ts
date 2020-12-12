@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  adminBaseApi: '/todo',
   firebase: {
     apiKey: 'AIzaSyC-chbvja-gaRcFxn58lcxYEMNSqxy_l74',
     authDomain: 'momaud-wedding.firebaseapp.com',
