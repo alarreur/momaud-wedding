@@ -4,20 +4,11 @@
       <label for="email">Adresse email</label>
       <input id="email" type="text" pInputText [formControl]="emailControl" />
       <small class="p-invalid" *ngFor="let error of getErrors(emailControl)">{{ error }}</small>
-      <!-- <small class="p-invalid" *ngIf="submitted && emailControl.hasError('required')">L'adresse email est requis.</small>
-      <small class="p-invalid" *ngIf="submitted && emailControl.hasError('email')">L'adresse email n'est pas valide.</small>
-      <small class="p-invalid" *ngIf="submitted && emailControl.hasError('auth')">{{
-        emailControl.getError('auth').message
-      }}</small> -->
     </div>
     <div class="p-field p-fluid">
       <label for="password">Mot de passe</label>
       <input id="password" type="password" pInputText [formControl]="passwordControl" />
       <small class="p-invalid" *ngFor="let error of getErrors(passwordControl)">{{ error }}</small>
-      <!-- <small class="p-invalid" *ngIf="submitted && passwordControl.hasError('required')">Le mot de passe est requis.</small>
-      <small class="p-invalid" *ngIf="submitted && passwordControl.hasError('auth')">{{
-        emailControl.getError('auth').message
-      }}</small> -->
     </div>
     <p-footer>
       <div class="p-d-flex p-jc-center">

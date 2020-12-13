@@ -16,7 +16,11 @@ export class GuestIoService {
     return null;
   }
 
-  public guet(id: string): Observable<Guest> {
+  public get(id: string): Observable<Guest> {
+    return null;
+  }
+
+  public create(guest: Guest): Observable<Guest> {
     return null;
   }
 }

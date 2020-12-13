@@ -1,0 +1,113 @@
+<div class="momo-guest-form" *ngIf="form" [formGroup]="form">
+  <div class="p-field p-fluid">
+    <label for="password">Prénom *</label>
+    <input type="text" pInputText formControlName="firstName" />
+    <small class="p-invalid" *ngFor="let error of getErrors('firstName')">{{ error }}</small>
+  </div>
+  <div class="p-field p-fluid">
+    <label for="email">Nom</label>
+    <input type="text" pInputText formControlName="lastName" />
+    <small class="p-invalid" *ngFor="let error of getErrors('lastName')">{{ error }}</small>
+  </div>
+  <div class="p-field p-fluid">
+    <label for="password">Email</label>
+    <input type="text" pInputText formControlName="email" />
+    <small class="p-invalid" *ngFor="let error of getErrors('email')">{{ error }}</small>
+  </div>
+  <div class="p-field p-fluid">
+    <label for="password">Categorie *</label>
+    <p-dropdown
+      [options]="categories"
+      optionLabel="label"
+      appendTo="body"
+      formControlName="category"
+      placeholder="Sélectionnez une categorie"
+    ></p-dropdown>
+    <small class="p-invalid" *ngFor="let error of getErrors('category')">{{ error }}</small>
+  </div>
+  <div class="p-field p-fluid">
+    <label for="password">Invité par *</label>
+    <p-dropdown
+      [options]="hosts"
+      optionLabel="label"
+      appendTo="body"
+      formControlName="invitedBy"
+      placeholder="Sélectionnez une personne"
+    ></p-dropdown>
+    <small class="p-invalid" *ngFor="let error of getErrors('invitedBy')">{{ error }}</small>
+  </div>
+  <div class="p-field p-fluid">
+    <label for="password">Cérémonie *</label>
+    <p-dropdown
+      [options]="inviteStatuses"
+      optionLabel="label"
+      appendTo="body"
+      formControlName="ceremonyStatus"
+      placeholder="Sélectionnez un statut"
+    ></p-dropdown>
+    <small class="p-invalid" *ngFor="let error of getErrors('ceremonyStatus')">{{ error }}</small>
+  </div>
+  <div class="p-field p-fluid">
+    <label for="password">Cocktail *</label>
+    <p-dropdown
+      [options]="inviteStatuses"
+      optionLabel="label"
+      appendTo="body"
+      formControlName="cocktailStatus"
+      placeholder="Sélectionnez un statut"
+    ></p-dropdown>
+    <small class="p-invalid" *ngFor="let error of getErrors('cocktailStatus')">{{ error }}</small>
+  </div>
+  <div class="p-field p-fluid">
+    <label for="password">Dîner *</label>
+    <p-dropdown
+      [options]="inviteStatuses"
+      optionLabel="label"
+      appendTo="body"
+      formControlName="dinerStatus"
+      placeholder="Sélectionnez un statut"
+    ></p-dropdown>
+    <small class="p-invalid" *ngFor="let error of getErrors('dinerStatus')">{{ error }}</small>
+  </div>
+  <div class="p-field p-fluid">
+    <label for="password">Brunch *</label>
+    <p-dropdown
+      [options]="inviteStatuses"
+      optionLabel="label"
+      appendTo="body"
+      formControlName="brunchStatus"
+      placeholder="Sélectionnez un statut"
+    ></p-dropdown>
+    <small class="p-invalid" *ngFor="let error of getErrors('brunchStatus')">{{ error }}</small>
+  </div>
+  <div class="p-field p-fluid">
+    <label for="password">+1</label>
+    <p-autoComplete
+      appendTo="body"
+      [forceSelection]="true"
+      [suggestions]="guestsSuggestions$ | async"
+      (completeMethod)="searchGuest$.next($event.query)"
+      formControlName="plusOneId"
+      field="fullName"
+      dataKey="id"
+    ></p-autoComplete>
+    <small class="p-invalid" *ngFor="let error of getErrors('plusOneId')">{{ error }}</small>
+  </div>
+  <div class="p-field p-fluid">
+    <label for="password">Parent</label>
+    <p-autoComplete
+      appendTo="body"
+      [forceSelection]="true"
+      [suggestions]="guestsSuggestions$ | async"
+      (completeMethod)="searchGuest$.next($event.query)"
+      formControlName="parentId"
+      field="fullName"
+      dataKey="id"
+    ></p-autoComplete>
+    <small class="p-invalid" *ngFor="let error of getErrors('parentId')">{{ error }}</small>
+  </div>
+  <div class="p-d-flex p-jc-end">
+    <button pButton label="Cancel" class="p-button-secondary p-button-outlined" (click)="cancel()"></button>
+    <button pButton label="Sauvegarder" (click)="save()" [disabled]="cannotSave$ | async"></button>
+  </div>
+</div>

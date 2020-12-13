@@ -8,7 +8,8 @@ $primary-button-color: $primary-color;
     background: lighten($color: $primary-button-color, $amount: 10);
     border-color: lighten($color: $primary-button-color, $amount: 10);
   }
-  .p-button-label {
-    color: #fff;
-  }
+}
+
+.p-button:not(.p-button-outlined) .p-button-label {
+  color: #fff;
 }

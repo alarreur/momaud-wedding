@@ -15,8 +15,8 @@ const guestReducer = createReducer(
   on(GuestActions.loadGuestSuccess, (state, { guest }) => {
     return adapter.setOne(guest, state);
   }),
-  on(GuestActions.createGuestSuccess, (state, { user }) => {
-    return adapter.addOne(user, state);
+  on(GuestActions.createGuestSuccess, (state, { guest }) => {
+    return adapter.addOne(guest, state);
   }),
   on(GuestActions.updateGuestSuccess, (state, { update }) => {
     return adapter.updateOne(update, state);

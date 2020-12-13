@@ -28,5 +28,19 @@ export class GuestEffects {
     )
   );
 
+  createGuest$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(GuestActions.createGuest),
+      mergeMap(({ guest, transactionId }) =>
+        this._guestIoService.create(guest).pipe(
+          map(
+            (guestWithId) => GuestActions.createGuestSuccess({ guest: guestWithId, transactionId }),
+            catchError((error) => of(GuestActions.createGuestFailure({ error, transactionId })))
+          )
+        )
+      )
+    )
+  );
+
   constructor(private _actions$: Actions, private _guestIoService: GuestIoService) {}
 }

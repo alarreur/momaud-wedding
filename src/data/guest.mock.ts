@@ -4,7 +4,7 @@ export const guestListMock = <Guest[]>[
   {
     id: 'amauryId',
     brunchStatus: InviteStatus.Invited,
-    cermonyStatus: InviteStatus.Invited,
+    ceremonyStatus: InviteStatus.Invited,
     dinerStatus: InviteStatus.Invited,
     cocktailStatus: InviteStatus.Invited,
     email: 'dummy.amaury@email.com',
@@ -15,7 +15,7 @@ export const guestListMock = <Guest[]>[
   {
     id: 'maudId',
     brunchStatus: InviteStatus.Invited,
-    cermonyStatus: InviteStatus.Invited,
+    ceremonyStatus: InviteStatus.Invited,
     dinerStatus: InviteStatus.Invited,
     cocktailStatus: InviteStatus.Invited,
     email: 'dummy.maud@email.com',

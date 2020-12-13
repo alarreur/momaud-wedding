@@ -42,7 +42,7 @@ export class GuestListComponent implements OnInit {
         field: 'email',
       },
       {
-        field: 'cermonyStatus',
+        field: 'ceremonyStatus',
         headerName: 'Cérmonie',
       },
       {

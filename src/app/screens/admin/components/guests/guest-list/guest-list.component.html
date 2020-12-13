@@ -8,4 +8,10 @@
   <ag-grid-angular class="ag-theme-alpine" [rowData]="guests$ | async" [gridOptions]="gridOptions"></ag-grid-angular>
 </div>
 
-<p-dialog #addDialog header="Ajouter un invité" [(visible)]="addDialogVisbility" styleClass="add-dialog"> Content </p-dialog>
+<p-dialog #addDialog header="Ajouter un invité" [(visible)]="addDialogVisbility" styleClass="add-dialog">
+  <momo-guest-form
+    *ngIf="addDialogVisbility"
+    (saved)="addDialogVisbility = false"
+    (cancelled)="addDialogVisbility = false"
+  ></momo-guest-form>
+</p-dialog>
