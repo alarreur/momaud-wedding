@@ -70,28 +70,8 @@ export class GuestFormComponent implements OnInit, OnChanges {
   }
 
   public ngOnInit(): void {
-    this.form = new FormGroup({
-      firstName: new FormControl(null, Validators.required),
-      lastName: new FormControl(
-        null,
-        null,
-        AsyncValidators.uniqueGuest(
-          this._guestService.getAll(),
-          () => this.form && this.form.get('firstName').value,
-          () => this.form && this.form.get('lastName').value,
-          () => this.guest && this.guest.id
-        )
-      ),
-      email: new FormControl(null, Validators.email),
-      category: new FormControl(null, Validators.required),
-      invitedBy: new FormControl(null, Validators.required),
-      ceremonyStatus: new FormControl(null, Validators.required),
-      cocktailStatus: new FormControl(null, Validators.required),
-      dinerStatus: new FormControl(null, Validators.required),
-      brunchStatus: new FormControl(null, Validators.required),
-      plusOneId: new FormControl(),
-      parentId: new FormControl(),
-    });
+    this.createForm();
+    this.updateForm();
 
     this.cannotSave$ = combineLatest([
       this._saving$,
@@ -103,8 +83,8 @@ export class GuestFormComponent implements OnInit, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.guest) {
-      this.form.patchValue(changes.guest);
+    if (this.form && changes.guest) {
+      this.updateForm();
     }
   }
 
@@ -133,8 +113,9 @@ export class GuestFormComponent implements OnInit, OnChanges {
   public save(): void {
     this._saving$.next(true);
 
-    this._guestService
-      .create(this.getFormValue())
+    const upsert = this.guest ? this._guestService.update(this.getFormValue()) : this._guestService.create(this.getFormValue());
+
+    upsert
       .pipe(
         tap((guest) => {
           this.saved.emit(guest);
@@ -157,10 +138,76 @@ export class GuestFormComponent implements OnInit, OnChanges {
     this.cancelled.emit();
   }
 
+  public createForm(): void {
+    this.form = new FormGroup({
+      firstName: new FormControl(null, Validators.required),
+      lastName: new FormControl(
+        null,
+        null,
+        AsyncValidators.uniqueGuest(
+          this._guestService.getAll(),
+          () => this.form && this.form.get('firstName').value,
+          () => this.form && this.form.get('lastName').value,
+          () => this.guest && this.guest.id
+        )
+      ),
+      email: new FormControl(null, Validators.email),
+      category: new FormControl(null, Validators.required),
+      invitedBy: new FormControl(null, Validators.required),
+      ceremonyStatus: new FormControl(null, Validators.required),
+      cocktailStatus: new FormControl(null, Validators.required),
+      dinerStatus: new FormControl(null, Validators.required),
+      brunchStatus: new FormControl(null, Validators.required),
+      plusOneId: new FormControl(),
+      parentId: new FormControl(),
+    });
+  }
+
+  public updateForm(): void {
+    if (this.guest) {
+      this._guestService
+        .getAll()
+        .pipe(
+          first(),
+          tap((guests) => {
+            const {
+              firstName,
+              lastName,
+              email,
+              category,
+              invitedBy,
+              ceremonyStatus,
+              cocktailStatus,
+              dinerStatus,
+              brunchStatus,
+              plusOneId,
+              parentId,
+            } = this.guest;
+
+            this.form.patchValue({
+              firstName,
+              lastName,
+              email,
+              category: category && this.categories.find((cat) => cat.key === category),
+              invitedBy: invitedBy && this.hosts.find((host) => host.key === invitedBy),
+              ceremonyStatus: ceremonyStatus && this.inviteStatuses.find((status) => status.key === ceremonyStatus),
+              cocktailStatus: cocktailStatus && this.inviteStatuses.find((status) => status.key === cocktailStatus),
+              dinerStatus: dinerStatus && this.inviteStatuses.find((status) => status.key === dinerStatus),
+              brunchStatus: brunchStatus && this.inviteStatuses.find((status) => status.key === brunchStatus),
+              plusOneId: plusOneId && guests.find((guest) => guest.id === plusOneId),
+              parentId: parentId && guests.find((guest) => guest.id === parentId),
+            });
+          })
+        )
+        .subscribe();
+    }
+  }
+
   private getFormValue(): Guest {
     const dto = this.form.getRawValue();
 
     return new Guest({
+      id: this.guest && this.guest.id,
       email: dto.email,
       firstName: dto.firstName,
       lastName: dto.lastName,

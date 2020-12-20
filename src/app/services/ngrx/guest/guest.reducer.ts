@@ -1,5 +1,9 @@
 // ngrx
 import { Action, createReducer, on } from '@ngrx/store';
+import { Update } from '@ngrx/entity';
+
+// app
+import { Guest } from '@app/models';
 
 // local
 import * as GuestActions from './guest.actions';
@@ -18,10 +22,15 @@ const guestReducer = createReducer(
   on(GuestActions.createGuestSuccess, (state, { guest }) => {
     return adapter.addOne(guest, state);
   }),
-  on(GuestActions.updateGuestSuccess, (state, { update }) => {
+  on(GuestActions.updateGuestSuccess, (state, { guest }) => {
+    const update: Update<Guest> = {
+      id: guest.id,
+      changes: guest,
+    };
+
     return adapter.updateOne(update, state);
   }),
-  on(GuestActions.deleteGuestSuccess, (state, { id }) => {
+  on(GuestActions.deleteGuestSuccess, (state, { guestId: id }) => {
     return adapter.removeOne(id, state);
   })
 );

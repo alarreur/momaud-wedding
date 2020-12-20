@@ -28,10 +28,25 @@ export const createGuestFailure = createAction(
   props<{ error: any; transactionId?: string }>()
 );
 
-export const updateGuest = createAction(`${requestActionPrefix} Update Guest`, props<{ guest: Guest }>());
-export const updateGuestSuccess = createAction(`${apiActionPrefix} Guest Updated Success`, props<{ update: Update<Guest> }>());
-export const updateGuestFailure = createAction(`${apiActionPrefix} Guest Updated Failure`);
+export const updateGuest = createAction(`${requestActionPrefix} Update Guest`, props<{ guest: Guest; transactionId?: string }>());
+export const updateGuestSuccess = createAction(
+  `${apiActionPrefix} Guest Updated Success`,
+  props<{ guest: Guest; transactionId?: string }>()
+);
+export const updateGuestFailure = createAction(
+  `${apiActionPrefix} Guest Updated Failure`,
+  props<{ error: any; transactionId?: string }>()
+);
 
-export const deleteGuest = createAction(`${requestActionPrefix} Delete Guest`, props<{ id: string }>());
-export const deleteGuestSuccess = createAction(`${apiActionPrefix} Guest Deleted Success`, props<{ id: string }>());
-export const deleteGuestFailure = createAction(`${apiActionPrefix} Guest Deleted Failure`);
+export const deleteGuest = createAction(
+  `${requestActionPrefix} Delete Guest`,
+  props<{ guestId: string; transactionId?: string }>()
+);
+export const deleteGuestSuccess = createAction(
+  `${apiActionPrefix} Guest Deleted Success`,
+  props<{ guestId: string; transactionId?: string }>()
+);
+export const deleteGuestFailure = createAction(
+  `${apiActionPrefix} Guest Deleted Failure`,
+  props<{ error: any; transactionId?: string }>()
+);

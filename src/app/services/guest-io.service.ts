@@ -23,4 +23,12 @@ export class GuestIoService {
   public create(guest: Guest): Observable<Guest> {
     return null;
   }
+
+  public update(guest: Guest): Observable<Guest> {
+    return null;
+  }
+
+  public delete(guestId: string): Observable<boolean> {
+    return null;
+  }
 }

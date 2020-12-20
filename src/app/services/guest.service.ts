@@ -57,12 +57,48 @@ export class GuestService {
     );
   }
 
-  public update(): Observable<Guest> {
-    return null;
+  public update(guest: Guest): Observable<Guest> {
+    const transactionId = guid();
+
+    setTimeout(() => {
+      this._store.dispatch(GuestActions.updateGuest({ guest, transactionId }));
+    }, 0);
+
+    return this._actions$.pipe(
+      ofType(GuestActions.updateGuestSuccess, GuestActions.updateGuestFailure),
+      filter(({ transactionId: tId }) => tId === transactionId),
+      first(),
+      map((action) => {
+        // TODO cast to proper action type
+        if (action.type === GuestActions.updateGuestSuccess.type) {
+          return (<any>action).guest;
+        } else {
+          throwError((<any>action).error);
+        }
+      })
+    );
   }
 
-  public delete(): Observable<boolean> {
-    return null;
+  public delete(guestId: string): Observable<boolean> {
+    const transactionId = guid();
+
+    setTimeout(() => {
+      this._store.dispatch(GuestActions.deleteGuest({ guestId, transactionId }));
+    }, 0);
+
+    return this._actions$.pipe(
+      ofType(GuestActions.deleteGuestSuccess, GuestActions.deleteGuestFailure),
+      filter(({ transactionId: tId }) => tId === transactionId),
+      first(),
+      map((action) => {
+        // TODO cast to proper action type
+        if (action.type === GuestActions.deleteGuestSuccess.type) {
+          return (<any>action).guest;
+        } else {
+          throwError((<any>action).error);
+        }
+      })
+    );
   }
 
   // private _createTransactionAction<T>(

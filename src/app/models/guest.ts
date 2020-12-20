@@ -25,6 +25,9 @@ export class Guest {
     this.id = dto.id;
     this.firstName = dto.firstName;
     this.lastName = dto.lastName;
+    this.email = dto.email;
+    this.category = dto.category;
+    this.invitedBy = dto.invitedBy;
     this.ceremonyStatus = dto.ceremonyStatus;
     this.cocktailStatus = dto.cocktailStatus;
     this.dinerStatus = dto.dinerStatus;

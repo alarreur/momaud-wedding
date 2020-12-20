@@ -11,7 +11,21 @@
 <p-dialog #addDialog header="Ajouter un invité" [(visible)]="addDialogVisbility" styleClass="add-dialog">
   <momo-guest-form
     *ngIf="addDialogVisbility"
-    (saved)="addDialogVisbility = false"
-    (cancelled)="addDialogVisbility = false"
+    [guest]="editionGuest"
+    (saved)="closeForm()"
+    (cancelled)="closeForm()"
   ></momo-guest-form>
 </p-dialog>
+
+<p-confirmDialog #deleteDialog header="Supprimer Invité ?" icon="pi pi-exclamation-triangle" key="deleteDialog">
+  <p-footer>
+    <button
+      type="button"
+      pButton
+      label="Annuler"
+      (click)="deleteDialog.close()"
+      class="p-button-outlined p-button-secondary"
+    ></button>
+    <button type="button" pButton label="Oui" (click)="deleteDialog.accept()"></button>
+  </p-footer>
+</p-confirmDialog>

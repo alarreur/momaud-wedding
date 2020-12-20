@@ -13,16 +13,20 @@ import { DropdownModule } from 'primeng/dropdown';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 // ag-grid
 import { AgGridModule } from 'ag-grid-angular';
 
 // app
 import { AdminRoutingModule } from './admin-routing.module';
-import { AdminComponent, GuestFormComponent, GuestListComponent, UsersComponent } from './components';
-import { UserService } from './services';
+import { IconCellRendererComponent } from '@app/core/blotter';
 
-// app
+// local
+import { UserService } from './services';
+import { AdminComponent, GuestFormComponent, GuestListComponent, UsersComponent } from './components';
+import { BlotterModule } from '@app/core/blotter';
 
 @NgModule({
   declarations: [AdminComponent, UsersComponent, GuestListComponent, GuestFormComponent],
@@ -40,13 +44,17 @@ import { UserService } from './services';
     DropdownModule,
     AutoCompleteModule,
     ToastModule,
+    ConfirmDialogModule,
 
     // ag-grid
-    AgGridModule.withComponents([]),
+    AgGridModule.withComponents([IconCellRendererComponent]),
 
     // screen
     AdminRoutingModule,
+
+    // blotter
+    BlotterModule,
   ],
-  providers: [UserService, MessageService],
+  providers: [UserService, MessageService, ConfirmationService],
 })
 export class AdminModule {}
