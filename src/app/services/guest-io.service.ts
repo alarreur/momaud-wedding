@@ -24,11 +24,11 @@ export class GuestIoService {
     return null;
   }
 
-  public update(guest: Guest): Observable<Guest> {
+  public update(guests: Guest[]): Observable<Guest[]> {
     return null;
   }
 
-  public delete(guestId: string): Observable<boolean> {
+  public delete(guestIds: string[]): Observable<boolean[]> {
     return null;
   }
 }

@@ -45,10 +45,10 @@ export class GuestEffects {
   public updateGuest$ = createEffect(() =>
     this._actions$.pipe(
       ofType(GuestActions.updateGuest),
-      mergeMap(({ guest, transactionId }) =>
-        this._guestIoService.update(guest).pipe(
+      mergeMap(({ guests, transactionId }) =>
+        this._guestIoService.update(guests).pipe(
           map(
-            (updatedGuest) => GuestActions.updateGuestSuccess({ guest: updatedGuest, transactionId }),
+            (updatedGuests) => GuestActions.updateGuestSuccess({ guests: updatedGuests, transactionId }),
             catchError((error) => of(GuestActions.updateGuestFailure({ error, transactionId })))
           )
         )
@@ -59,12 +59,12 @@ export class GuestEffects {
   public deleteGuest$ = createEffect(() =>
     this._actions$.pipe(
       ofType(GuestActions.deleteGuest),
-      mergeMap(({ guestId, transactionId }) =>
-        this._guestIoService.delete(guestId).pipe(
+      mergeMap(({ guestIds, transactionId }) =>
+        this._guestIoService.delete(guestIds).pipe(
           map(
             (success) =>
               success
-                ? GuestActions.deleteGuestSuccess({ guestId, transactionId })
+                ? GuestActions.deleteGuestSuccess({ guestIds, transactionId })
                 : GuestActions.deleteGuestFailure({ error: `API did not allow deletion`, transactionId }),
             catchError((error) => of(GuestActions.deleteGuestFailure({ error, transactionId })))
           )

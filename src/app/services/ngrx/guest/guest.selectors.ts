@@ -25,3 +25,7 @@ export const selectGuestTotal = createSelector(selectGuestState, selectTotal);
 // select current logged guest
 // TODO change with selectLoggedGuest
 export const selectLoggedGuestId = createSelector(selectGuestState, (state: GuestState) => state.loggedGuestId);
+
+export const selectGuestListByIds = createSelector(selectGuestState, (state: GuestState, { ids }: { ids: string[] }) =>
+  ids.map((id) => state.entities[id])
+);

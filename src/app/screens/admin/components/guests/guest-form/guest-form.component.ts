@@ -113,7 +113,9 @@ export class GuestFormComponent implements OnInit, OnChanges {
   public save(): void {
     this._saving$.next(true);
 
-    const upsert = this.guest ? this._guestService.update(this.getFormValue()) : this._guestService.create(this.getFormValue());
+    const upsert = this.guest
+      ? this._guestService.update([this.getFormValue()]).pipe(map((guests) => guests[0]))
+      : this._guestService.create(this.getFormValue());
 
     upsert
       .pipe(

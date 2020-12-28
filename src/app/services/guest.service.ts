@@ -7,13 +7,13 @@ import { Actions, ofType } from '@ngrx/effects';
 
 // rxjs
 import { Observable, throwError } from 'rxjs';
-import { filter, first, map, tap } from 'rxjs/operators';
+import { filter, first, map } from 'rxjs/operators';
 
 // app
-import { doOnSubscribe, Guest, guid } from '@app/models';
+import { Guest, guid } from '@app/models';
 
 // local
-import { selectAllGuests } from './ngrx/guest/guest.selectors';
+import { selectAllGuests, selectGuestListByIds } from './ngrx/guest/guest.selectors';
 import * as GuestActions from './ngrx/guest/guest.actions';
 
 @Injectable()
@@ -27,8 +27,12 @@ export class GuestService {
     return this._store.select(selectAllGuests).pipe(map((guests) => guests.map((dto) => new Guest(dto))));
   }
 
-  public getById(): Observable<Guest> {
-    return null;
+  public getById(id: string): Observable<Guest> {
+    return this.getListByIds([id]).pipe(map((guests) => guests && guests[0]));
+  }
+
+  public getListByIds(ids: string[]): Observable<Guest[]> {
+    return this._store.select(selectGuestListByIds, { ids }).pipe(map((guests) => guests.map((dto) => new Guest(dto))));
   }
 
   public search(): Observable<Guest> {
@@ -57,11 +61,11 @@ export class GuestService {
     );
   }
 
-  public update(guest: Guest): Observable<Guest> {
+  public update(guests: Guest[]): Observable<Guest[]> {
     const transactionId = guid();
 
     setTimeout(() => {
-      this._store.dispatch(GuestActions.updateGuest({ guest, transactionId }));
+      this._store.dispatch(GuestActions.updateGuest({ guests, transactionId }));
     }, 0);
 
     return this._actions$.pipe(
@@ -71,7 +75,7 @@ export class GuestService {
       map((action) => {
         // TODO cast to proper action type
         if (action.type === GuestActions.updateGuestSuccess.type) {
-          return (<any>action).guest;
+          return (<any>action).guests;
         } else {
           throwError((<any>action).error);
         }
@@ -79,11 +83,13 @@ export class GuestService {
     );
   }
 
-  public delete(guestId: string): Observable<boolean> {
+  public delete(guests: Guest[]): Observable<boolean> {
     const transactionId = guid();
 
     setTimeout(() => {
-      this._store.dispatch(GuestActions.deleteGuest({ guestId, transactionId }));
+      // const updates: Observable<Guest>[] = [];
+
+      this._store.dispatch(GuestActions.deleteGuest({ guestIds: guests.map((guest) => guest.id), transactionId }));
     }, 0);
 
     return this._actions$.pipe(
@@ -93,7 +99,7 @@ export class GuestService {
       map((action) => {
         // TODO cast to proper action type
         if (action.type === GuestActions.deleteGuestSuccess.type) {
-          return (<any>action).guest;
+          return true;
         } else {
           throwError((<any>action).error);
         }

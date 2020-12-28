@@ -143,7 +143,7 @@ export class GuestListComponent implements OnInit {
       key: 'deleteDialog',
       message: `Êtes-vous sûr de vouloir supprimer ${guest.fullName} ?`,
       accept: () => {
-        this._guestService.delete(guest.id);
+        this._guestService.delete([guest]);
       },
     });
     this._cdr.detectChanges();

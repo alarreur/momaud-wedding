@@ -10,7 +10,6 @@ import { findIndex, remove } from 'lodash';
 // app
 import { Guest, guid } from '@app/models';
 import { delay } from 'rxjs/operators';
-import { newArray } from '@angular/compiler/src/util';
 
 @Injectable()
 export class GuestIoServiceMock implements Partial<GuestIoServiceMock> {
@@ -42,23 +41,34 @@ export class GuestIoServiceMock implements Partial<GuestIoServiceMock> {
 
     this._guests = this._guests.concat([copy]);
 
+    if (guest.plusOneId) {
+      const plusOneIndex = this._guests.findIndex((g) => g.id === guest.plusOneId);
+      this._guests[plusOneIndex] = new Guest({ ...this._guests[plusOneIndex], plusOneId: copy.id });
+    }
+
     return of(copy).pipe(delay(1000));
   }
 
-  public update(guest: Guest): Observable<Guest> {
-    const index = findIndex(this._guests, (storeGuest) => storeGuest.id === guest.id);
+  public update(guests: Guest[]): Observable<Guest[]> {
+    // TODO manage plusOne edition
 
-    const newGuestArray = this._guests.slice().splice(index, 1, guest);
+    const newGuestArray = this._guests.slice();
+
+    guests.forEach((guest) =>
+      newGuestArray.splice(
+        findIndex(newGuestArray, (storeGuest) => storeGuest.id === guest.id),
+        1,
+        guest
+      )
+    );
 
     this._guests = newGuestArray;
 
-    return of(guest).pipe(delay(1000));
+    return of(guests).pipe(delay(1000));
   }
 
-  public delete(guestId: string): Observable<boolean> {
-    const index = findIndex(this._guests, (storeGuest) => storeGuest.id === guestId);
-    this._guests = this._guests.slice().splice(index - 1, 1);
-
-    return of(true).pipe(delay(1000));
+  public delete(guestIds: string[]): Observable<boolean[]> {
+    // TODO manage plusOne & parent deletion
+    return of(guestIds.map(() => true)).pipe(delay(1000));
   }
 }

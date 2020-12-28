@@ -28,10 +28,13 @@ export const createGuestFailure = createAction(
   props<{ error: any; transactionId?: string }>()
 );
 
-export const updateGuest = createAction(`${requestActionPrefix} Update Guest`, props<{ guest: Guest; transactionId?: string }>());
+export const updateGuest = createAction(
+  `${requestActionPrefix} Update Guest`,
+  props<{ guests: Guest[]; transactionId?: string }>()
+);
 export const updateGuestSuccess = createAction(
   `${apiActionPrefix} Guest Updated Success`,
-  props<{ guest: Guest; transactionId?: string }>()
+  props<{ guests: Guest[]; transactionId?: string }>()
 );
 export const updateGuestFailure = createAction(
   `${apiActionPrefix} Guest Updated Failure`,
@@ -40,11 +43,11 @@ export const updateGuestFailure = createAction(
 
 export const deleteGuest = createAction(
   `${requestActionPrefix} Delete Guest`,
-  props<{ guestId: string; transactionId?: string }>()
+  props<{ guestIds: string[]; transactionId?: string }>()
 );
 export const deleteGuestSuccess = createAction(
   `${apiActionPrefix} Guest Deleted Success`,
-  props<{ guestId: string; transactionId?: string }>()
+  props<{ guestIds: string[]; transactionId?: string }>()
 );
 export const deleteGuestFailure = createAction(
   `${apiActionPrefix} Guest Deleted Failure`,
