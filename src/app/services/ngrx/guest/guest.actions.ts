@@ -3,53 +3,17 @@ import { Update } from '@ngrx/entity';
 import { createAction, props } from '@ngrx/store';
 
 // application
-import { Guest } from '@app/models';
+import { GuestDto } from '@app/models';
 
 // local
 
-const requestActionPrefix = '[GUEST]';
-const apiActionPrefix = '[GUEST API]';
+const userTriggerPrefix = '[GUEST][APP EVENT]';
+const firebasePrefix = '[GUEST][FIREBASE EVENT]';
 
-export const loadGuestList = createAction(`${requestActionPrefix} Load Guest List`);
-export const loadGuestListSuccess = createAction(`${apiActionPrefix} Guest List Loaded Success`, props<{ guests: Guest[] }>());
-export const loadGuestListFailure = createAction(`${apiActionPrefix} Guest List Loaded Failure`, props<{ error: any }>());
-
-export const loadGuest = createAction(`${requestActionPrefix} Load Guest`);
-export const loadGuestSuccess = createAction(`${apiActionPrefix} Guest Loaded Success`, props<{ guest: Guest }>());
-export const loadGuestFailure = createAction(`${apiActionPrefix} Guest Loaded Failure`);
-
-export const createGuest = createAction(`${requestActionPrefix} Create Guest`, props<{ guest: Guest; transactionId?: string }>());
-export const createGuestSuccess = createAction(
-  `${apiActionPrefix} Guest Created Success`,
-  props<{ guest: Guest; transactionId?: string }>()
+export const loadGuestList = createAction(`${userTriggerPrefix} Load Guest List`, props<{ startAt?: number; limit?: number }>());
+export const guestAdded = createAction(`${firebasePrefix} Guest added`, props<{ guest: GuestDto; index: number }>());
+export const guestModified = createAction(
+  `${firebasePrefix} Guest modifed`,
+  props<{ guest: GuestDto; oldIndex: number; newIndex: number }>()
 );
-export const createGuestFailure = createAction(
-  `${apiActionPrefix} Guest Created Failure`,
-  props<{ error: any; transactionId?: string }>()
-);
-
-export const updateGuest = createAction(
-  `${requestActionPrefix} Update Guest`,
-  props<{ guests: Guest[]; transactionId?: string }>()
-);
-export const updateGuestSuccess = createAction(
-  `${apiActionPrefix} Guest Updated Success`,
-  props<{ guests: Guest[]; transactionId?: string }>()
-);
-export const updateGuestFailure = createAction(
-  `${apiActionPrefix} Guest Updated Failure`,
-  props<{ error: any; transactionId?: string }>()
-);
-
-export const deleteGuest = createAction(
-  `${requestActionPrefix} Delete Guest`,
-  props<{ guestIds: string[]; transactionId?: string }>()
-);
-export const deleteGuestSuccess = createAction(
-  `${apiActionPrefix} Guest Deleted Success`,
-  props<{ guestIds: string[]; transactionId?: string }>()
-);
-export const deleteGuestFailure = createAction(
-  `${apiActionPrefix} Guest Deleted Failure`,
-  props<{ error: any; transactionId?: string }>()
-);
+export const guestRemoved = createAction(`${firebasePrefix} Guest removed`, props<{ guest: GuestDto; index: number }>());

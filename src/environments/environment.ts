@@ -6,6 +6,7 @@ import { IEnvironment } from './i-environment';
 
 export const environment: IEnvironment = {
   production: false,
+  useEmulators: true,
   adminBaseApi: 'http://localhost:5001/momaud-wedding/europe-west1/app',
   firebase: {
     apiKey: 'AIzaSyC-chbvja-gaRcFxn58lcxYEMNSqxy_l74',

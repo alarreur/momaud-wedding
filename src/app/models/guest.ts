@@ -1,4 +1,5 @@
 import { stringToArray } from 'ag-grid-community';
+import { GuestDto } from './dtos';
 import { GuestCategory } from './enums/guest-category.enum';
 import { Host } from './enums/host.enum';
 import { InviteStatus } from './enums/invite-status.enum';
@@ -21,7 +22,7 @@ export class Guest {
     return this.lastName ? `${this.firstName} ${this.lastName}` : this.firstName;
   }
 
-  constructor(dto: Partial<Guest>) {
+  constructor(dto: Partial<GuestDto>) {
     this.id = dto.id;
     this.firstName = dto.firstName;
     this.lastName = dto.lastName;
@@ -56,6 +57,22 @@ export class Guest {
       this.firstName.toLowerCase() === guest.firstName.toLowerCase() &&
       this.lastName.toLowerCase() === guest.lastName.toLowerCase()
     );
+  }
+
+  public toDto(): GuestDto {
+    return {
+      brunchStatus: this.brunchStatus,
+      category: this.category,
+      ceremonyStatus: this.ceremonyStatus,
+      cocktailStatus: this.cocktailStatus,
+      dinerStatus: this.dinerStatus,
+      email: this.email,
+      firstName: this.firstName,
+      invitedBy: this.invitedBy,
+      lastName: this.lastName,
+      parentId: this.parentId,
+      plusOneId: this.plusOneId,
+    };
   }
 
   public static sortByLastName(a: Guest, b: Guest): number {
