@@ -27,7 +27,7 @@ const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 const isAdminOrRedirectToLogin = () =>
   pipe(
     customClaims,
-    map((claims) => (claims && claims.amdin ? true : ['login']))
+    map((claims) => (claims && claims.admin ? true : ['login']))
   );
 
 const defaultRoute = `/${AppRoute.Rsvp}`;

@@ -5,73 +5,66 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 // rxjs
-import { of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
+
+// angular fire
+import { AngularFirestore } from '@angular/fire/firestore';
+
+// app
+import { GuestDto } from '@app/models';
 
 // local
-import { GuestIoService } from '../../guest-io.service';
 import * as GuestActions from './guest.actions';
+import { FIREBASE_COLLECTION_NAME } from './guest.state';
+
+// https://medium.com/@michael.warneke/ngrx-get-data-from-firestore-part-1-6f6688946c46
 
 @Injectable()
 export class GuestEffects {
-  public loadGuests$ = createEffect(() =>
+  public loadGuestList$ = createEffect(() =>
     this._actions$.pipe(
       ofType(GuestActions.loadGuestList),
-      mergeMap(() =>
-        this._guestIoService.list().pipe(
-          map(
-            (guests) => GuestActions.loadGuestListSuccess({ guests }),
-            catchError((error) => of(GuestActions.loadGuestListFailure({ error })))
-          )
-        )
-      )
+      mergeMap(({ startAt, limit }) => {
+        return this._firestore
+          .collection<GuestDto>(FIREBASE_COLLECTION_NAME)
+          .stateChanges()
+          .pipe(
+            mergeMap((actions) => actions),
+            map(({ type, payload }) => {
+              console.debug(`[GuestEffects] Firebase state change: ${type}`);
+
+              switch (type) {
+                case 'added':
+                  return GuestActions.guestAdded({
+                    guest: {
+                      id: payload.doc.id,
+                      ...payload.doc.data(),
+                    },
+                    index: payload.newIndex,
+                  });
+                case 'modified':
+                  return GuestActions.guestModified({
+                    guest: {
+                      id: payload.doc.id,
+                      ...payload.doc.data(),
+                    },
+                    oldIndex: payload.oldIndex,
+                    newIndex: payload.newIndex,
+                  });
+                case 'removed':
+                  return GuestActions.guestRemoved({
+                    guest: {
+                      id: payload.doc.id,
+                      ...payload.doc.data(),
+                    },
+                    index: payload.newIndex,
+                  });
+              }
+            })
+          );
+      })
     )
   );
 
-  public createGuest$ = createEffect(() =>
-    this._actions$.pipe(
-      ofType(GuestActions.createGuest),
-      mergeMap(({ guest, transactionId }) =>
-        this._guestIoService.create(guest).pipe(
-          map(
-            (guestWithId) => GuestActions.createGuestSuccess({ guest: guestWithId, transactionId }),
-            catchError((error) => of(GuestActions.createGuestFailure({ error, transactionId })))
-          )
-        )
-      )
-    )
-  );
-
-  public updateGuest$ = createEffect(() =>
-    this._actions$.pipe(
-      ofType(GuestActions.updateGuest),
-      mergeMap(({ guests, transactionId }) =>
-        this._guestIoService.update(guests).pipe(
-          map(
-            (updatedGuests) => GuestActions.updateGuestSuccess({ guests: updatedGuests, transactionId }),
-            catchError((error) => of(GuestActions.updateGuestFailure({ error, transactionId })))
-          )
-        )
-      )
-    )
-  );
-
-  public deleteGuest$ = createEffect(() =>
-    this._actions$.pipe(
-      ofType(GuestActions.deleteGuest),
-      mergeMap(({ guestIds, transactionId }) =>
-        this._guestIoService.delete(guestIds).pipe(
-          map(
-            (success) =>
-              success
-                ? GuestActions.deleteGuestSuccess({ guestIds, transactionId })
-                : GuestActions.deleteGuestFailure({ error: `API did not allow deletion`, transactionId }),
-            catchError((error) => of(GuestActions.deleteGuestFailure({ error, transactionId })))
-          )
-        )
-      )
-    )
-  );
-
-  constructor(private _actions$: Actions, private _guestIoService: GuestIoService) {}
+  constructor(private _actions$: Actions, private readonly _firestore: AngularFirestore) {}
 }

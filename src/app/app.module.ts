@@ -7,7 +7,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 // firebase
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFirestoreModule, SETTINGS as FIRESTORE_SETTINGS } from '@angular/fire/firestore';
+import { ORIGIN as FUNCTIONS_ORIGIN } from '@angular/fire/functions';
 
 // ngrx
 import { StoreModule } from '@ngrx/store';
@@ -76,6 +77,10 @@ import { GuestService } from './services';
     AppRoutingModule,
   ],
   providers: [
+    // firebase
+    { provide: FIRESTORE_SETTINGS, useValue: environment.useEmulators ? { host: 'localhost:8080', ssl: false } : {} },
+    { provide: FUNCTIONS_ORIGIN, useFactory: () => (environment.useEmulators ? 'http://localhost:5001' : undefined) },
+
     GuestService,
     // GuestIoService,
     { provide: GuestIoService, useValue: new GuestIoServiceMock(guestListMock) },

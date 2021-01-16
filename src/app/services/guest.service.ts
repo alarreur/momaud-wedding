@@ -3,133 +3,185 @@ import { Injectable } from '@angular/core';
 
 // ngrx
 import { Store } from '@ngrx/store';
-import { Actions, ofType } from '@ngrx/effects';
 
 // rxjs
-import { Observable, throwError } from 'rxjs';
-import { filter, first, map } from 'rxjs/operators';
+import { from, Observable, of } from 'rxjs';
+import { catchError, filter, first, map, switchMap } from 'rxjs/operators';
+
+// angular fire
+import { AngularFirestore } from '@angular/fire/firestore';
 
 // app
-import { Guest, guid } from '@app/models';
+import { Guest, GuestDto } from '@app/models';
 
 // local
-import { selectAllGuests, selectGuestListByIds } from './ngrx/guest/guest.selectors';
+import { selectAllGuests, selectGuestById, selectGuestTotal } from './ngrx/guest/guest.selectors';
 import * as GuestActions from './ngrx/guest/guest.actions';
+import { FIREBASE_COLLECTION_NAME } from './ngrx/guest/guest.state';
+import firebase from 'firebase';
+
+type Transaction = firebase.firestore.Transaction;
+type CollectionReference = firebase.firestore.CollectionReference;
+type DocumentReference = firebase.firestore.DocumentReference;
 
 @Injectable()
 export class GuestService {
-  constructor(private readonly _store: Store, private _actions$: Actions) {
-    // TODO listen to firebase udpates to load/refresh values
-    this._store.dispatch(GuestActions.loadGuestList());
+  constructor(private readonly _store: Store, private readonly _firestore: AngularFirestore) {}
+
+  public list(): Observable<Guest[]> {
+    return this._store.select(selectGuestTotal).pipe(
+      first(),
+      switchMap((count) => {
+        if (count === 0) {
+          this._store.dispatch(GuestActions.loadGuestList({}));
+        }
+
+        return this._store.select(selectAllGuests).pipe(map((guests) => guests.map((dto) => new Guest(dto))));
+      })
+    );
   }
 
-  public getAll(): Observable<Guest[]> {
-    return this._store.select(selectAllGuests).pipe(map((guests) => guests.map((dto) => new Guest(dto))));
-  }
-
-  public getById(id: string): Observable<Guest> {
-    return this.getListByIds([id]).pipe(map((guests) => guests && guests[0]));
-  }
-
-  public getListByIds(ids: string[]): Observable<Guest[]> {
-    return this._store.select(selectGuestListByIds, { ids }).pipe(map((guests) => guests.map((dto) => new Guest(dto))));
+  public get(): Observable<Guest> {
+    throw Error(`Not implemented`);
   }
 
   public search(): Observable<Guest> {
-    return null;
+    throw Error(`Not implemented`);
   }
 
   public create(guest: Guest): Observable<Guest> {
-    const transactionId = guid();
+    return this.upsert(guest);
+  }
 
-    setTimeout(() => {
-      this._store.dispatch(GuestActions.createGuest({ guest, transactionId }));
-    }, 0);
+  public update(guest: Guest): Observable<Guest> {
+    return this.upsert(guest);
+  }
 
-    return this._actions$.pipe(
-      ofType(GuestActions.createGuestSuccess, GuestActions.createGuestFailure),
-      filter(({ transactionId: tId }) => tId === transactionId),
-      first(),
-      map((action) => {
-        // TODO cast to proper action type
-        if (action.type === GuestActions.createGuestSuccess.type) {
-          return (<any>action).guest;
-        } else {
-          throwError((<any>action).error);
-        }
+  public delete(guest: Guest): Observable<void> {
+    const guestsRef = this._firestore.firestore.collection(FIREBASE_COLLECTION_NAME);
+
+    return from(
+      this._firestore.firestore.runTransaction((transaction) => {
+        const deleteGuestRef = guestsRef.doc(guest.id);
+
+        return this.getPropertyRelatives(transaction, guestsRef, guest, 'plusOneId')
+          .pipe(
+            map((plusOneRelative) => {
+              // upsert guest
+              transaction.delete(deleteGuestRef);
+
+              if (plusOneRelative) {
+                const { directRelative: directPlusOne } = plusOneRelative;
+
+                if (directPlusOne) {
+                  // remove link with plusOne
+                  transaction.update(directPlusOne.ref, { plusOneId: null });
+                }
+              }
+            })
+          )
+          .toPromise();
+      })
+    ).pipe(
+      catchError((error) => {
+        console.error(`Error while running "delete" transaction`, error);
+        throw Error(`Error while running "delete" transaction`);
       })
     );
   }
 
-  public update(guests: Guest[]): Observable<Guest[]> {
-    const transactionId = guid();
+  private upsert(guest: Guest): Observable<Guest> {
+    const guestsRef = this._firestore.firestore.collection(FIREBASE_COLLECTION_NAME);
 
-    setTimeout(() => {
-      this._store.dispatch(GuestActions.updateGuest({ guests, transactionId }));
-    }, 0);
+    return from(
+      this._firestore.firestore.runTransaction((transaction) => {
+        const upsertGuestRef = guest.id ? guestsRef.doc(guest.id) : guestsRef.doc();
+        const id = upsertGuestRef.id;
 
-    return this._actions$.pipe(
-      ofType(GuestActions.updateGuestSuccess, GuestActions.updateGuestFailure),
-      filter(({ transactionId: tId }) => tId === transactionId),
-      first(),
-      map((action) => {
-        // TODO cast to proper action type
-        if (action.type === GuestActions.updateGuestSuccess.type) {
-          return (<any>action).guests;
-        } else {
-          throwError((<any>action).error);
-        }
+        return this.getPropertyRelatives(transaction, guestsRef, { ...guest, id }, 'plusOneId')
+          .pipe(
+            map((plusOneRelative) => {
+              // upsert guest
+              transaction.set(upsertGuestRef, guest.toDto());
+
+              if (plusOneRelative) {
+                const { directRelative: directPlusOne, indirectRelative: indirectPlusOne } = plusOneRelative;
+
+                if (directPlusOne) {
+                  // set plusOneId with new guest id
+                  transaction.update(directPlusOne.ref, { plusOneId: upsertGuestRef.id });
+                }
+
+                if (indirectPlusOne) {
+                  // remove link with previous relative
+                  transaction.update(indirectPlusOne.ref, { plusOneId: null });
+                }
+              }
+
+              return id;
+            })
+          )
+          .toPromise();
       })
+    ).pipe(
+      catchError((error) => {
+        console.error(`Error while running "upsert" transaction`, error);
+        throw Error(`Error while running "upsert" transaction`);
+      }),
+      switchMap((id) => this._store.select(selectGuestById(id))),
+      filter((dto) => !!dto),
+      first(),
+      map((dto) => new Guest(dto))
     );
   }
 
-  public delete(guests: Guest[]): Observable<boolean> {
-    const transactionId = guid();
+  /**
+   * Gets the plusOne or parent (called relatives) of a guest.
+   * @param  {Transaction} transaction
+   * @param  {CollectionReference} collectionRef
+   * @param  {GuestDto} guest The guest for which to fetch the relatives
+   * @param  {string} propertyForRelativeFetch The property for the relative fetch. Possible values are 'plusOneId'.
+   * @param  {boolean=true} fetchIndirectRelative Indicates whether to fetch the relative's relative as well.
+   * @returns The direct relative with its indirect relative (ie the relative's relative).
+   */
+  private getPropertyRelatives(
+    transaction: Transaction,
+    collectionRef: CollectionReference,
+    guest: GuestDto,
+    propertyForRelativeFetch: keyof Pick<GuestDto, 'plusOneId'>,
+    fetchIndirectRelative: boolean = true
+  ): Observable<{
+    directRelative: { ref: DocumentReference; dto: GuestDto };
+    indirectRelative?: { ref: DocumentReference; dto: GuestDto };
+  }> {
+    if (!guest[propertyForRelativeFetch]) {
+      return of(null);
+    } else {
+      let directRelativeRef = collectionRef.doc(guest[propertyForRelativeFetch]);
 
-    setTimeout(() => {
-      // const updates: Observable<Guest>[] = [];
+      return from(transaction.get(directRelativeRef)).pipe(
+        switchMap((directRelativeSnapshot) => {
+          let directRelativeDto = <GuestDto>{ id: directRelativeSnapshot.id, ...directRelativeSnapshot.data() };
 
-      this._store.dispatch(GuestActions.deleteGuest({ guestIds: guests.map((guest) => guest.id), transactionId }));
-    }, 0);
+          const directRelative = {
+            ref: directRelativeRef,
+            dto: directRelativeDto,
+          };
 
-    return this._actions$.pipe(
-      ofType(GuestActions.deleteGuestSuccess, GuestActions.deleteGuestFailure),
-      filter(({ transactionId: tId }) => tId === transactionId),
-      first(),
-      map((action) => {
-        // TODO cast to proper action type
-        if (action.type === GuestActions.deleteGuestSuccess.type) {
-          return true;
-        } else {
-          throwError((<any>action).error);
-        }
-      })
-    );
+          if (fetchIndirectRelative && directRelativeDto[propertyForRelativeFetch]) {
+            return this.getPropertyRelatives(transaction, collectionRef, directRelativeDto, propertyForRelativeFetch, false).pipe(
+              map(({ directRelative: indirectRelative }) => ({
+                directRelative,
+                indirectRelative,
+              }))
+            );
+          } else {
+            return of({
+              directRelative,
+            });
+          }
+        })
+      );
+    }
   }
-
-  // private _createTransactionAction<T>(
-  //   actionToDispatch: TypedAction<string> & { transactionId: string },
-  //   successAction: ActionCreator<string, () => TypedAction<string> & { transactionId: string }>,
-  //   failureAction: ActionCreator<string, () => TypedAction<string> & { transactionId: string }>,
-  //   successResultPropGetter: (successAction: ActionCreator<string, () => TypedAction<string> & { transactionId: string }>) => T,
-  //   errorResultPropGetter: (failureAction: ActionCreator<string, () => TypedAction<string> & { transactionId: string }>) => string
-  // ): Observable<T> {
-  //   const transactionId = guid();
-
-  //   const resultAction$ = this._actions$.pipe(
-  //     ofType(successAction, failureAction),
-  //     filter(({ transactionId: tId }) => tId == transactionId),
-  //     first(),
-  //     map((action) => {
-  //       // TODO cast to proper action type
-  //       if (action.type === successAction.type) {
-  //         return successResultPropGetter(<any>action);
-  //       } else {
-  //         throwError(errorResultPropGetter(<any>action));
-  //       }
-  //     })
-  //   );
-
-  //   return concat(EMPTY.pipe(tap(() => this._store.dispatch(GuestActions.createGuest({ guest, transactionId })))), resultAction$);
-  // }
 }

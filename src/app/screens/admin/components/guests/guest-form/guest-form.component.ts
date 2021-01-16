@@ -64,7 +64,7 @@ export class GuestFormComponent implements OnInit, OnChanges {
     this.guestsSuggestions$ = this.searchGuest$.pipe(
       debounceTime(300),
       switchMap((searchTerm) =>
-        _guestService.getAll().pipe(map((guests) => guests.filter((guest) => guest.isSearchCandidate(searchTerm))))
+        _guestService.list().pipe(map((guests) => guests.filter((guest) => guest.isSearchCandidate(searchTerm))))
       )
     );
   }
@@ -102,7 +102,6 @@ export class GuestFormComponent implements OnInit, OnChanges {
             return `Cet invité existe déjà`;
           case '':
             return control.getError(errorCode).message;
-            break;
           default:
             break;
         }
@@ -112,11 +111,7 @@ export class GuestFormComponent implements OnInit, OnChanges {
 
   public save(): void {
     this._saving$.next(true);
-
-    const upsert = this.guest
-      ? this._guestService.update([this.getFormValue()]).pipe(map((guests) => guests[0]))
-      : this._guestService.create(this.getFormValue());
-
+    const upsert = this.guest ? this._guestService.update(this.getFormValue()) : this._guestService.create(this.getFormValue());
     upsert
       .pipe(
         tap((guest) => {
@@ -147,7 +142,7 @@ export class GuestFormComponent implements OnInit, OnChanges {
         null,
         null,
         AsyncValidators.uniqueGuest(
-          this._guestService.getAll(),
+          this._guestService.list(),
           () => this.form && this.form.get('firstName').value,
           () => this.form && this.form.get('lastName').value,
           () => this.guest && this.guest.id
@@ -168,7 +163,7 @@ export class GuestFormComponent implements OnInit, OnChanges {
   public updateForm(): void {
     if (this.guest) {
       this._guestService
-        .getAll()
+        .list()
         .pipe(
           first(),
           tap((guests) => {
@@ -185,7 +180,6 @@ export class GuestFormComponent implements OnInit, OnChanges {
               plusOneId,
               parentId,
             } = this.guest;
-
             this.form.patchValue({
               firstName,
               lastName,

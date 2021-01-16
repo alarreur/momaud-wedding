@@ -122,7 +122,7 @@ export class GuestListComponent implements OnInit {
     private readonly _cdr: ChangeDetectorRef,
     private _confirmationService: ConfirmationService
   ) {
-    this.guests$ = this._guestService.getAll();
+    this.guests$ = this._guestService.list();
   }
 
   public ngOnInit(): void {}
@@ -143,7 +143,7 @@ export class GuestListComponent implements OnInit {
       key: 'deleteDialog',
       message: `Êtes-vous sûr de vouloir supprimer ${guest.fullName} ?`,
       accept: () => {
-        this._guestService.delete([guest]);
+        this._guestService.delete(guest);
       },
     });
     this._cdr.detectChanges();

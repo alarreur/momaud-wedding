@@ -1,5 +1,8 @@
-export const environment = {
+import { IEnvironment } from './i-environment';
+
+export const environment: IEnvironment = {
   production: true,
+  useEmulators: false,
   adminBaseApi: '/todo',
   firebase: {
     apiKey: 'AIzaSyC-chbvja-gaRcFxn58lcxYEMNSqxy_l74',
