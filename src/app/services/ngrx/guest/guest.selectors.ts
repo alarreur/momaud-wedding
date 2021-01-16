@@ -1,4 +1,6 @@
 // ngrx
+import { GuestDto } from '@app/models';
+import { Dictionary } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 // local
@@ -22,21 +24,4 @@ export const selectAllGuests = createSelector(selectGuestState, selectAll);
 // select the total Guest count
 export const selectGuestTotal = createSelector(selectGuestState, selectTotal);
 
-// start & end are inclusive
-export const isRangeLoaded = createSelector(
-  selectGuestState,
-  (state: GuestState, { start, end }) =>
-    !state.loadedIndices.slice(start, Math.min(state.loadedIndices.length, end + 1)).some((index) => index === undefined)
-);
-
-export const gestGuestIndex = createSelector(selectGuestState, (state: GuestState, { guestId }) =>
-  state.loadedIndices.indexOf(guestId)
-);
-
-// select current logged guest
-// TODO change with selectLoggedGuest
-export const selectLoggedGuestId = createSelector(selectGuestState, (state: GuestState) => state.loggedGuestId);
-
-export const selectGuestListByIds = createSelector(selectGuestState, (state: GuestState, { ids }: { ids: string[] }) =>
-  ids.map((id) => state.entities[id])
-);
+export const selectGuestById = (id: string) => createSelector(selectGuestEntities, (state: Dictionary<GuestDto>) => state[id]);
