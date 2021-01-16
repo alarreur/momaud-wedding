@@ -15,6 +15,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { TabMenuModule } from 'primeng/tabmenu';
 
 // ag-grid
 import { AgGridModule } from 'ag-grid-angular';
@@ -45,6 +46,7 @@ import { BlotterModule } from '@app/core/blotter';
     AutoCompleteModule,
     ToastModule,
     ConfirmDialogModule,
+    TabMenuModule,
 
     // ag-grid
     AgGridModule.withComponents([IconCellRendererComponent]),

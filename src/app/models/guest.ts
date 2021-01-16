@@ -41,7 +41,7 @@ export class Guest {
     return (
       searchTerm &&
       searchTerm.length &&
-      [this.firstName, this.lastName, this.email].some(
+      [this.firstName, this.lastName, this.email, this.fullName].some(
         (property) => property && property.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
       )
     );

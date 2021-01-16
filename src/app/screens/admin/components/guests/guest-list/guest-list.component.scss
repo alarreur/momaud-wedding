@@ -7,13 +7,14 @@
     // .title {
     // }
 
-    // .actions {
-    //   .add-button {
-    //   }
-    // }
+    .actions {
+      .add-button {
+        margin-left: 10px;
+      }
+    }
   }
   ag-grid-angular {
-    width: 1000px;
+    width: 1420px;
     height: 500px;
   }
 }

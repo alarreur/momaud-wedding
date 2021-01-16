@@ -112,7 +112,7 @@ export class GuestService {
                   transaction.update(directPlusOne.ref, { plusOneId: upsertGuestRef.id });
                 }
 
-                if (indirectPlusOne) {
+                if (indirectPlusOne && indirectPlusOne.dto.id !== id) {
                   // remove link with previous relative
                   transaction.update(indirectPlusOne.ref, { plusOneId: null });
                 }

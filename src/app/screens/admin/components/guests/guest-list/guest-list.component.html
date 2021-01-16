@@ -2,6 +2,10 @@
   <div class="header">
     <h2 class="title">Gestion des invités</h2>
     <div class="actions">
+      <span class="search p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input type="text" pInputText placeholder="Rechercher" (keyup)="filterGuest$.next($event.target.value)" />
+      </span>
       <button class="add-button" pButton label="Ajouter" (click)="addDialogVisbility = !addDialogVisbility"></button>
     </div>
   </div>
