@@ -42,33 +42,74 @@ export class GuestService {
   }
 
   public get(): Observable<Guest> {
-    return null;
+    throw Error(`Not implemented`);
   }
 
   public search(): Observable<Guest> {
-    return null;
+    throw Error(`Not implemented`);
   }
 
   public create(guest: Guest): Observable<Guest> {
+    return this.upsert(guest);
+  }
+
+  public update(guest: Guest): Observable<Guest> {
+    return this.upsert(guest);
+  }
+
+  public delete(guest: Guest): Observable<void> {
     const guestsRef = this._firestore.firestore.collection(FIREBASE_COLLECTION_NAME);
 
     return from(
       this._firestore.firestore.runTransaction((transaction) => {
-        const createGuestRef = guestsRef.doc();
-        const id = createGuestRef.id;
+        const deleteGuestRef = guestsRef.doc(guest.id);
+
+        return this.getPropertyRelatives(transaction, guestsRef, guest, 'plusOneId')
+          .pipe(
+            map((plusOneRelative) => {
+              // upsert guest
+              transaction.delete(deleteGuestRef);
+
+              if (plusOneRelative) {
+                const { directRelative: directPlusOne } = plusOneRelative;
+
+                if (directPlusOne) {
+                  // remove link with plusOne
+                  transaction.update(directPlusOne.ref, { plusOneId: null });
+                }
+              }
+            })
+          )
+          .toPromise();
+      })
+    ).pipe(
+      catchError((error) => {
+        console.error(`Error while running "delete" transaction`, error);
+        throw Error(`Error while running "delete" transaction`);
+      })
+    );
+  }
+
+  private upsert(guest: Guest): Observable<Guest> {
+    const guestsRef = this._firestore.firestore.collection(FIREBASE_COLLECTION_NAME);
+
+    return from(
+      this._firestore.firestore.runTransaction((transaction) => {
+        const upsertGuestRef = guest.id ? guestsRef.doc(guest.id) : guestsRef.doc();
+        const id = upsertGuestRef.id;
 
         return this.getPropertyRelatives(transaction, guestsRef, { ...guest, id }, 'plusOneId')
           .pipe(
             map((plusOneRelative) => {
-              // create guest
-              transaction.set(createGuestRef, guest.toDto());
+              // upsert guest
+              transaction.set(upsertGuestRef, guest.toDto());
 
               if (plusOneRelative) {
                 const { directRelative: directPlusOne, indirectRelative: indirectPlusOne } = plusOneRelative;
 
                 if (directPlusOne) {
                   // set plusOneId with new guest id
-                  transaction.update(directPlusOne.ref, { plusOneId: createGuestRef.id });
+                  transaction.update(directPlusOne.ref, { plusOneId: upsertGuestRef.id });
                 }
 
                 if (indirectPlusOne) {
@@ -84,41 +125,14 @@ export class GuestService {
       })
     ).pipe(
       catchError((error) => {
-        console.error(`Error while running "create" transaction`, error);
-        throw Error(`Error while running "create" transaction`);
+        console.error(`Error while running "upsert" transaction`, error);
+        throw Error(`Error while running "upsert" transaction`);
       }),
       switchMap((id) => this._store.select(selectGuestById(id))),
       filter((dto) => !!dto),
       first(),
       map((dto) => new Guest(dto))
     );
-  }
-
-  public update(guest: Guest): Observable<Guest> {
-    // TODO create transaction for plusOneId & parentId
-
-    const docRef = this._firestore.collection<GuestDto>(FIREBASE_COLLECTION_NAME).doc<GuestDto>(guest.id);
-
-    setTimeout(() => {
-      this._firestore.collection<GuestDto>(FIREBASE_COLLECTION_NAME).doc(guest.id).update(guest.toDto());
-    }, 0);
-
-    return docRef.snapshotChanges().pipe(
-      first(),
-      map(
-        ({ payload }) =>
-          new Guest({
-            id: payload.id,
-            ...payload.data(),
-          })
-      )
-    );
-  }
-
-  public delete(guest: Guest): Observable<void> {
-    const docRef = this._firestore.collection<GuestDto>(FIREBASE_COLLECTION_NAME).doc(guest.id);
-
-    return from(docRef.delete());
   }
 
   /**
