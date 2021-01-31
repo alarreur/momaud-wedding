@@ -1,0 +1,39 @@
+<div class="step step-guest-selection">
+  <div class="step-title">
+    <h3>S'il vous plait, dites nous qui vous êtes&nbsp;:&nbsp;*</h3>
+  </div>
+
+  <div class="step-body">
+    <span class="p-input-icon-left">
+      <i class="pi pi-search"></i>
+      <p-autoComplete
+        [(ngModel)]="guest"
+        class="p-inputtext-lg"
+        [minLength]="3"
+        [forceSelection]="true"
+        [suggestions]="guestsSuggestions$ | async"
+        (completeMethod)="searchGuest$.next($event.query)"
+        field="fullName"
+        dataKey="id"
+        placeholder="Tapez votre nom"
+        [tabindex]="-1"
+        inputStyleClass="guest-input"
+      ></p-autoComplete>
+    </span>
+  </div>
+
+  <div class="step-footer">
+    <button
+      class="p-button-lg p-button-raised"
+      pButton
+      type="button"
+      label="Suivant"
+      iconPos="right"
+      icon="pi pi-angle-right"
+      pRipple
+      (click)="signInGuest()"
+      [disabled]="!guest"
+      [tabIndex]="-1"
+    ></button>
+  </div>
+</div>

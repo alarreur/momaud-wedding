@@ -1,0 +1,66 @@
+@import 'variables';
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 600px;
+  height: $step-height;
+  padding: 20px;
+
+  .step-footer {
+    display: flex;
+    margin: 20px 0px;
+    padding: 10px;
+
+    button + button {
+      margin-left: 10px;
+    }
+
+    width: 300px;
+  }
+
+  /* Smartphones screen (portrait) properties */
+  @media only screen and (max-width: $smartphone-width-breakpoint) {
+    .step-body,
+    .step-footer {
+      width: 100%;
+    }
+  }
+
+  h2,
+  p {
+    text-align: center;
+  }
+
+  .small {
+    font-size: 0.8em;
+  }
+
+  .p-invalid {
+    margin-top: 10px;
+  }
+
+  ::ng-deep {
+    .p-inputtext.guest-input {
+      width: 350px;
+      background: transparent;
+      border: none;
+      border-bottom: solid 1px;
+      box-shadow: none;
+
+      &:focus {
+        box-shadow: none;
+      }
+
+      /* Smartphones screen (portrait) properties */
+      @media only screen and (max-width: $smartphone-width-breakpoint) {
+        width: 100%;
+      }
+    }
+
+    .p-input-icon-left .p-inputtext.guest-input {
+      padding-left: 30px;
+    }
+  }
+}

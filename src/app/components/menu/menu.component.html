@@ -31,7 +31,7 @@
 
   <!-- MENU -->
   <ng-container *ngIf="menuInfo.isSmallSscreen; else menuList">
-    <p-sidebar [(visible)]="isMenuOpen" [showCloseIcon]="false">
+    <p-sidebar [(visible)]="isMenuOpen" [showCloseIcon]="false" [position]="'right'">
       <ng-container *ngTemplateOutlet="menuList"></ng-container>
     </p-sidebar>
   </ng-container>

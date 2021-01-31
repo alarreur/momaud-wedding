@@ -1,0 +1,57 @@
+<div class="step step-answer">
+  <div class="step-title">
+    <ng-container [ngSwitch]="step">
+      <h3 *ngSwitchCase="Step.Ceremony">Participerez-vous à la cérémonie religieuse&nbsp;?&nbsp;*</h3>
+      <h3 *ngSwitchCase="Step.Cocktail">Participerez-vous au cocktail&nbsp;?&nbsp;*</h3>
+      <h3 *ngSwitchCase="Step.Diner">Participerez-vous au dîner&nbsp;?&nbsp;*</h3>
+      <h3 *ngSwitchCase="Step.Brunch">Participerez-vous au brunch le lendemain&nbsp;?&nbsp;*</h3>
+    </ng-container>
+  </div>
+
+  <div class="step-body">
+    <ul class="answer-option-list">
+      <li class="answer-option answer-option-true" [class.answer-option--selected]="isAttending" (click)="isAttending = true">
+        <div class="answer-option-corner-check">
+          <i class="pi pi-check"></i>
+        </div>
+        <span class="answer-option-text">Oui</span>
+      </li>
+      <li
+        class="answer-option answer-option-false"
+        [class.answer-option--selected]="isAttending !== undefined && !isAttending"
+        (click)="isAttending = false"
+      >
+        <div class="answer-option-corner-check">
+          <i class="pi pi-check"></i>
+        </div>
+        <span class="answer-option-text">Non</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="step-footer">
+    <button
+      class="p-button-lg p-button-raised p-button-outlined"
+      pButton
+      type="button"
+      label="Précédent"
+      iconPos="left"
+      icon="pi pi-angle-left"
+      pRipple
+      (click)="previous()"
+      [tabIndex]="-1"
+    ></button>
+    <button
+      class="p-button-lg p-button-raised"
+      pButton
+      type="button"
+      label="Suivant"
+      iconPos="right"
+      icon="pi pi-angle-right"
+      pRipple
+      (click)="save()"
+      [disabled]="isAttending === undefined"
+      [tabIndex]="-1"
+    ></button>
+  </div>
+</div>

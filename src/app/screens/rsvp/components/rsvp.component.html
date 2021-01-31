@@ -1,1 +1,122 @@
-<p>rsvp works!</p>
+<div class="momo-rsvp">
+  <ng-container *ngIf="steps$ | async as steps; else loading">
+    <div class="step-list">
+      <div class="step-container" *ngFor="let step of steps; index as i" [style]="getTranslateStyle()">
+        <ng-container [ngSwitch]="step">
+          <!-- WELCOME -->
+          <momo-welcome *ngSwitchCase="Step.Welcome" (onRsvp)="navForward()"></momo-welcome>
+
+          <!-- GUEST SELECTION -->
+          <momo-guest-selection *ngSwitchCase="Step.GuestSelection" (onSelected)="onGuestSelected($event)"></momo-guest-selection>
+
+          <!-- GUEST EMAIL -->
+          <momo-email
+            *ngSwitchCase="Step.Email"
+            [guest]="guest"
+            (onPrevious)="navBackward()"
+            (onSaved)="guest = $event; navForward()"
+          ></momo-email>
+
+          <!-- GUEST CEREMONY STATUS -->
+          <momo-answer
+            *ngSwitchCase="Step.Ceremony"
+            [step]="Step.Ceremony"
+            [guest]="guest"
+            (onPrevious)="navBackward()"
+            (onSaved)="guest = $event; navForward()"
+          ></momo-answer>
+
+          <!-- GUEST COCKTAIL STATUS -->
+          <momo-answer
+            *ngSwitchCase="Step.Cocktail"
+            [step]="Step.Cocktail"
+            [guest]="guest"
+            (onPrevious)="navBackward()"
+            (onSaved)="guest = $event; navForward()"
+          ></momo-answer>
+
+          <!-- GUEST DINER STATUS -->
+          <momo-answer
+            *ngSwitchCase="Step.Diner"
+            [step]="Step.Diner"
+            [guest]="guest"
+            (onPrevious)="navBackward()"
+            (onSaved)="guest = $event; navForward()"
+          ></momo-answer>
+
+          <!-- GUEST DINER STATUS -->
+          <momo-answer
+            *ngSwitchCase="Step.Brunch"
+            [step]="Step.Brunch"
+            [guest]="guest"
+            (onPrevious)="navBackward()"
+            (onSaved)="guest = $event; navForward()"
+          ></momo-answer>
+
+          <!-- PLUS ONE WELCOME -->
+          <momo-plus-one
+            *ngSwitchCase="Step.PlusOneWelcome"
+            [guest]="guest"
+            [plusOne]="plusOne"
+            (onPrevious)="navBackward()"
+            (onNext)="navForward()"
+          ></momo-plus-one>
+
+          <!-- PLUS ONE EMAIL -->
+          <momo-email
+            *ngSwitchCase="Step.PlusOneEmail"
+            [guest]="plusOne"
+            (onPrevious)="navBackward()"
+            (onSaved)="plusOne = $event; navForward()"
+          ></momo-email>
+
+          <!-- PLUS ONE CEREMONY STATUS -->
+          <momo-answer
+            *ngSwitchCase="Step.PlusOneCeremony"
+            [step]="Step.PlusOneCeremony"
+            [guest]="plusOne"
+            (onPrevious)="navBackward()"
+            (onSaved)="plusOne = $event; navForward()"
+          ></momo-answer>
+
+          <!-- PLUS ONE COCKTAIL STATUS -->
+          <momo-answer
+            *ngSwitchCase="Step.PlusOneCocktail"
+            [step]="Step.PlusOneCocktail"
+            [guest]="plusOne"
+            (onPrevious)="navBackward()"
+            (onSaved)="plusOne = $event; navForward()"
+          ></momo-answer>
+
+          <!-- PLUS ONE DINER STATUS -->
+          <momo-answer
+            *ngSwitchCase="Step.PlusOneDiner"
+            [step]="Step.PlusOneDiner"
+            [guest]="plusOne"
+            (onPrevious)="navBackward()"
+            (onSaved)="plusOne = $event; navForward()"
+          ></momo-answer>
+
+          <!-- PLUS ONE BRUNCH STATUS -->
+          <momo-answer
+            *ngSwitchCase="Step.PlusOneBrunch"
+            [step]="Step.PlusOneBrunch"
+            [guest]="plusOne"
+            (onPrevious)="navBackward()"
+            (onSaved)="plusOne = $event; navForward()"
+          ></momo-answer>
+
+          <!-- RECAP -->
+          <momo-recap *ngSwitchCase="Step.Recap"></momo-recap>
+
+          <!-- UNKNOWN / ERROR -->
+          <div *ngSwitchDefault>Unknown step</div>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #loading>
+  <p-progressSpinner></p-progressSpinner>
+</ng-template>

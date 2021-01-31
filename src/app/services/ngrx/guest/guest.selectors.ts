@@ -25,3 +25,5 @@ export const selectAllGuests = createSelector(selectGuestState, selectAll);
 export const selectGuestTotal = createSelector(selectGuestState, selectTotal);
 
 export const selectGuestById = (id: string) => createSelector(selectGuestEntities, (state: Dictionary<GuestDto>) => state[id]);
+
+export const isGuestLoaded = (id: string) => createSelector(selectGuestIds, (ids: string[]) => ids.indexOf(id) > -1);

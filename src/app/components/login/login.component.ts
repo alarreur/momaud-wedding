@@ -11,7 +11,6 @@ import { BehaviorSubject, from } from 'rxjs';
 
 // app
 import { AppRoute, AuthErrorCode } from '@app/models';
-import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'momo-login',

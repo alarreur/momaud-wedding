@@ -1,5 +1,5 @@
 // angular
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 // firebase
@@ -11,6 +11,7 @@ import { from, Observable } from 'rxjs';
 // app
 import { MediaQueryService } from '@app/services';
 import { AppRoute } from '@app/models';
+import { SMALL_SCREEN_BREAKPOINT } from '@app/core/providers';
 
 @Component({
   selector: 'momo-menu',
@@ -27,8 +28,13 @@ export class MenuComponent {
 
   public isMenuOpen: boolean = false;
 
-  constructor(mediaService: MediaQueryService, private readonly _auth: AngularFireAuth, private readonly _router: Router) {
-    this.isSmallSscreen$ = mediaService.match('only screen and (max-width: 500px)');
+  constructor(
+    mediaService: MediaQueryService,
+    private readonly _auth: AngularFireAuth,
+    private readonly _router: Router,
+    @Inject(SMALL_SCREEN_BREAKPOINT) smallScreenBreakpoint: number
+  ) {
+    this.isSmallSscreen$ = mediaService.match(`only screen and (max-width: ${smallScreenBreakpoint}px)`);
     this.user$ = this._auth.user;
   }
 

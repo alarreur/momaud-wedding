@@ -1,4 +1,4 @@
-import { IEnvironment } from './i-environment';
+import { IEnvironment, SMALLSCREEN_WIDTH_BREAKPOINT } from './i-environment';
 
 export const environment: IEnvironment = {
   production: true,
@@ -14,4 +14,5 @@ export const environment: IEnvironment = {
     appId: '1:685334831807:web:57cc93d8aa06fdae341c0a',
     measurementId: 'G-QW2NJ4QZL9',
   },
+  smallScreenBreakpoint: SMALLSCREEN_WIDTH_BREAKPOINT,
 };

@@ -2,7 +2,6 @@
 
 .momo-menu {
   margin-top: 20px;
-
   display: flex;
   justify-content: center;
 
@@ -43,6 +42,7 @@
 /* Smartphones screen (portrait) properties */
 @media only screen and (max-width: $smartphone-width-breakpoint) {
   .momo-menu {
+    margin-top: 0;
     ::ng-deep .p-sidebar {
       background-color: #f9f7f1;
     }

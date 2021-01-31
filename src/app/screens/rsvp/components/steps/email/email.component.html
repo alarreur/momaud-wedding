@@ -1,0 +1,51 @@
+<div class="step step-email">
+  <div class="step-title">
+    <h3>Merci {{ guest?.firstName }}. Quelle est votre adresse e-mail &nbsp;?&nbsp;*</h3>
+  </div>
+
+  <div class="step-body">
+    <input
+      #emailInput="ngModel"
+      type="email"
+      pInputText
+      class="guest-input p-inputtext-lg"
+      placeholder="votre.adresse@mail.com"
+      tabindex="-1"
+      required
+      email
+      [(ngModel)]="email"
+    />
+    <small class="p-invalid" *ngIf="emailInput.errors?.required && (emailInput.dirty || emailInput.touched)"
+      >Veuillez saisir votre adresse e-mail.</small
+    >
+    <small class="p-invalid" *ngIf="emailInput.errors?.email && (emailInput.dirty || emailInput.touched)">
+      La valeur saisie n'est pas une adresse e-mail valide.
+    </small>
+  </div>
+
+  <div class="step-footer">
+    <button
+      class="p-button-lg p-button-raised p-button-outlined"
+      pButton
+      type="button"
+      label="Précédent"
+      iconPos="left"
+      icon="pi pi-angle-left"
+      pRipple
+      (click)="previous()"
+      [tabIndex]="-1"
+    ></button>
+    <button
+      class="p-button-lg p-button-raised"
+      pButton
+      type="button"
+      label="Suivant"
+      iconPos="right"
+      icon="pi pi-angle-right"
+      pRipple
+      (click)="save()"
+      [disabled]="emailInput.invalid"
+      [tabIndex]="-1"
+    ></button>
+  </div>
+</div>

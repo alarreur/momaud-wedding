@@ -31,9 +31,6 @@ import { environment } from '@environment';
 // data
 import { guestListMock } from '@data/guest.mock';
 
-// app
-import { RsvpComponent } from '@app/screens/rsvp';
-
 // local
 import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent, MenuComponent, LoginComponent, AppComponent } from './components';
@@ -41,9 +38,11 @@ import { rootEffets, rootReducers } from './services/ngrx';
 import { GuestIoService } from './services/guest-io.service';
 import { GuestIoServiceMock } from './services/guest-io.service.mock';
 import { GuestService } from './services';
+import { RsvpModule } from './screens/rsvp/rsvp.module';
+import { smallScreenProvider } from './core/providers';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, RsvpComponent, MenuComponent, LoginComponent],
+  declarations: [AppComponent, HeaderComponent, MenuComponent, LoginComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -75,6 +74,7 @@ import { GuestService } from './services';
 
     // app
     AppRoutingModule,
+    RsvpModule,
   ],
   providers: [
     // firebase
@@ -84,6 +84,8 @@ import { GuestService } from './services';
     GuestService,
     // GuestIoService,
     { provide: GuestIoService, useValue: new GuestIoServiceMock(guestListMock) },
+
+    smallScreenProvider(environment.smallScreenBreakpoint),
   ],
   bootstrap: [AppComponent],
 })

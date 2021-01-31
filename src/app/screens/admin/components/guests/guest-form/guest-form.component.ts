@@ -63,9 +63,7 @@ export class GuestFormComponent implements OnInit, OnChanges {
   constructor(private readonly _guestService: GuestService, private messageService: MessageService) {
     this.guestsSuggestions$ = this.searchGuest$.pipe(
       debounceTime(300),
-      switchMap((searchTerm) =>
-        _guestService.list().pipe(map((guests) => guests.filter((guest) => guest.isSearchCandidate(searchTerm))))
-      )
+      switchMap((searchTerm) => _guestService.search(searchTerm))
     );
   }
 

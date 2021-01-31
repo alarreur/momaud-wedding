@@ -1,0 +1,10 @@
+@import 'variables';
+
+.step.step-plus-one {
+  p {
+    text-align: left;
+  }
+  .name {
+    color: $primary-color;
+  }
+}

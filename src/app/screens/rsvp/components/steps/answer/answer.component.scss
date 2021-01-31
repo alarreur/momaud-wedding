@@ -1,0 +1,115 @@
+@import 'variables';
+
+.step.step-answer {
+  $option-size: 152px;
+  $border-radius: 4px;
+  $bg-color: rgba(
+    $color: $primary-color,
+    $alpha: 0.2,
+  );
+  $border-color: $primary-color;
+  $corner-size: 38px;
+  $corner-check-color: #eae7e0;
+  $animation-duration: 0.5s;
+
+  ul.answer-option-list {
+    list-style: none;
+    display: inline-flex;
+    padding-inline-start: 0px;
+
+    .answer-option {
+      height: $option-size;
+      width: $option-size;
+      max-width: 40vw;
+      max-height: 40vw;
+      margin-right: 10px;
+      box-sizing: border-box;
+      box-shadow: $border-color 0px 0px 0px 1px inset;
+
+      background-color: $bg-color;
+      border-radius: $border-radius;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: $text-color;
+      transition-duration: $animation-duration;
+      transition-property: box-shadow;
+      transition-timing-function: ease-out;
+
+      &.answer-option .answer-option-corner-check {
+        color: transparent;
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: $corner-size;
+        width: $corner-size;
+        border-top-right-radius: $border-radius + 1;
+        overflow: hidden;
+        z-index: 1;
+        animation: $animation-duration ease-out 0s 1 normal both running flash-out;
+      }
+
+      &.answer-option--selected {
+        box-shadow: $border-color 0px 0px 0px 2px inset;
+
+        .answer-option-corner-check {
+          animation: $animation-duration ease-out 0s 1 normal both running flash-in;
+          color: $corner-check-color;
+
+          &::before {
+            content: '';
+            display: block;
+            width: 0px;
+            height: 0px;
+            border-width: $corner-size / 2;
+            border-style: solid;
+            border-image: initial;
+            border-color: $border-color $border-color transparent transparent;
+            position: absolute;
+            right: 0px;
+            top: 0px;
+          }
+
+          .pi {
+            position: absolute;
+            right: 2px;
+            top: 2px;
+          }
+        }
+      }
+
+      .answer-option-text {
+        font-size: 2em;
+      }
+    }
+  }
+}
+
+// animation
+
+@keyframes flash-in {
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+  25%,
+  75% {
+    opacity: 0;
+  }
+}
+
+@keyframes flash-out {
+  0%,
+  50%,
+  100% {
+    opacity: 0;
+  }
+  25%,
+  75% {
+    opacity: 1;
+  }
+}

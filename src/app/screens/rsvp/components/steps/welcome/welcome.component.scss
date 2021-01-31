@@ -1,0 +1,12 @@
+@import 'variables';
+
+.step.step-welcome {
+  align-items: center;
+
+  .step-footer {
+    justify-content: center;
+    button {
+      width: 100%;
+    }
+  }
+}

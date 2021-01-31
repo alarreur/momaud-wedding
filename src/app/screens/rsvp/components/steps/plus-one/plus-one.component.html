@@ -1,0 +1,48 @@
+<div class="step step-plus-one">
+  <div class="step-title">
+    <h3>
+      Merci <span class="name">{{ guest?.firstName }}</span
+      >, pour vos réponses&nbsp;!
+    </h3>
+  </div>
+
+  <div class="step-body">
+    <p *ngIf="!isOverallAttending">
+      Votre présence parmi nous sera fortement regrettée. Nous aimerions toutefois savoir si par chance
+      <span class="name">{{ plusOne?.firstName }}</span
+      >&nbsp;pourra se joindre à nous.
+    </p>
+
+    <p *ngIf="isOverallAttending">
+      Nous nous rejouissons à l'avance de votre présence parmi nous. Nous espérons également que
+      <span class="name">{{ plusOne?.firstName }}</span
+      >&nbsp;pourra se joindre à nous.
+    </p>
+
+    <p>Pouvez-vous répondre à ces quelques questions de sa part&nbsp;?</p>
+  </div>
+
+  <div class="step-footer">
+    <button
+      class="p-button-lg p-button-raised p-button-outlined"
+      pButton
+      type="button"
+      label="Précédent"
+      iconPos="left"
+      icon="pi pi-angle-left"
+      pRipple
+      (click)="this.onPrevious.emit()"
+      [tabIndex]="-1"
+    ></button>
+    <button
+      pButton
+      type="button"
+      label="Suivant"
+      iconPos="right"
+      icon="pi pi-angle-right"
+      class="p-button-lg p-button-raised"
+      pRipple
+      (click)="this.onNext.emit()"
+    ></button>
+  </div>
+</div>

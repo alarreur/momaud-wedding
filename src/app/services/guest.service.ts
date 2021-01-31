@@ -15,7 +15,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Guest, GuestDto } from '@app/models';
 
 // local
-import { selectAllGuests, selectGuestById, selectGuestTotal } from './ngrx/guest/guest.selectors';
+import { isGuestLoaded, selectAllGuests, selectGuestById, selectGuestTotal } from './ngrx/guest/guest.selectors';
 import * as GuestActions from './ngrx/guest/guest.actions';
 import { FIREBASE_COLLECTION_NAME } from './ngrx/guest/guest.state';
 import firebase from 'firebase';
@@ -41,12 +41,26 @@ export class GuestService {
     );
   }
 
-  public get(): Observable<Guest> {
-    throw Error(`Not implemented`);
+  public get(id: string): Observable<Guest> {
+    return this._store.select(isGuestLoaded(id)).pipe(
+      switchMap((loaded) => {
+        if (!loaded) {
+          this._store.dispatch(GuestActions.loadGuestList({}));
+        }
+
+        return this._store.select(selectGuestById(id)).pipe(
+          filter((dto) => !!dto),
+          map((dto) => new Guest(dto))
+        );
+      })
+    );
   }
 
-  public search(): Observable<Guest> {
-    throw Error(`Not implemented`);
+  public search(searchTerm: string): Observable<Guest[]> {
+    return this.list().pipe(
+      filter((guests) => guests && guests.length > 0),
+      map((guests) => guests.filter((guest) => guest.isSearchCandidate(searchTerm)))
+    );
   }
 
   public create(guest: Guest): Observable<Guest> {

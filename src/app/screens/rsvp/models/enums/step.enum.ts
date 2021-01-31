@@ -1,0 +1,16 @@
+export enum Step {
+  Welcome,
+  GuestSelection,
+  Email,
+  Ceremony,
+  Cocktail,
+  Diner,
+  Brunch,
+  PlusOneWelcome,
+  PlusOneEmail,
+  PlusOneCeremony,
+  PlusOneCocktail,
+  PlusOneDiner,
+  PlusOneBrunch,
+  Recap,
+}
