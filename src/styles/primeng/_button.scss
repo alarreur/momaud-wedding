@@ -4,6 +4,11 @@ $primary-button-color: $primary-color;
   background: $primary-button-color;
   border-color: $primary-button-color;
 
+  &:not(.p-button-icon-only):focus {
+    background: darken($primary-button-color, 10%);
+    border-color: darken($primary-button-color, 10%);
+  }
+
   &:enabled:hover {
     background: lighten($color: $primary-button-color, $amount: 10);
     border-color: lighten($color: $primary-button-color, $amount: 10);

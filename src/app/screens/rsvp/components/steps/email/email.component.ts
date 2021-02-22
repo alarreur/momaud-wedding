@@ -25,6 +25,9 @@ export class EmailComponent implements OnChanges {
   @Input()
   public guest: Guest;
 
+  @Input()
+  public isPlusOne: boolean;
+
   @Output() onPrevious = new EventEmitter<void>();
   @Output() onSaved = new EventEmitter<Guest>();
 

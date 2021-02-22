@@ -66,6 +66,7 @@
           <momo-email
             *ngSwitchCase="Step.PlusOneEmail"
             [guest]="plusOne"
+            [isPlusOne]="true"
             (onPrevious)="navBackward()"
             (onSaved)="plusOne = $event; navForward()"
           ></momo-email>
@@ -107,7 +108,13 @@
           ></momo-answer>
 
           <!-- RECAP -->
-          <momo-recap *ngSwitchCase="Step.Recap"></momo-recap>
+          <momo-recap
+            *ngSwitchCase="Step.Recap"
+            [guest]="guest"
+            [plusOne]="plusOne"
+            (onPrevious)="navBackward()"
+            (onNext)="redirectToProgram()"
+          ></momo-recap>
 
           <!-- UNKNOWN / ERROR -->
           <div *ngSwitchDefault>Unknown step</div>

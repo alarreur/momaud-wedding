@@ -9,6 +9,9 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { InputTextModule } from 'primeng/inputtext';
+import { TableModule } from 'primeng/table';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 // local
 import {
@@ -44,7 +47,10 @@ import {
     RippleModule,
     AutoCompleteModule,
     InputTextModule,
+    TableModule,
+    ConfirmDialogModule,
   ],
+  providers: [ConfirmationService],
   exports: [RsvpComponent],
 })
 export class RsvpModule {}

@@ -1,10 +1,22 @@
 <div class="step step-answer">
   <div class="step-title">
     <ng-container [ngSwitch]="step">
-      <h3 *ngSwitchCase="Step.Ceremony">Participerez-vous à la cérémonie religieuse&nbsp;?&nbsp;*</h3>
-      <h3 *ngSwitchCase="Step.Cocktail">Participerez-vous au cocktail&nbsp;?&nbsp;*</h3>
-      <h3 *ngSwitchCase="Step.Diner">Participerez-vous au dîner&nbsp;?&nbsp;*</h3>
-      <h3 *ngSwitchCase="Step.Brunch">Participerez-vous au brunch le lendemain&nbsp;?&nbsp;*</h3>
+      <h3 *ngSwitchCase="Step.Ceremony">Participerez-vous à la <span class="moment">cérémonie religieuse</span>&nbsp;?&nbsp;*</h3>
+      <h3 *ngSwitchCase="Step.PlusOneCeremony">
+        {{ guest?.firstName }} participera-t-il/elle à la <span class="moment">cérémonie religieuse</span>&nbsp;?&nbsp;*
+      </h3>
+      <h3 *ngSwitchCase="Step.Cocktail">Participerez-vous au <span class="moment">cocktail</span>&nbsp;?&nbsp;*</h3>
+      <h3 *ngSwitchCase="Step.PlusOneCocktail">
+        {{ guest?.firstName }} participera-t-il/elle au <span class="moment">cocktail</span>&nbsp;?&nbsp;*
+      </h3>
+      <h3 *ngSwitchCase="Step.Diner">Participerez-vous au <span class="moment">dîner</span>&nbsp;?&nbsp;*</h3>
+      <h3 *ngSwitchCase="Step.PlusOneDiner">
+        {{ guest?.firstName }} participera-t-il/elle au <span class="moment">dîner</span>&nbsp;?&nbsp;*
+      </h3>
+      <h3 *ngSwitchCase="Step.Brunch">Participerez-vous au <span class="moment">brunch</span> du lendemain&nbsp;?&nbsp;*</h3>
+      <h3 *ngSwitchCase="Step.PlusOneBrunch">
+        {{ guest?.firstName }} participera-t-il/elle au <span class="moment">brunch</span> du lendemain&nbsp;?&nbsp;*
+      </h3>
     </ng-container>
   </div>
 

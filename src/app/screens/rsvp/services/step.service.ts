@@ -2,7 +2,8 @@
 import { Injectable } from '@angular/core';
 
 // rxjs
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
+import { first, map, switchMap } from 'rxjs/operators';
 
 // app
 import { Guest, InviteStatus } from '@app/models';
@@ -10,7 +11,6 @@ import { GuestService } from '@app/services';
 
 // local
 import { Step } from '../models';
-import { first, map } from 'rxjs/operators';
 
 const initialSteps = [Step.Welcome, Step.GuestSelection, Step.Email];
 
@@ -95,7 +95,9 @@ export class StepService {
     }
   }
 
-  public save(guest: Guest, plusOne: Guest): Observable<void> {
-    throw new Error('Not implemented');
+  public save(guest: Guest, plusOne?: Guest): Observable<void> {
+    return forkJoin(
+      [guest, plusOne].filter((guest) => !!guest).map((guest) => this._guestService.update(guest).pipe(first()))
+    ).pipe(map(() => void 0));
   }
 }

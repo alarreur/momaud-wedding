@@ -1,6 +1,7 @@
 <div class="step step-email">
   <div class="step-title">
-    <h3>Merci {{ guest?.firstName }}. Quelle est votre adresse e-mail &nbsp;?&nbsp;*</h3>
+    <h3 *ngIf="!isPlusOne">Merci {{ guest?.firstName }}. Quelle est votre adresse e-mail &nbsp;?&nbsp;*</h3>
+    <h3 *ngIf="isPlusOne">Quelle est l'adresse e-mail de {{ guest?.firstName }}.&nbsp;?&nbsp;</h3>
   </div>
 
   <div class="step-body">
@@ -11,7 +12,7 @@
       class="guest-input p-inputtext-lg"
       placeholder="votre.adresse@mail.com"
       tabindex="-1"
-      required
+      [required]="!isPlusOne"
       email
       [(ngModel)]="email"
     />

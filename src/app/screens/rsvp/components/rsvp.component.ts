@@ -1,16 +1,17 @@
 // angular
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Router } from '@angular/router';
 
 // rxjs
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 // app
-import { Guest } from '@app/models';
+import { AppRoute, Guest } from '@app/models';
 
 // local
 import { Step } from '../models';
 import { StepService } from '../services';
-import { tap } from 'rxjs/operators';
 
 const TRANSITION_TIME = 1000;
 
@@ -30,7 +31,7 @@ export class RsvpComponent implements OnInit {
 
   private totalSteps: number;
 
-  constructor(private readonly _stepService: StepService) {
+  constructor(private readonly _stepService: StepService, private readonly _router: Router) {
     this.steps$ = this._stepService.steps$.pipe(tap((steps) => (this.totalSteps = steps.length)));
     this.currentStepIndex = 0;
   }
@@ -60,5 +61,9 @@ export class RsvpComponent implements OnInit {
       transform: `translate3d(0, -${this.currentStepIndex * 100}%, 0)`,
       transition: `transform ${TRANSITION_TIME}ms ease 0s`,
     };
+  }
+
+  public redirectToProgram(): void {
+    this._router.navigate([AppRoute.Program]);
   }
 }

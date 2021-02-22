@@ -1,0 +1,35 @@
+.step.step-recap {
+  ::ng-deep table {
+    th,
+    tr,
+    td {
+      background: none;
+      border: none;
+    }
+
+    td:first-child {
+      font-weight: bold;
+    }
+  }
+
+  .centered {
+    display: flex;
+    justify-content: center;
+  }
+
+  .pi {
+    font-size: 1.5em;
+  }
+
+  .pi-check {
+    color: #548474;
+  }
+
+  .pi-times {
+    color: #bc3251;
+  }
+
+  .step-footer {
+    margin: 0;
+  }
+}
