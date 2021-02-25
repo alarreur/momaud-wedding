@@ -1,0 +1,102 @@
+@import 'variables';
+
+.momo-program {
+  $bullet-inner-color: #fff;
+  $bullet-outer-color: $primary-color;
+  $bullet-size: 18px;
+  $line-color: #bdbdbd;
+  $time-color: $stand-out-color;
+
+  h2 {
+    display: none;
+  }
+
+  /* Smartphones screen (portrait) properties */
+  @media only screen and (max-width: $smartphone-width-breakpoint) {
+    h2 {
+      display: block;
+      text-align: center;
+    }
+  }
+
+  .timeline {
+    margin-top: 20px;
+    ul {
+      padding: 1em 0 0 1em;
+      margin: 0;
+      list-style: none;
+      position: relative;
+
+      &::before {
+        content: ' ';
+        height: 100%;
+        width: 1px;
+        background-color: $line-color;
+        position: absolute;
+        top: 0;
+        left: 26px;
+        z-index: -1;
+      }
+    }
+
+    li {
+      width: 300px;
+      margin-bottom: 30px;
+    }
+
+    .bullet,
+    .time,
+    .desc {
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .bullet {
+      width: $bullet-size;
+      height: $bullet-size;
+      border-radius: 50%;
+      box-sizing: border-box;
+      background: $bullet-inner-color;
+      z-index: 1;
+      margin-right: 10px;
+
+      border: 2px solid $bullet-outer-color;
+    }
+
+    .time {
+      width: 60px;
+      font-size: 1.1em;
+      color: $time-color;
+    }
+
+    .desc {
+      width: 200px;
+
+      .title {
+        color: $primary-color;
+        font-size: 1.3em;
+        margin-bottom: 8px;
+      }
+
+      .subtitle {
+        color: $text-color;
+        margin-bottom: 5px;
+      }
+
+      .address a {
+        color: $text-color;
+        font-size: 0.8em;
+
+        i {
+          margin-left: 5px;
+        }
+      }
+    }
+
+    .sunday .date {
+      color: $time-color;
+      font-size: 1.3em;
+      margin-left: 90px;
+    }
+  }
+}

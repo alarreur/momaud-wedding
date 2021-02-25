@@ -17,6 +17,7 @@ import { pipe } from 'rxjs';
 
 // app
 import { RsvpComponent } from '@app/screens/rsvp';
+import { ProgramComponent } from '@app/screens/program';
 
 // local
 import { LoginComponent } from './components';
@@ -39,7 +40,7 @@ const routes: Routes = [
     redirectTo: defaultRoute,
   },
   { path: AppRoute.Rsvp, component: RsvpComponent },
-  { path: AppRoute.Program, component: RsvpComponent },
+  { path: AppRoute.Program, component: ProgramComponent },
   { path: AppRoute.Accommodations, component: RsvpComponent },
   { path: AppRoute.WhishList, component: RsvpComponent },
   { path: AppRoute.Info, component: RsvpComponent },
