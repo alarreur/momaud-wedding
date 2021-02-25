@@ -16,8 +16,8 @@
         field="fullName"
         dataKey="id"
         placeholder="Votre nom"
-        [tabindex]="-1"
         inputStyleClass="guest-input"
+        [tabindex]="isCurrentStep ? 0 : -1"
       ></p-autoComplete>
     </span>
   </div>
@@ -31,9 +31,9 @@
       iconPos="right"
       icon="pi pi-angle-right"
       pRipple
-      (click)="signInGuest()"
+      (click)="signInGuest(); $event.target.blur()"
       [disabled]="!guest"
-      [tabIndex]="-1"
+      [tabindex]="isCurrentStep ? 1 : -1"
     ></button>
   </div>
 </div>

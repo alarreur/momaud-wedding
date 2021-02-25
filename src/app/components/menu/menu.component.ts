@@ -1,5 +1,5 @@
 // angular
-import { Component, OnInit, ChangeDetectionStrategy, Inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 // firebase

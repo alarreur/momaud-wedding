@@ -2,7 +2,7 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-import { IEnvironment, SMALLSCREEN_WIDTH_BREAKPOINT } from './i-environment';
+import { IEnvironment, RSVP_TRANSITION_DELAY, SMALLSCREEN_WIDTH_BREAKPOINT } from './i-environment';
 
 export const environment: IEnvironment = {
   production: false,
@@ -19,6 +19,7 @@ export const environment: IEnvironment = {
     measurementId: 'G-QW2NJ4QZL9',
   },
   smallScreenBreakpoint: SMALLSCREEN_WIDTH_BREAKPOINT,
+  rsvpTransitionDelay: RSVP_TRANSITION_DELAY,
 };
 
 /*

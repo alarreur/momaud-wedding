@@ -7,14 +7,19 @@
           <momo-welcome *ngSwitchCase="Step.Welcome" (onRsvp)="navForward()"></momo-welcome>
 
           <!-- GUEST SELECTION -->
-          <momo-guest-selection *ngSwitchCase="Step.GuestSelection" (onSelected)="onGuestSelected($event)"></momo-guest-selection>
+          <momo-guest-selection
+            *ngSwitchCase="Step.GuestSelection"
+            [isCurrentStep]="currentStepIndex === i"
+            (onSelected)="onGuestSelected($event)"
+          ></momo-guest-selection>
 
           <!-- GUEST EMAIL -->
           <momo-email
             *ngSwitchCase="Step.Email"
             [guest]="guest"
+            [isCurrentStep]="currentStepIndex === i"
             (onPrevious)="navBackward()"
-            (onSaved)="guest = $event; navForward()"
+            (onNext)="guest = $event; navForward()"
           ></momo-email>
 
           <!-- GUEST CEREMONY STATUS -->
@@ -22,8 +27,9 @@
             *ngSwitchCase="Step.Ceremony"
             [step]="Step.Ceremony"
             [guest]="guest"
-            (onPrevious)="navBackward()"
-            (onSaved)="guest = $event; navForward()"
+            [isCurrentStep]="currentStepIndex === i"
+            (onPrevious)="guest = $event; navBackward()"
+            (onNext)="guest = $event; navForward()"
           ></momo-answer>
 
           <!-- GUEST COCKTAIL STATUS -->
@@ -31,8 +37,9 @@
             *ngSwitchCase="Step.Cocktail"
             [step]="Step.Cocktail"
             [guest]="guest"
-            (onPrevious)="navBackward()"
-            (onSaved)="guest = $event; navForward()"
+            [isCurrentStep]="currentStepIndex === i"
+            (onPrevious)="guest = $event; navBackward()"
+            (onNext)="guest = $event; navForward()"
           ></momo-answer>
 
           <!-- GUEST DINER STATUS -->
@@ -40,8 +47,9 @@
             *ngSwitchCase="Step.Diner"
             [step]="Step.Diner"
             [guest]="guest"
-            (onPrevious)="navBackward()"
-            (onSaved)="guest = $event; navForward()"
+            [isCurrentStep]="currentStepIndex === i"
+            (onPrevious)="guest = $event; navBackward()"
+            (onNext)="guest = $event; navForward()"
           ></momo-answer>
 
           <!-- GUEST DINER STATUS -->
@@ -49,8 +57,9 @@
             *ngSwitchCase="Step.Brunch"
             [step]="Step.Brunch"
             [guest]="guest"
+            [isCurrentStep]="currentStepIndex === i"
             (onPrevious)="navBackward()"
-            (onSaved)="guest = $event; navForward()"
+            (onNext)="guest = $event; navForward()"
           ></momo-answer>
 
           <!-- PLUS ONE WELCOME -->
@@ -58,6 +67,7 @@
             *ngSwitchCase="Step.PlusOneWelcome"
             [guest]="guest"
             [plusOne]="plusOne"
+            [isCurrentStep]="currentStepIndex === i"
             (onPrevious)="navBackward()"
             (onNext)="navForward()"
           ></momo-plus-one>
@@ -67,8 +77,9 @@
             *ngSwitchCase="Step.PlusOneEmail"
             [guest]="plusOne"
             [isPlusOne]="true"
+            [isCurrentStep]="currentStepIndex === i"
             (onPrevious)="navBackward()"
-            (onSaved)="plusOne = $event; navForward()"
+            (onNext)="plusOne = $event; navForward()"
           ></momo-email>
 
           <!-- PLUS ONE CEREMONY STATUS -->
@@ -76,8 +87,9 @@
             *ngSwitchCase="Step.PlusOneCeremony"
             [step]="Step.PlusOneCeremony"
             [guest]="plusOne"
-            (onPrevious)="navBackward()"
-            (onSaved)="plusOne = $event; navForward()"
+            [isCurrentStep]="currentStepIndex === i"
+            (onPrevious)="plusOne = $event; navBackward()"
+            (onNext)="plusOne = $event; navForward()"
           ></momo-answer>
 
           <!-- PLUS ONE COCKTAIL STATUS -->
@@ -85,8 +97,9 @@
             *ngSwitchCase="Step.PlusOneCocktail"
             [step]="Step.PlusOneCocktail"
             [guest]="plusOne"
-            (onPrevious)="navBackward()"
-            (onSaved)="plusOne = $event; navForward()"
+            [isCurrentStep]="currentStepIndex === i"
+            (onPrevious)="plusOne = $event; navBackward()"
+            (onNext)="plusOne = $event; navForward()"
           ></momo-answer>
 
           <!-- PLUS ONE DINER STATUS -->
@@ -94,8 +107,9 @@
             *ngSwitchCase="Step.PlusOneDiner"
             [step]="Step.PlusOneDiner"
             [guest]="plusOne"
-            (onPrevious)="navBackward()"
-            (onSaved)="plusOne = $event; navForward()"
+            [isCurrentStep]="currentStepIndex === i"
+            (onPrevious)="plusOne = $event; navBackward()"
+            (onNext)="plusOne = $event; navForward()"
           ></momo-answer>
 
           <!-- PLUS ONE BRUNCH STATUS -->
@@ -103,8 +117,9 @@
             *ngSwitchCase="Step.PlusOneBrunch"
             [step]="Step.PlusOneBrunch"
             [guest]="plusOne"
-            (onPrevious)="navBackward()"
-            (onSaved)="plusOne = $event; navForward()"
+            [isCurrentStep]="currentStepIndex === i"
+            (onPrevious)="plusOne = $event; navBackward()"
+            (onNext)="plusOne = $event; navForward()"
           ></momo-answer>
 
           <!-- RECAP -->
@@ -112,6 +127,7 @@
             *ngSwitchCase="Step.Recap"
             [guest]="guest"
             [plusOne]="plusOne"
+            [isCurrentStep]="currentStepIndex === i"
             (onPrevious)="navBackward()"
             (onNext)="redirectToProgram()"
           ></momo-recap>

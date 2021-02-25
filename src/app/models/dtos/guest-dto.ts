@@ -1,4 +1,3 @@
-import { stringToArray } from 'ag-grid-community';
 import { GuestCategory } from '../enums/guest-category.enum';
 import { Host } from '../enums/host.enum';
 import { InviteStatus } from '../enums/invite-status.enum';

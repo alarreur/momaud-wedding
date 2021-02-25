@@ -50,10 +50,11 @@
       iconPos="left"
       icon="pi pi-angle-left"
       pRipple
-      (click)="previous()"
-      [tabIndex]="-1"
+      (click)="previous(); $event.target.blur()"
+      [tabIndex]="isCurrentStep ? 0 : -1"
     ></button>
     <button
+      #nextButton
       class="p-button-lg p-button-raised"
       pButton
       type="button"
@@ -61,9 +62,9 @@
       iconPos="right"
       icon="pi pi-angle-right"
       pRipple
-      (click)="save()"
+      (click)="next(); $event.target.blur()"
       [disabled]="isAttending === undefined"
-      [tabIndex]="-1"
+      [tabIndex]="isCurrentStep ? 1 : -1"
     ></button>
   </div>
 </div>

@@ -1,4 +1,5 @@
 export const SMALLSCREEN_WIDTH_BREAKPOINT = 801;
+export const RSVP_TRANSITION_DELAY = 1000;
 
 export interface IEnvironment {
   production: boolean;
@@ -6,4 +7,5 @@ export interface IEnvironment {
   firebase: any;
   adminBaseApi: string;
   smallScreenBreakpoint: number;
+  rsvpTransitionDelay: number;
 }

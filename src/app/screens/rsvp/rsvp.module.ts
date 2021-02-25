@@ -24,8 +24,6 @@ import {
   WelcomeComponent,
 } from './components';
 
-// local
-
 @NgModule({
   declarations: [
     RsvpComponent,

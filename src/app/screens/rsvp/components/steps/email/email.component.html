@@ -11,10 +11,10 @@
       pInputText
       class="guest-input p-inputtext-lg"
       placeholder="votre.adresse@mail.com"
-      tabindex="-1"
       [required]="!isPlusOne"
       email
       [(ngModel)]="email"
+      [attr.tabIndex]="isCurrentStep ? 0 : -1"
     />
     <small class="p-invalid" *ngIf="emailInput.errors?.required && (emailInput.dirty || emailInput.touched)"
       >Veuillez saisir votre adresse e-mail.</small
@@ -33,8 +33,8 @@
       iconPos="left"
       icon="pi pi-angle-left"
       pRipple
-      (click)="previous()"
-      [tabIndex]="-1"
+      (click)="previous(); $event.target.blur()"
+      [tabIndex]="isCurrentStep ? 1 : -1"
     ></button>
     <button
       class="p-button-lg p-button-raised"
@@ -44,9 +44,9 @@
       iconPos="right"
       icon="pi pi-angle-right"
       pRipple
-      (click)="save()"
+      (click)="next(); $event.target.blur()"
       [disabled]="emailInput.invalid"
-      [tabIndex]="-1"
+      [tabIndex]="isCurrentStep ? 2 : -1"
     ></button>
   </div>
 </div>

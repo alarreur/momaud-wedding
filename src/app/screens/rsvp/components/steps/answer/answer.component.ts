@@ -28,14 +28,11 @@ const propMappings: EnumDictionary<Step, keyof Guest> = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnswerComponent implements OnChanges {
-  @Input()
-  public step: Step;
-
-  @Input()
-  public guest: Guest;
-
-  @Output() onPrevious = new EventEmitter<void>();
-  @Output() onSaved = new EventEmitter<Guest>();
+  @Input() public step: Step;
+  @Input() public guest: Guest;
+  @Input() public isCurrentStep: boolean;
+  @Output() public onPrevious = new EventEmitter<Guest>();
+  @Output() public onNext = new EventEmitter<Guest>();
 
   public Step: typeof Step = Step;
   public isAttending: boolean;
@@ -61,17 +58,19 @@ export class AnswerComponent implements OnChanges {
   }
 
   public previous(): void {
-    this.onPrevious.emit();
+    this.onPrevious.emit(this.save());
   }
 
-  public save(): void {
+  public next(): void {
+    this.onNext.emit(this.save());
+  }
+
+  private save(): Guest {
     const propToUpdate = propMappings[this.step];
 
-    const updatedGuest = new Guest({
+    return new Guest({
       ...this.guest,
       [propToUpdate]: this.isAttending ? InviteStatus.Attends : InviteStatus.Absent,
     });
-
-    this.onSaved.emit(updatedGuest);
   }
 }

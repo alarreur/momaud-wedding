@@ -36,9 +36,9 @@
       iconPos="left"
       icon="pi pi-angle-left"
       pRipple
-      (click)="previous()"
+      (click)="previous(); $event.target.blur()"
       [disabled]="isSaving"
-      [tabIndex]="-1"
+      [tabIndex]="isCurrentStep ? 0 : -1"
     ></button>
     <button
       class="p-button-lg p-button-raised"
@@ -48,9 +48,9 @@
       iconPos="right"
       icon="pi pi-angle-right"
       pRipple
-      (click)="save()"
+      (click)="save(); $event.target.blur()"
       [disabled]="isSaving"
-      [tabIndex]="-1"
+      [tabIndex]="isCurrentStep ? 1 : -1"
     ></button>
   </div>
 </div>

@@ -1,5 +1,5 @@
 // angular
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 
 // rxjs
@@ -8,12 +8,11 @@ import { tap } from 'rxjs/operators';
 
 // app
 import { AppRoute, Guest } from '@app/models';
+import { environment } from '@environment';
 
 // local
 import { Step } from '../models';
 import { StepService } from '../services';
-
-const TRANSITION_TIME = 1000;
 
 @Component({
   selector: 'momo-rsvp',
@@ -34,6 +33,14 @@ export class RsvpComponent implements OnInit {
   constructor(private readonly _stepService: StepService, private readonly _router: Router) {
     this.steps$ = this._stepService.steps$.pipe(tap((steps) => (this.totalSteps = steps.length)));
     this.currentStepIndex = 0;
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  public onKeydown(event: KeyboardEvent) {
+    if (event.key.toLowerCase() === 'tab') {
+      // tab navigation breaks animation by giving focus on next element
+      event.preventDefault();
+    }
   }
 
   public ngOnInit(): void {}
@@ -59,7 +66,7 @@ export class RsvpComponent implements OnInit {
   public getTranslateStyle() {
     return {
       transform: `translate3d(0, -${this.currentStepIndex * 100}%, 0)`,
-      transition: `transform ${TRANSITION_TIME}ms ease 0s`,
+      transition: `transform ${environment.rsvpTransitionDelay}ms ease 0s`,
     };
   }
 

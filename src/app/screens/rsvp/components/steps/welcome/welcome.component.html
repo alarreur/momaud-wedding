@@ -8,6 +8,13 @@
   </p>
   <p class="small">RSVP avant le ../../....</p>
   <div class="step-footer">
-    <button pButton type="button" label="RSVP" class="p-button-lg p-button-raised" pRipple (click)="this.onRsvp.emit()"></button>
+    <button
+      pButton
+      type="button"
+      label="RSVP"
+      class="p-button-lg p-button-raised"
+      pRipple
+      (click)="this.onRsvp.emit(); $event.target.blur()"
+    ></button>
   </div>
 </div>

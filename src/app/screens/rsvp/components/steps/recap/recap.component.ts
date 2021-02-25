@@ -30,6 +30,7 @@ import { Step } from '@app/screens/rsvp/models';
 export class RecapComponent implements OnChanges, OnDestroy {
   @Input() public guest: Guest;
   @Input() public plusOne: Guest;
+  @Input() public isCurrentStep: boolean;
   @Output() onPrevious = new EventEmitter<void>();
   @Output() onNext = new EventEmitter<void>();
 

@@ -7,7 +7,7 @@ import { Component, ChangeDetectionStrategy, Output, EventEmitter } from '@angul
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WelcomeComponent {
-  @Output() onRsvp = new EventEmitter<void>();
+  @Output() public onRsvp = new EventEmitter<void>();
 
   constructor() {}
 }

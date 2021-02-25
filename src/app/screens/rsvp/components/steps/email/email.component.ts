@@ -10,10 +10,13 @@ import {
   ViewChild,
   ChangeDetectorRef,
 } from '@angular/core';
-import { NgModel } from '@angular/forms';
+
+// primeng
+import { InputText } from 'primeng/inputtext';
 
 // app
 import { Guest } from '@app/models';
+import { environment } from '@environment';
 
 @Component({
   selector: 'momo-email',
@@ -22,18 +25,15 @@ import { Guest } from '@app/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmailComponent implements OnChanges {
-  @Input()
-  public guest: Guest;
-
-  @Input()
-  public isPlusOne: boolean;
-
-  @Output() onPrevious = new EventEmitter<void>();
-  @Output() onSaved = new EventEmitter<Guest>();
+  @Input() public guest: Guest;
+  @Input() public isPlusOne: boolean;
+  @Input() public isCurrentStep: boolean;
+  @Output() public onPrevious = new EventEmitter<void>();
+  @Output() public onNext = new EventEmitter<Guest>();
 
   public email: string;
 
-  @ViewChild('emailInput') private _emailInput: NgModel;
+  @ViewChild(InputText) private _emailInput: InputText;
 
   constructor(private readonly _cdr: ChangeDetectorRef) {}
 
@@ -47,13 +47,17 @@ export class EmailComponent implements OnChanges {
         }, 0);
       }
     }
+
+    if (this.isCurrentStep && this._emailInput) {
+      setTimeout(() => this._emailInput.el.nativeElement.focus(), environment.rsvpTransitionDelay);
+    }
   }
 
   public previous(): void {
     this.onPrevious.emit();
   }
 
-  public save(): void {
-    this.onSaved.emit(new Guest({ ...this.guest, email: this.email }));
+  public next(): void {
+    this.onNext.emit(new Guest({ ...this.guest, email: this.email }));
   }
 }

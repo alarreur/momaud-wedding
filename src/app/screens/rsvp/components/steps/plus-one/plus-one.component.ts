@@ -1,5 +1,5 @@
 // angular
-import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 
 // app
 import { Guest, InviteStatus } from '@app/models';
@@ -10,9 +10,10 @@ import { Guest, InviteStatus } from '@app/models';
   styleUrls: ['./plus-one.component.scss', '../step.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlusOneComponent implements OnInit {
+export class PlusOneComponent {
   @Input() public guest: Guest;
   @Input() public plusOne: Guest;
+  @Input() public isCurrentStep: boolean;
   @Output() onPrevious = new EventEmitter<void>();
   @Output() onNext = new EventEmitter<void>();
 
@@ -27,6 +28,4 @@ export class PlusOneComponent implements OnInit {
   }
 
   constructor() {}
-
-  ngOnInit(): void {}
 }

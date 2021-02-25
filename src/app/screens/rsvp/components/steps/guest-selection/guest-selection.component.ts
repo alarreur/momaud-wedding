@@ -7,7 +7,6 @@ import {
   ChangeDetectorRef,
   ViewChild,
   OnChanges,
-  SimpleChanges,
   Input,
 } from '@angular/core';
 
@@ -21,6 +20,7 @@ import { AutoComplete } from 'primeng/autocomplete';
 // app
 import { Guest } from '@app/models';
 import { StepService } from '@app/screens/rsvp/services';
+import { environment } from '@environment';
 
 const SIGNED_IN_GUEST_KEY = 'signedInGuestId';
 
@@ -30,19 +30,17 @@ const SIGNED_IN_GUEST_KEY = 'signedInGuestId';
   styleUrls: ['./guest-selection.component.scss', '../step.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GuestSelectionComponent {
+export class GuestSelectionComponent implements OnChanges {
   public guest: Guest;
 
   public guestsSuggestions$: Observable<Guest[]>;
   public searchGuest$: Subject<string> = new Subject();
 
-  @Input()
-  public isCurrentStep: boolean;
+  @Input() public isCurrentStep: boolean;
+  @Output() public onSelected = new EventEmitter<{ guest: Guest; plusOne?: Guest }>();
 
   @ViewChild(AutoComplete)
   public readonly guestSelection: AutoComplete;
-
-  @Output() onSelected = new EventEmitter<{ guest: Guest; plusOne?: Guest }>();
 
   constructor(private readonly _stepService: StepService, private readonly _cd: ChangeDetectorRef) {
     this.guestsSuggestions$ = this.searchGuest$.pipe(
@@ -51,6 +49,12 @@ export class GuestSelectionComponent {
     );
 
     this.initializeGuest();
+  }
+
+  public ngOnChanges(): void {
+    if (this.isCurrentStep && this.guestSelection) {
+      setTimeout(() => this.guestSelection.focusInput(), environment.rsvpTransitionDelay);
+    }
   }
 
   public signInGuest(): void {
