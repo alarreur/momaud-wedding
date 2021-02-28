@@ -5,9 +5,13 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:preview": "ng build --prod --source-map",
+    "build:prod": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "emulators:start": "firebase emulators:start --import=./emulators-data",
+    "emulators:save": "firebase emulators:export ./emulators-data"
   },
   "private": true,
   "dependencies": {
