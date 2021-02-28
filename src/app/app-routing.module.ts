@@ -22,6 +22,7 @@ import { ProgramComponent } from '@app/screens/program';
 // local
 import { LoginComponent } from './components';
 import { AppRoute } from './models';
+import { HomeComponent } from './screens/home';
 
 // const adminOnly = () => hasCustomClaim('admin');
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
@@ -31,7 +32,7 @@ const isAdminOrRedirectToLogin = () =>
     map((claims) => (claims && claims.admin ? true : ['login']))
   );
 
-const defaultRoute = `/${AppRoute.Rsvp}`;
+const defaultRoute = `/${AppRoute.Home}`;
 
 const routes: Routes = [
   {
@@ -41,7 +42,7 @@ const routes: Routes = [
   },
   { path: AppRoute.Rsvp, component: RsvpComponent },
   { path: AppRoute.Program, component: ProgramComponent },
-  { path: AppRoute.Accommodations, component: RsvpComponent },
+  { path: AppRoute.Home, component: HomeComponent },
   { path: AppRoute.WhishList, component: RsvpComponent },
   { path: AppRoute.Info, component: RsvpComponent },
   {
