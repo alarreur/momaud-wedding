@@ -23,6 +23,7 @@ import { ProgramComponent } from '@app/screens/program';
 import { LoginComponent } from './components';
 import { AppRoute } from './models';
 import { HomeComponent } from './screens/home';
+import { InfoComponent } from './screens/info';
 
 // const adminOnly = () => hasCustomClaim('admin');
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
@@ -40,11 +41,11 @@ const routes: Routes = [
     pathMatch: 'full',
     redirectTo: defaultRoute,
   },
+  { path: AppRoute.Home, component: HomeComponent },
   { path: AppRoute.Rsvp, component: RsvpComponent },
   { path: AppRoute.Program, component: ProgramComponent },
-  { path: AppRoute.Home, component: HomeComponent },
+  { path: AppRoute.Info, component: InfoComponent },
   { path: AppRoute.WhishList, component: RsvpComponent },
-  { path: AppRoute.Info, component: RsvpComponent },
   {
     path: AppRoute.Admin,
     loadChildren: () => import('./screens/admin/admin.module').then((module) => module.AdminModule),
