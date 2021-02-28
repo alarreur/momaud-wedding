@@ -21,19 +21,10 @@ import {
   PlusOneComponent,
   RecapComponent,
   RsvpComponent,
-  WelcomeComponent,
 } from './components';
 
 @NgModule({
-  declarations: [
-    RsvpComponent,
-    WelcomeComponent,
-    GuestSelectionComponent,
-    EmailComponent,
-    RecapComponent,
-    PlusOneComponent,
-    AnswerComponent,
-  ],
+  declarations: [RsvpComponent, GuestSelectionComponent, EmailComponent, RecapComponent, PlusOneComponent, AnswerComponent],
   imports: [
     // angular
     CommonModule,
