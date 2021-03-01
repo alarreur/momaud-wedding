@@ -30,3 +30,21 @@ h1 {
 h5 {
   font-size: 1.25rem;
 }
+
+p {
+  line-height: 1.5em;
+  color: $primary-color;
+}
+
+.small {
+  font-size: 0.8em;
+}
+
+a {
+  color: $primary-color;
+}
+
+em {
+  color: $stand-out-color;
+  font-style: normal;
+}

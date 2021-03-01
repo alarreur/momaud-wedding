@@ -1,7 +1,7 @@
 export enum AppRoute {
   Rsvp = 'rsvp',
   Program = 'programme',
-  Accommodations = 'hebergement',
+  Home = 'accueil',
   WhishList = 'liste',
   Info = 'infos',
   Admin = 'admin',

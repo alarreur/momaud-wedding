@@ -3,9 +3,6 @@
     <div class="step-list">
       <div class="step-container" *ngFor="let step of steps; index as i" [style]="getTranslateStyle()">
         <ng-container [ngSwitch]="step">
-          <!-- WELCOME -->
-          <momo-welcome *ngSwitchCase="Step.Welcome" (onRsvp)="navForward()"></momo-welcome>
-
           <!-- GUEST SELECTION -->
           <momo-guest-selection
             *ngSwitchCase="Step.GuestSelection"

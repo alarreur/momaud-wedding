@@ -39,18 +39,16 @@
 
 <ng-template #menuList>
   <ul>
+    <li><a [routerLink]="AppRoutes.Home" routerLinkActive="active" (click)="isMenuOpen = false">Accueil</a></li>
     <li><a [routerLink]="AppRoutes.Rsvp" routerLinkActive="active" (click)="isMenuOpen = false">RSVP</a></li>
     <li>
       <a [routerLink]="AppRoutes.Program" routerLinkActive="active" (click)="isMenuOpen = false">Programme</a>
     </li>
     <li>
-      <a [routerLink]="AppRoutes.Accommodations" routerLinkActive="active" (click)="isMenuOpen = false">Hébergement</a>
+      <a [routerLink]="AppRoutes.Info" routerLinkActive="active" (click)="isMenuOpen = false">Informations Utiles</a>
     </li>
     <li>
       <a [routerLink]="AppRoutes.WhishList" routerLinkActive="active" (click)="isMenuOpen = false">Liste de Marage</a>
-    </li>
-    <li>
-      <a [routerLink]="AppRoutes.Info" routerLinkActive="active" (click)="isMenuOpen = false">Informations Utiles</a>
     </li>
   </ul>
 </ng-template>

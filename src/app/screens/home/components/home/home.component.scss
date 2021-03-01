@@ -1,0 +1,14 @@
+@import 'variables';
+
+.momo-home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: $content-max-width;
+  padding: 20px;
+
+  h2,
+  p {
+    text-align: center;
+  }
+}

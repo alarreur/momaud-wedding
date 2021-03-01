@@ -12,7 +12,7 @@ import { GuestService } from '@app/services';
 // local
 import { Step } from '../models';
 
-const initialSteps = [Step.Welcome, Step.GuestSelection, Step.Email];
+const initialSteps = [Step.GuestSelection, Step.Email];
 
 @Injectable({ providedIn: 'root' })
 export class StepService {
