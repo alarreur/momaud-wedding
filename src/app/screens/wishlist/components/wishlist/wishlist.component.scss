@@ -1,0 +1,30 @@
+@import 'variables';
+
+.momo-wishlist {
+  display: flex;
+  flex-direction: column;
+  max-width: $content-max-width;
+  padding: 20px;
+
+  h2 {
+    display: none;
+  }
+
+  /* Smartphones screen (portrait) properties */
+  @media only screen and (max-width: $smartphone-width-breakpoint) {
+    h2 {
+      display: block;
+      text-align: center;
+    }
+  }
+
+  img {
+    width: 100%;
+  }
+
+  .prizepool {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+}

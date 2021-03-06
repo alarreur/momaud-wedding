@@ -1,6 +1,18 @@
 @import 'variables';
 
 .momo-rsvp {
+  h2 {
+    display: none;
+  }
+
+  /* Smartphones screen (portrait) properties */
+  @media only screen and (max-width: $smartphone-width-breakpoint) {
+    h2 {
+      display: block;
+      text-align: center;
+    }
+  }
+
   .step-list {
     height: $step-height;
     overflow: hidden;

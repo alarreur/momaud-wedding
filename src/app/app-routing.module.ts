@@ -24,6 +24,7 @@ import { LoginComponent } from './components';
 import { AppRoute } from './models';
 import { HomeComponent } from './screens/home';
 import { InfoComponent } from './screens/info';
+import { WishlistComponent } from './screens/wishlist';
 
 // const adminOnly = () => hasCustomClaim('admin');
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
@@ -45,7 +46,7 @@ const routes: Routes = [
   { path: AppRoute.Rsvp, component: RsvpComponent },
   { path: AppRoute.Program, component: ProgramComponent },
   { path: AppRoute.Info, component: InfoComponent },
-  { path: AppRoute.WhishList, component: RsvpComponent },
+  { path: AppRoute.Wishlist, component: WishlistComponent },
   {
     path: AppRoute.Admin,
     loadChildren: () => import('./screens/admin/admin.module').then((module) => module.AdminModule),

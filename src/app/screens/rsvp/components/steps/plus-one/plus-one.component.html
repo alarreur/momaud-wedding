@@ -6,13 +6,13 @@
   <div class="step-body">
     <p *ngIf="!isOverallAttending">
       Votre présence parmi nous sera fortement regrettée. Nous aimerions toutefois savoir si par chance
-      <span class="name">{{ plusOne?.firstName }}</span
+      <em>{{ plusOne?.firstName }}</em
       >&nbsp;pourra se joindre à nous.
     </p>
 
     <p *ngIf="isOverallAttending">
       Nous nous rejouissons à l'avance de votre présence parmi nous. Nous espérons également que
-      <span class="name">{{ plusOne?.firstName }}</span
+      <em>{{ plusOne?.firstName }}</em
       >&nbsp;pourra se joindre à nous.
     </p>
 
