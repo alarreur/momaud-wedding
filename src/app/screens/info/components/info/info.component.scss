@@ -16,6 +16,11 @@
     font-size: 1.2rem;
   }
 
+  ul {
+    list-style: none;
+    line-height: 1.8rem;
+  }
+
   /* Smartphones screen (portrait) properties */
   @media only screen and (max-width: $smartphone-width-breakpoint) {
     h2 {

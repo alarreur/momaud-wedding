@@ -1,4 +1,4 @@
-import { IEnvironment, RSVP_TRANSITION_DELAY, SMALLSCREEN_WIDTH_BREAKPOINT } from './i-environment';
+import { IEnvironment, KEY_ADDRESSES, LYDIA_LINK, RSVP_TRANSITION_DELAY, SMALLSCREEN_WIDTH_BREAKPOINT } from './i-environment';
 
 export const environment: IEnvironment = {
   production: true,
@@ -16,4 +16,6 @@ export const environment: IEnvironment = {
   },
   smallScreenBreakpoint: SMALLSCREEN_WIDTH_BREAKPOINT,
   rsvpTransitionDelay: RSVP_TRANSITION_DELAY,
+  keyAdresses: KEY_ADDRESSES,
+  lydiaLink: LYDIA_LINK,
 };
