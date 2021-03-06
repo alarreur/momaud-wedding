@@ -1,5 +1,12 @@
 export const SMALLSCREEN_WIDTH_BREAKPOINT = 801;
 export const RSVP_TRANSITION_DELAY = 1000;
+export const LYDIA_LINK = 'https://lydia-app.com/collect/29103-lune-de-miel/fr';
+
+export const KEY_ADDRESSES: KeyAddresses = {
+  church: 'https://goo.gl/maps/uiF4oQ12JfbXY1gdA',
+  sainteAnne: 'https://goo.gl/maps/QhPcdu8yPiWHC3f17',
+  avignonTgv: 'https://goo.gl/maps/dTXJUicPZbD1GzZHA',
+};
 
 export interface IEnvironment {
   production: boolean;
@@ -8,4 +15,12 @@ export interface IEnvironment {
   adminBaseApi: string;
   smallScreenBreakpoint: number;
   rsvpTransitionDelay: number;
+  keyAdresses: KeyAddresses;
+  lydiaLink: string;
+}
+
+export interface KeyAddresses {
+  church: string;
+  sainteAnne: string;
+  avignonTgv: string;
 }

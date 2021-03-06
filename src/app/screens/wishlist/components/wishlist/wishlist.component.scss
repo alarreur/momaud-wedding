@@ -1,6 +1,11 @@
 @import 'variables';
 
-.momo-rsvp {
+.momo-wishlist {
+  display: flex;
+  flex-direction: column;
+  max-width: $content-max-width;
+  padding: 20px;
+
   h2 {
     display: none;
   }
@@ -13,8 +18,13 @@
     }
   }
 
-  .step-list {
-    height: $step-height;
-    overflow: hidden;
+  img {
+    width: 100%;
+  }
+
+  .prizepool {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
   }
 }

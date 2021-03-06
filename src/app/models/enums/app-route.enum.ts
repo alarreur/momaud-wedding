@@ -2,7 +2,7 @@ export enum AppRoute {
   Rsvp = 'rsvp',
   Program = 'programme',
   Home = 'accueil',
-  WhishList = 'liste',
+  Wishlist = 'liste-mariage',
   Info = 'infos',
   Admin = 'admin',
   Login = 'login',

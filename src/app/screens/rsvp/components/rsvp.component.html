@@ -1,4 +1,5 @@
 <div class="momo-rsvp">
+  <h2>RSVP</h2>
   <ng-container *ngIf="steps$ | async as steps; else loading">
     <div class="step-list">
       <div class="step-container" *ngFor="let step of steps; index as i" [style]="getTranslateStyle()">
