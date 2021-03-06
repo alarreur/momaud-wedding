@@ -5,10 +5,8 @@
     td {
       background: none;
       border: none;
-    }
-
-    td:first-child {
-      font-weight: bold;
+      font-size: 1.3rem;
+      font-weight: normal;
     }
   }
 
@@ -18,7 +16,7 @@
   }
 
   .pi {
-    font-size: 1.5em;
+    font-size: 1.5rem;
   }
 
   .pi-check {

@@ -10,14 +10,10 @@
     display: none;
   }
 
-  p {
-    text-align: justify;
-  }
-
-  .warning {
+  p .warning {
     color: rgb(201, 57, 57);
-    font-size: 1.2em;
     vertical-align: middle;
+    font-size: 1.2rem;
   }
 
   /* Smartphones screen (portrait) properties */

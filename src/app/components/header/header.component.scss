@@ -23,23 +23,24 @@
 
       .title,
       .subtitle {
-        // font-family: bellamy;
-        font-family: calligraphy;
-        text-transform: capitalize;
         color: $primary-color;
+      }
+
+      .title {
+        font-family: $font-family-logo;
+        text-transform: capitalize;
+        margin-top: 50px;
+        font-size: 45px;
+        margin-left: -35px;
+      }
+
+      .subtitle {
+        font-size: 25px;
+        font-style: italic;
       }
 
       /* Regular screen properties */
       margin-top: 50px;
-
-      .title {
-        margin-top: 50px;
-        font-size: 3em;
-      }
-
-      .subtitle {
-        font-size: 1.6em;
-      }
     }
   }
 }

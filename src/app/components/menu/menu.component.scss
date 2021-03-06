@@ -7,12 +7,10 @@
 
   ul {
     list-style-type: none;
-    width: 30em;
+    width: 740px;
     display: flex;
     justify-content: space-between;
-
-    font-family: $font-family-header;
-    font-size: 1.8em;
+    font-size: 1.8rem;
 
     li a {
       color: $primary-color;

@@ -4,7 +4,6 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  max-width: $content-max-width;
   height: $step-height;
   padding: 20px;
 
@@ -21,21 +20,17 @@
     width: 300px;
   }
 
+  // regular screens
+  width: $content-max-width;
+
   /* Smartphones screen (portrait) properties */
   @media only screen and (max-width: $smartphone-width-breakpoint) {
+    width: auto;
+
     .step-body,
     .step-footer {
       width: 100%;
     }
-  }
-
-  h2,
-  p {
-    text-align: center;
-  }
-
-  .small {
-    font-size: 0.8em;
   }
 
   .p-invalid {
@@ -44,7 +39,7 @@
 
   ::ng-deep {
     .p-inputtext.guest-input {
-      width: 350px;
+      width: 300px;
       background: transparent;
       border: none;
       border-bottom: solid 1px;
@@ -52,11 +47,6 @@
 
       &:focus {
         box-shadow: none;
-      }
-
-      /* Smartphones screen (portrait) properties */
-      @media only screen and (max-width: $smartphone-width-breakpoint) {
-        width: 100%;
       }
     }
 

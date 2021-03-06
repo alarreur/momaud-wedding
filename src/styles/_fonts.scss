@@ -1,59 +1,155 @@
 @font-face {
-  font-family: apercu-pro;
-  src: url(../assets/fonts/apercu-pro/ApercuPro-Bold.woff2) format('woff2');
-}
-
-@font-face {
-  font-family: apercu-pro;
-  src: url(../assets/fonts/apercu-pro/ApercuPro-Bold.woff2) format('woff2');
+  font-family: 'MrsEavesSmartLig';
+  src: url('../assets/fonts/mrseaves/MrsEavesSmartLig-Bold.eot');
+  src: url('../assets/fonts/mrseaves/MrsEavesSmartLig-Bold.eot?#iefix') format('embedded-opentype'),
+    url('../assets/fonts/mrseaves/MrsEavesSmartLig-Bold.woff2') format('woff2'),
+    url('../assets/fonts/mrseaves/MrsEavesSmartLig-Bold.woff') format('woff'),
+    url('../assets/fonts/mrseaves/MrsEavesSmartLig-Bold.ttf') format('truetype');
   font-weight: bold;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: apercu-pro;
-  src: url(../assets/fonts/apercu-pro/ApercuPro-Italic.woff2) format('woff2');
+  font-family: 'MrsEavesFractions';
+  src: url('../assets/fonts/mrseaves/MrsEavesFractions.eot');
+  src: url('../assets/fonts/mrseaves/MrsEavesFractions.eot?#iefix') format('embedded-opentype'),
+    url('../assets/fonts/mrseaves/MrsEavesFractions.woff2') format('woff2'),
+    url('../assets/fonts/mrseaves/MrsEavesFractions.woff') format('woff'),
+    url('../assets/fonts/mrseaves/MrsEavesFractions.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MrsEavesJustLig';
+  src: url('../assets/fonts/mrseaves/MrsEavesJustLig-Italic.eot');
+  src: url('../assets/fonts/mrseaves/MrsEavesJustLig-Italic.eot?#iefix') format('embedded-opentype'),
+    url('../assets/fonts/mrseaves/MrsEavesJustLig-Italic.woff2') format('woff2'),
+    url('../assets/fonts/mrseaves/MrsEavesJustLig-Italic.woff') format('woff'),
+    url('../assets/fonts/mrseaves/MrsEavesJustLig-Italic.ttf') format('truetype');
+  font-weight: normal;
   font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: apercu-pro;
-  src: url(../assets/fonts/apercu-pro/ApercuPro-Light.woff2) format('woff2');
-  font-weight: lighter;
+  font-family: 'MrsEaves';
+  src: url('../assets/fonts/mrseaves/MrsEaves-Italic.eot');
+  src: url('../assets/fonts/mrseaves/MrsEaves-Italic.eot?#iefix') format('embedded-opentype'),
+    url('../assets/fonts/mrseaves/MrsEaves-Italic.woff2') format('woff2'),
+    url('../assets/fonts/mrseaves/MrsEaves-Italic.woff') format('woff'),
+    url('../assets/fonts/mrseaves/MrsEaves-Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: bellamy;
-  src: url(../assets/fonts/bellamy/bellamy.ttf);
+  font-family: 'MrsEavesJustLig';
+  src: url('../assets/fonts/mrseaves/MrsEavesJustLig-Bold.eot');
+  src: url('../assets/fonts/mrseaves/MrsEavesJustLig-Bold.eot?#iefix') format('embedded-opentype'),
+    url('../assets/fonts/mrseaves/MrsEavesJustLig-Bold.woff2') format('woff2'),
+    url('../assets/fonts/mrseaves/MrsEavesJustLig-Bold.woff') format('woff'),
+    url('../assets/fonts/mrseaves/MrsEavesJustLig-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: calligraphy;
-  src: url(../assets/fonts/calligraphy/calligraphy.ttf);
+  font-family: 'MrsEavesSmartLig';
+  src: url('../assets/fonts/mrseaves/MrsEavesSmartLig-Italic.eot');
+  src: url('../assets/fonts/mrseaves/MrsEavesSmartLig-Italic.eot?#iefix') format('embedded-opentype'),
+    url('../assets/fonts/mrseaves/MrsEavesSmartLig-Italic.woff2') format('woff2'),
+    url('../assets/fonts/mrseaves/MrsEavesSmartLig-Italic.woff') format('woff'),
+    url('../assets/fonts/mrseaves/MrsEavesSmartLig-Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: violina;
-  src: url(../assets/fonts/violina/violina-regular.ttf);
+  font-family: 'MrsEavesSmartLigRoman';
+  src: url('../assets/fonts/mrseaves/MrsEavesSmartLigRoman.eot');
+  src: url('../assets/fonts/mrseaves/MrsEavesSmartLigRoman.eot?#iefix') format('embedded-opentype'),
+    url('../assets/fonts/mrseaves/MrsEavesSmartLigRoman.woff2') format('woff2'),
+    url('../assets/fonts/mrseaves/MrsEavesSmartLigRoman.woff') format('woff'),
+    url('../assets/fonts/mrseaves/MrsEavesSmartLigRoman.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: olimpia;
-  src: url(../assets/fonts/olimpia/olimpia.ttf);
+  font-family: 'MrsEaves';
+  src: url('../assets/fonts/mrseaves/MrsEaves-Bold.eot');
+  src: url('../assets/fonts/mrseaves/MrsEaves-Bold.eot?#iefix') format('embedded-opentype'),
+    url('../assets/fonts/mrseaves/MrsEaves-Bold.woff2') format('woff2'),
+    url('../assets/fonts/mrseaves/MrsEaves-Bold.woff') format('woff'),
+    url('../assets/fonts/mrseaves/MrsEaves-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
 }
-
-// @font-face {
-//   font-family: olimpia;
-//   src: url(../assets/fonts/olimpia/olimpia-italic.ttf);
-//   font-style: italic;
-// }
 
 @font-face {
-  font-family: massa;
-  src: url(../assets/fonts/massa/massa-regular.ttf);
+  font-family: 'MrsEavesJustLigRoman';
+  src: url('../assets/fonts/mrseaves/MrsEavesJustLigRoman.eot');
+  src: url('../assets/fonts/mrseaves/MrsEavesJustLigRoman.eot?#iefix') format('embedded-opentype'),
+    url('../assets/fonts/mrseaves/MrsEavesJustLigRoman.woff2') format('woff2'),
+    url('../assets/fonts/mrseaves/MrsEavesJustLigRoman.woff') format('woff'),
+    url('../assets/fonts/mrseaves/MrsEavesJustLigRoman.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
-// @font-face {
-//   font-family: massa;
-//   src: url(../assets/fonts/massa/massa-bold.ttf);
-//   font-style: bold;
-// }
+@font-face {
+  font-family: 'MrsEavesPetiteCaps';
+  src: url('../assets/fonts/mrseaves/MrsEavesPetiteCaps.eot');
+  src: url('../assets/fonts/mrseaves/MrsEavesPetiteCaps.eot?#iefix') format('embedded-opentype'),
+    url('../assets/fonts/mrseaves/MrsEavesPetiteCaps.woff2') format('woff2'),
+    url('../assets/fonts/mrseaves/MrsEavesPetiteCaps.woff') format('woff'),
+    url('../assets/fonts/mrseaves/MrsEavesPetiteCaps.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MrsEavesSmallCaps';
+  src: url('../assets/fonts/mrseaves/MrsEavesSmallCaps.eot');
+  src: url('../assets/fonts/mrseaves/MrsEavesSmallCaps.eot?#iefix') format('embedded-opentype'),
+    url('../assets/fonts/mrseaves/MrsEavesSmallCaps.woff2') format('woff2'),
+    url('../assets/fonts/mrseaves/MrsEavesSmallCaps.woff') format('woff'),
+    url('../assets/fonts/mrseaves/MrsEavesSmallCaps.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MrsEavesRoman';
+  src: url('../assets/fonts/mrseaves/MrsEavesRoman.eot');
+  src: url('../assets/fonts/mrseaves/MrsEavesRoman.eot?#iefix') format('embedded-opentype'),
+    url('../assets/fonts/mrseaves/MrsEavesRoman.woff2') format('woff2'),
+    url('../assets/fonts/mrseaves/MrsEavesRoman.woff') format('woff'),
+    url('../assets/fonts/mrseaves/MrsEavesRoman.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Jellyka Western Princess';
+  src: url('../assets/fonts/jellyka-western-princess/JellykaWesternPrincess.eot');
+  src: url('../assets/fonts/jellyka-western-princess/JellykaWesternPrincess.eot?#iefix') format('embedded-opentype'),
+    url('../assets/fonts/jellyka-western-princess/JellykaWesternPrincess.woff2') format('woff2'),
+    url('../assets/fonts/jellyka-western-princess/JellykaWesternPrincess.woff') format('woff'),
+    url('../assets/fonts/jellyka-western-princess/JellykaWesternPrincess.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}

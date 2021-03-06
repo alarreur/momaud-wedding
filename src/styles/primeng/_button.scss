@@ -18,3 +18,7 @@ $primary-button-color: $primary-color;
 .p-button:not(.p-button-outlined) .p-button-label {
   color: #fff;
 }
+
+.p-button.p-button-lg {
+  font-size: 1.4rem;
+}

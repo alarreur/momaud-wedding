@@ -6,8 +6,9 @@
 
 body {
   background-image: url(../assets/invite-paper.png);
-  font-size: 16px;
+  font-size: 22px;
   font-family: $font-family;
+  font-style: italic;
 }
 
 h1,
@@ -17,8 +18,6 @@ h4,
 h5,
 h6 {
   margin: 1.5rem 0 1rem;
-  font-family: $font-family;
-  font-weight: bold;
   color: $primary-color;
   line-height: 1.2;
 }
@@ -32,8 +31,13 @@ h5 {
 }
 
 p {
-  line-height: 1.5em;
+  line-height: 1.3em;
+  margin-block-start: 1rem;
+  margin-block-end: 0;
   color: $primary-color;
+  font-family: $font-family-paragraph;
+  font-style: normal;
+  text-align: justify;
 }
 
 .small {
@@ -46,5 +50,4 @@ a {
 
 em {
   color: $stand-out-color;
-  font-style: normal;
 }
