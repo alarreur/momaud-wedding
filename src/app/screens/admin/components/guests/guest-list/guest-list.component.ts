@@ -91,9 +91,6 @@ export class GuestListComponent implements OnInit {
           cellRendererParams: <RelativeCellRendererParams>{
             guests$: this.guests$,
           },
-          // valueFormatter: (params: GuestValueFormatterParams) => {
-          //   return params.value && params.api.getRowNode(params.value).data.fullName;
-          // },
         },
       },
       columnDefs: [
