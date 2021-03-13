@@ -20,9 +20,7 @@ import { AutoComplete } from 'primeng/autocomplete';
 // app
 import { Guest } from '@app/models';
 import { StepService } from '@app/screens/rsvp/services';
-import { environment } from '@environment';
-
-const SIGNED_IN_GUEST_KEY = 'signedInGuestId';
+import { environment, SIGNED_IN_GUEST_KEY } from '@environment';
 
 @Component({
   selector: 'momo-guest-selection',
