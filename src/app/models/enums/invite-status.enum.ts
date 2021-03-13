@@ -6,7 +6,7 @@ export enum InviteStatus {
 }
 
 export namespace InviteStatus {
-  export function toString(status: InviteStatus) {
+  export function toString(status: InviteStatus): string {
     switch (status) {
       case InviteStatus.Invited:
         return 'Invité';

@@ -36,7 +36,7 @@ export class RsvpComponent implements OnInit {
   }
 
   @HostListener('window:keydown', ['$event'])
-  public onKeydown(event: KeyboardEvent) {
+  public onKeydown(event: KeyboardEvent): void {
     if (event.key.toLowerCase() === 'tab') {
       // tab navigation breaks animation by giving focus on next element
       event.preventDefault();
@@ -63,7 +63,7 @@ export class RsvpComponent implements OnInit {
     this.navForward();
   }
 
-  public getTranslateStyle() {
+  public getTranslateStyle(): any {
     return {
       transform: `translate3d(0, -${this.currentStepIndex * 100}%, 0)`,
       transition: `transform ${environment.rsvpTransitionDelay}ms ease 0s`,

@@ -4,7 +4,7 @@ export enum GuestCategory {
 }
 
 export namespace GuestCategory {
-  export function toString(status: GuestCategory) {
+  export function toString(status: GuestCategory): string {
     switch (status) {
       case GuestCategory.Family:
         return 'Famille';

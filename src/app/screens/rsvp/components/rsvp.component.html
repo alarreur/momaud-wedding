@@ -8,7 +8,7 @@
           <momo-guest-selection
             *ngSwitchCase="Step.GuestSelection"
             [isCurrentStep]="currentStepIndex === i"
-            (onSelected)="onGuestSelected($event)"
+            (selected)="onGuestSelected($event)"
           ></momo-guest-selection>
 
           <!-- GUEST EMAIL -->
@@ -16,8 +16,8 @@
             *ngSwitchCase="Step.Email"
             [guest]="guest"
             [isCurrentStep]="currentStepIndex === i"
-            (onPrevious)="navBackward()"
-            (onNext)="guest = $event; navForward()"
+            (previous)="navBackward()"
+            (next)="guest = $event; navForward()"
           ></momo-email>
 
           <!-- GUEST CEREMONY STATUS -->
@@ -26,8 +26,8 @@
             [step]="Step.Ceremony"
             [guest]="guest"
             [isCurrentStep]="currentStepIndex === i"
-            (onPrevious)="guest = $event; navBackward()"
-            (onNext)="guest = $event; navForward()"
+            (previous)="guest = $event; navBackward()"
+            (next)="guest = $event; navForward()"
           ></momo-answer>
 
           <!-- GUEST COCKTAIL STATUS -->
@@ -36,8 +36,8 @@
             [step]="Step.Cocktail"
             [guest]="guest"
             [isCurrentStep]="currentStepIndex === i"
-            (onPrevious)="guest = $event; navBackward()"
-            (onNext)="guest = $event; navForward()"
+            (previous)="guest = $event; navBackward()"
+            (next)="guest = $event; navForward()"
           ></momo-answer>
 
           <!-- GUEST DINER STATUS -->
@@ -46,8 +46,8 @@
             [step]="Step.Diner"
             [guest]="guest"
             [isCurrentStep]="currentStepIndex === i"
-            (onPrevious)="guest = $event; navBackward()"
-            (onNext)="guest = $event; navForward()"
+            (previous)="guest = $event; navBackward()"
+            (next)="guest = $event; navForward()"
           ></momo-answer>
 
           <!-- GUEST DINER STATUS -->
@@ -56,8 +56,8 @@
             [step]="Step.Brunch"
             [guest]="guest"
             [isCurrentStep]="currentStepIndex === i"
-            (onPrevious)="navBackward()"
-            (onNext)="guest = $event; navForward()"
+            (previous)="navBackward()"
+            (next)="guest = $event; navForward()"
           ></momo-answer>
 
           <!-- PLUS ONE WELCOME -->
@@ -66,8 +66,8 @@
             [guest]="guest"
             [plusOne]="plusOne"
             [isCurrentStep]="currentStepIndex === i"
-            (onPrevious)="navBackward()"
-            (onNext)="navForward()"
+            (previous)="navBackward()"
+            (next)="navForward()"
           ></momo-plus-one>
 
           <!-- PLUS ONE EMAIL -->
@@ -76,8 +76,8 @@
             [guest]="plusOne"
             [isPlusOne]="true"
             [isCurrentStep]="currentStepIndex === i"
-            (onPrevious)="navBackward()"
-            (onNext)="plusOne = $event; navForward()"
+            (previous)="navBackward()"
+            (next)="plusOne = $event; navForward()"
           ></momo-email>
 
           <!-- PLUS ONE CEREMONY STATUS -->
@@ -86,8 +86,8 @@
             [step]="Step.PlusOneCeremony"
             [guest]="plusOne"
             [isCurrentStep]="currentStepIndex === i"
-            (onPrevious)="plusOne = $event; navBackward()"
-            (onNext)="plusOne = $event; navForward()"
+            (previous)="plusOne = $event; navBackward()"
+            (next)="plusOne = $event; navForward()"
           ></momo-answer>
 
           <!-- PLUS ONE COCKTAIL STATUS -->
@@ -96,8 +96,8 @@
             [step]="Step.PlusOneCocktail"
             [guest]="plusOne"
             [isCurrentStep]="currentStepIndex === i"
-            (onPrevious)="plusOne = $event; navBackward()"
-            (onNext)="plusOne = $event; navForward()"
+            (previous)="plusOne = $event; navBackward()"
+            (next)="plusOne = $event; navForward()"
           ></momo-answer>
 
           <!-- PLUS ONE DINER STATUS -->
@@ -106,8 +106,8 @@
             [step]="Step.PlusOneDiner"
             [guest]="plusOne"
             [isCurrentStep]="currentStepIndex === i"
-            (onPrevious)="plusOne = $event; navBackward()"
-            (onNext)="plusOne = $event; navForward()"
+            (previous)="plusOne = $event; navBackward()"
+            (next)="plusOne = $event; navForward()"
           ></momo-answer>
 
           <!-- PLUS ONE BRUNCH STATUS -->
@@ -116,8 +116,8 @@
             [step]="Step.PlusOneBrunch"
             [guest]="plusOne"
             [isCurrentStep]="currentStepIndex === i"
-            (onPrevious)="plusOne = $event; navBackward()"
-            (onNext)="plusOne = $event; navForward()"
+            (previous)="plusOne = $event; navBackward()"
+            (next)="plusOne = $event; navForward()"
           ></momo-answer>
 
           <!-- RECAP -->
@@ -126,8 +126,8 @@
             [guest]="guest"
             [plusOne]="plusOne"
             [isCurrentStep]="currentStepIndex === i"
-            (onPrevious)="navBackward()"
-            (onNext)="redirectToProgram()"
+            (previous)="navBackward()"
+            (next)="redirectToProgram()"
           ></momo-recap>
 
           <!-- UNKNOWN / ERROR -->

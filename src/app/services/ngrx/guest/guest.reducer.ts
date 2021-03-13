@@ -1,4 +1,6 @@
 // ngrx
+import { GuestDto } from '@app/models';
+import { EntityState } from '@ngrx/entity';
 import { Action, createReducer, on } from '@ngrx/store';
 
 // local
@@ -14,7 +16,7 @@ const guestReducer = createReducer(
     const newIndices = state.loadedIndices.slice();
     newIndices[index] = guest.id;
 
-    const newState = { ...state, loaddedIndices: newIndices };
+    const newState = { ...state, loadedIndices: newIndices };
 
     return adapter.addOne<GuestState>(guest, newState);
   }),
@@ -26,7 +28,7 @@ const guestReducer = createReducer(
       newIndices[oldIndex] = undefined;
       newIndices[newIndex] = guest.id;
 
-      newState = { ...state, loaddedIndices: newIndices };
+      newState = { ...state, loadedIndices: newIndices };
     }
 
     return adapter.updateOne<GuestState>(
@@ -41,12 +43,12 @@ const guestReducer = createReducer(
     const newIndices = state.loadedIndices.slice();
     newIndices[index] = undefined;
 
-    const newState = { ...state, loaddedIndices: newIndices };
+    const newState = { ...state, loadedIndices: newIndices };
 
     return adapter.removeOne<GuestState>(guest.id, newState);
   })
 );
 
-export function reducer(state: GuestState | undefined, action: Action) {
+export function reducer(state: GuestState | undefined, action: Action): EntityState<GuestDto> & GuestState {
   return guestReducer(state, action);
 }

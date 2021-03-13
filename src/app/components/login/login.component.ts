@@ -42,18 +42,20 @@ export class LoginComponent implements OnInit {
     if (this.form.valid) {
       this.submitting$.next(true);
       this._submitted = true;
-      from(this._auth.signInWithEmailAndPassword(this.emailControl.value, this.passwordControl.value)).subscribe(
-        (user) => {
-          const redirectTo = this._route.snapshot.queryParams['redirectTo'] || `/${AppRoute.Admin}`;
+      from(this._auth.signInWithEmailAndPassword(this.emailControl.value, this.passwordControl.value)).subscribe({
+        next: (user) => {
+          const redirectTo = this._route.snapshot.queryParams.redirectTo || `/${AppRoute.Admin}`;
 
+          // tslint:disable: no-console
           console.info(`[LoginComponent] User ${user.user.email} signed in`);
           console.info(`[LoginComponent] User redirected to "${redirectTo}"`);
+          // tslint:enable: no-console
 
           this._router.navigate([redirectTo]);
 
           this.submitting$.next(false);
         },
-        ({ code, message }) => {
+        error: ({ code, message }) => {
           // dispatch the errors to the proper formControl
           switch (code) {
             case AuthErrorCode.UserDisabled:
@@ -75,8 +77,8 @@ export class LoginComponent implements OnInit {
 
           this.submitting$.next(false);
           this._cdr.detectChanges();
-        }
-      );
+        },
+      });
     }
   }
 

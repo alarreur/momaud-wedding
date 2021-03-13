@@ -31,8 +31,8 @@ export class RecapComponent implements OnChanges, OnDestroy {
   @Input() public guest: Guest;
   @Input() public plusOne: Guest;
   @Input() public isCurrentStep: boolean;
-  @Output() onPrevious = new EventEmitter<void>();
-  @Output() onNext = new EventEmitter<void>();
+  @Output() previous = new EventEmitter<void>();
+  @Output() next = new EventEmitter<void>();
 
   public isSaving: boolean = false;
 
@@ -61,7 +61,7 @@ export class RecapComponent implements OnChanges, OnDestroy {
         },
       ];
 
-      let answers: {
+      const answers: {
         [Step.Ceremony]?: { guest: boolean; plusOne: boolean };
         [Step.Cocktail]?: { guest: boolean; plusOne: boolean };
         [Step.Diner]?: { guest: boolean; plusOne: boolean };
@@ -115,11 +115,11 @@ export class RecapComponent implements OnChanges, OnDestroy {
       }
 
       this.answers = Object.keys(answers)
-        .map((step) => parseInt(step))
+        .map((step) => parseInt(step, null))
         .map((step) => ({
           step: Step.translate(step),
-          guest: answers[step].guest,
-          plusOne: answers[step].plusOne,
+          guest: (answers as any)[step].guest,
+          plusOne: (answers as any)[step].plusOne,
         }));
     }
   }
@@ -128,15 +128,15 @@ export class RecapComponent implements OnChanges, OnDestroy {
     this._subscriptions.unsubscribe();
   }
 
-  public previous(): void {
-    this.onPrevious.emit();
+  public onPrevious(): void {
+    this.previous.emit();
   }
 
   public save(): void {
     this.isSaving = true;
     this._subscriptions.add(
-      this._stepService.save(this.guest, this.plusOne).subscribe(
-        () => {
+      this._stepService.save(this.guest, this.plusOne).subscribe({
+        next: () => {
           this._confirmationService.confirm({
             header: 'Réponses sauvegardées !',
             icon: 'pi pi-check',
@@ -144,12 +144,12 @@ export class RecapComponent implements OnChanges, OnDestroy {
             acceptLabel: 'Ok',
             accept: () => {
               this.isSaving = false;
-              this.onNext.emit();
+              this.next.emit();
             },
             rejectVisible: false,
           });
         },
-        (error) => {
+        error: (error) => {
           console.log(error);
           this._confirmationService.confirm({
             header: 'Erreur !',
@@ -161,8 +161,8 @@ export class RecapComponent implements OnChanges, OnDestroy {
             },
             rejectVisible: false,
           });
-        }
-      )
+        },
+      })
     );
   }
 }

@@ -33,24 +33,24 @@ export class GuestFormComponent implements OnInit, OnChanges {
 
   public inviteStatuses = Object.keys(InviteStatus)
     .filter((key) => key !== 'toString')
-    .map((key) => InviteStatus[key])
+    .map((key) => (InviteStatus as any)[key])
     .map((key: InviteStatus) => ({
-      key: key,
+      key,
       label: InviteStatus.toString(key),
     }));
 
   public categories = Object.keys(GuestCategory)
     .filter((key) => key !== 'toString')
-    .map((key) => GuestCategory[key])
+    .map((key) => (GuestCategory as any)[key])
     .map((key: GuestCategory) => ({
-      key: key,
+      key,
       label: GuestCategory.toString(key),
     }));
 
   public hosts = Object.keys(Host)
-    .map((key) => Host[key])
+    .map((key) => (Host as any)[key])
     .map((key: Host) => ({
-      key: key,
+      key,
       label: key,
     }));
 

@@ -151,11 +151,11 @@ export class GuestService {
 
   /**
    * Gets the plusOne or parent (called relatives) of a guest.
-   * @param  {Transaction} transaction
-   * @param  {CollectionReference} collectionRef
-   * @param  {GuestDto} guest The guest for which to fetch the relatives
-   * @param  {string} propertyForRelativeFetch The property for the relative fetch. Possible values are 'plusOneId'.
-   * @param  {boolean=true} fetchIndirectRelative Indicates whether to fetch the relative's relative as well.
+   * @param  transaction The transaction
+   * @param  collectionRef The collection refernce
+   * @param  guest The guest for which to fetch the relatives
+   * @param  propertyForRelativeFetch The property for the relative fetch. Possible values are 'plusOneId'.
+   * @param  fetchIndirectRelative Indicates whether to fetch the relative's relative as well.
    * @returns The direct relative with its indirect relative (ie the relative's relative).
    */
   private getPropertyRelatives(
@@ -171,11 +171,11 @@ export class GuestService {
     if (!guest[propertyForRelativeFetch]) {
       return of(null);
     } else {
-      let directRelativeRef = collectionRef.doc(guest[propertyForRelativeFetch]);
+      const directRelativeRef = collectionRef.doc(guest[propertyForRelativeFetch]);
 
       return from(transaction.get(directRelativeRef)).pipe(
         switchMap((directRelativeSnapshot) => {
-          let directRelativeDto = <GuestDto>{ id: directRelativeSnapshot.id, ...directRelativeSnapshot.data() };
+          const directRelativeDto = <GuestDto>{ id: directRelativeSnapshot.id, ...directRelativeSnapshot.data() };
 
           const directRelative = {
             ref: directRelativeRef,

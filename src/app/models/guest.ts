@@ -1,4 +1,3 @@
-import { stringToArray } from 'ag-grid-community';
 import { GuestDto } from './dtos';
 import { GuestCategory } from './enums/guest-category.enum';
 import { Host } from './enums/host.enum';
@@ -37,6 +36,10 @@ export class Guest {
     this.parentId = dto.parentId;
   }
 
+  public static sortByLastName(a: Guest, b: Guest): number {
+    return a.lastName.localeCompare(b.lastName);
+  }
+
   public isSearchCandidate(searchTerm: string): boolean {
     return (
       searchTerm &&
@@ -73,9 +76,5 @@ export class Guest {
       parentId: this.parentId,
       plusOneId: this.plusOneId,
     };
-  }
-
-  public static sortByLastName(a: Guest, b: Guest): number {
-    return a.lastName.localeCompare(b.lastName);
   }
 }

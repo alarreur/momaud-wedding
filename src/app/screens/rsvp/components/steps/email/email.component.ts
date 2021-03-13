@@ -28,8 +28,8 @@ export class EmailComponent implements OnChanges {
   @Input() public guest: Guest;
   @Input() public isPlusOne: boolean;
   @Input() public isCurrentStep: boolean;
-  @Output() public onPrevious = new EventEmitter<void>();
-  @Output() public onNext = new EventEmitter<Guest>();
+  @Output() public previous = new EventEmitter<void>();
+  @Output() public next = new EventEmitter<Guest>();
 
   public email: string;
 
@@ -53,11 +53,11 @@ export class EmailComponent implements OnChanges {
     }
   }
 
-  public previous(): void {
-    this.onPrevious.emit();
+  public onPrevious(): void {
+    this.previous.emit();
   }
 
-  public next(): void {
-    this.onNext.emit(new Guest({ ...this.guest, email: this.email }));
+  public onNext(): void {
+    this.next.emit(new Guest({ ...this.guest, email: this.email }));
   }
 }
