@@ -13,10 +13,17 @@
     "target": "es2015",
     "module": "es2020",
     "lib": ["es2018", "dom"],
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "noImplicitAny": true,
     "paths": {
       "@environment": ["src/environments"],
       "@app/*": ["src/app/*"],
       "@data/*": ["src/data/*"]
     }
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "preserveWhitespaces": true
   }
 }

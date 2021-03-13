@@ -20,9 +20,7 @@ import { AutoComplete } from 'primeng/autocomplete';
 // app
 import { Guest } from '@app/models';
 import { StepService } from '@app/screens/rsvp/services';
-import { environment } from '@environment';
-
-const SIGNED_IN_GUEST_KEY = 'signedInGuestId';
+import { environment, SIGNED_IN_GUEST_KEY } from '@environment';
 
 @Component({
   selector: 'momo-guest-selection',
@@ -37,7 +35,7 @@ export class GuestSelectionComponent implements OnChanges {
   public searchGuest$: Subject<string> = new Subject();
 
   @Input() public isCurrentStep: boolean;
-  @Output() public onSelected = new EventEmitter<{ guest: Guest; plusOne?: Guest }>();
+  @Output() public selected = new EventEmitter<{ guest: Guest; plusOne?: Guest }>();
 
   @ViewChild(AutoComplete)
   public readonly guestSelection: AutoComplete;
@@ -58,9 +56,11 @@ export class GuestSelectionComponent implements OnChanges {
   }
 
   public signInGuest(): void {
-    this._stepService.signInGuest(this.guest).subscribe(({ guest, plusOne }) => {
-      window.localStorage.setItem(SIGNED_IN_GUEST_KEY, this.guest.id);
-      this.onSelected.emit({ guest, plusOne });
+    this._stepService.signInGuest(this.guest).subscribe({
+      next: ({ guest, plusOne }) => {
+        window.localStorage.setItem(SIGNED_IN_GUEST_KEY, this.guest.id);
+        this.selected.emit({ guest, plusOne });
+      },
     });
   }
 
@@ -68,9 +68,11 @@ export class GuestSelectionComponent implements OnChanges {
     const guestId = window.localStorage.getItem(SIGNED_IN_GUEST_KEY);
 
     if (guestId) {
-      this._stepService.getGuestById(guestId).subscribe((guest) => {
-        this.guest = guest;
-        this._cd.markForCheck();
+      this._stepService.getGuestById(guestId).subscribe({
+        next: (guest) => {
+          this.guest = guest;
+          this._cd.markForCheck();
+        },
       });
     }
   }

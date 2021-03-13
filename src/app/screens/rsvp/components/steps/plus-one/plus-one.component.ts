@@ -14,8 +14,8 @@ export class PlusOneComponent {
   @Input() public guest: Guest;
   @Input() public plusOne: Guest;
   @Input() public isCurrentStep: boolean;
-  @Output() onPrevious = new EventEmitter<void>();
-  @Output() onNext = new EventEmitter<void>();
+  @Output() previous = new EventEmitter<void>();
+  @Output() next = new EventEmitter<void>();
 
   public get isOverallAttending(): boolean {
     return (

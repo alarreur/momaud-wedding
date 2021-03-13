@@ -3,7 +3,6 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 // local
 import { Guest, GuestDto } from '@app/models';
-import { createFeatureSelector } from '@ngrx/store';
 
 export const GUEST_STATE_NAME = 'guests';
 

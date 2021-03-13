@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, ReplaySubject } from 'rxjs';
+import { Observable, of, ReplaySubject, Subject } from 'rxjs';
 
 /**
  * Inspired from https://admin.indepth.dev/responsive-angular/
@@ -26,4 +26,4 @@ export class MediaQueryService {
   }
 }
 
-const createListener = (matches) => (event) => matches.next(event.matches);
+const createListener = (matches: Subject<boolean>) => (event: any) => matches.next(event.matches);

@@ -27,7 +27,7 @@
       type="button"
       pButton
       label="Annuler"
-      (click)="deleteDialog.close()"
+      (click)="deleteDialog.close($event)"
       class="p-button-outlined p-button-secondary"
     ></button>
     <button type="button" pButton label="Oui" (click)="deleteDialog.accept()"></button>

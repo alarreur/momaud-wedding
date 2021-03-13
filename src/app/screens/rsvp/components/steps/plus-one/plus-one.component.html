@@ -28,7 +28,7 @@
       iconPos="left"
       icon="pi pi-angle-left"
       pRipple
-      (click)="this.onPrevious.emit(); $event.target.blur()"
+      (click)="this.previous.emit(); $event.target.blur()"
       [tabIndex]="isCurrentStep ? 0 : -1"
     ></button>
     <button
@@ -39,7 +39,7 @@
       icon="pi pi-angle-right"
       class="p-button-lg p-button-raised"
       pRipple
-      (click)="this.onNext.emit(); $event.target.blur()"
+      (click)="this.next.emit(); $event.target.blur()"
       [tabIndex]="isCurrentStep ? 1 : -1"
     ></button>
   </div>

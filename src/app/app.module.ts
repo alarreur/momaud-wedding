@@ -28,15 +28,10 @@ import { TooltipModule } from 'primeng/tooltip';
 // environment
 import { environment } from '@environment';
 
-// data
-import { guestListMock } from '@data/guest.mock';
-
 // local
 import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent, MenuComponent, LoginComponent, AppComponent } from './components';
 import { rootEffets, rootReducers } from './services/ngrx';
-import { GuestIoService } from './services/guest-io.service';
-import { GuestIoServiceMock } from './services/guest-io.service.mock';
 import { GuestService } from './services';
 import { RsvpModule } from './screens/rsvp/rsvp.module';
 import { smallScreenProvider } from './core/providers';
@@ -82,8 +77,6 @@ import { smallScreenProvider } from './core/providers';
     { provide: FUNCTIONS_ORIGIN, useFactory: () => (environment.useEmulators ? 'http://localhost:5001' : undefined) },
 
     GuestService,
-    // GuestIoService,
-    { provide: GuestIoService, useValue: new GuestIoServiceMock(guestListMock) },
 
     smallScreenProvider(environment.smallScreenBreakpoint),
   ],

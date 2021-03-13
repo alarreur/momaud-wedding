@@ -33,7 +33,7 @@
       iconPos="left"
       icon="pi pi-angle-left"
       pRipple
-      (click)="previous(); $event.target.blur()"
+      (click)="onPrevious(); $event.target.blur()"
       [tabIndex]="isCurrentStep ? 1 : -1"
     ></button>
     <button
@@ -44,7 +44,7 @@
       iconPos="right"
       icon="pi pi-angle-right"
       pRipple
-      (click)="next(); $event.target.blur()"
+      (click)="onNext(); $event.target.blur()"
       [disabled]="emailInput.invalid"
       [tabIndex]="isCurrentStep ? 2 : -1"
     ></button>

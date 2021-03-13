@@ -46,7 +46,7 @@ export class GuestListComponent implements OnInit {
     private _confirmationService: ConfirmationService
   ) {
     this.guests$ = this.filterGuest$.pipe(
-      startWith(null),
+      startWith(null as string),
       switchMap((searchTerm) =>
         _guestService.list().pipe(
           map((guests) => {
@@ -66,7 +66,7 @@ export class GuestListComponent implements OnInit {
     this.addDialogVisbility = false;
   }
 
-  private initOptions() {
+  private initOptions(): void {
     this.gridOptions = {
       getRowNodeId: (guest: Guest) => guest.id,
       defaultColDef: {
@@ -159,13 +159,13 @@ export class GuestListComponent implements OnInit {
     };
   }
 
-  private editGuest(guest: Guest) {
+  private editGuest(guest: Guest): void {
     this.editionGuest = guest;
     this.addDialogVisbility = true;
     this._cdr.detectChanges();
   }
 
-  private deleteGuest(guest: Guest) {
+  private deleteGuest(guest: Guest): void {
     this._confirmationService.confirm({
       key: 'deleteDialog',
       message: `Êtes-vous sûr de vouloir supprimer ${guest.fullName} ?`,

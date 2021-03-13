@@ -1,4 +1,5 @@
 // angular
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 // primeng
@@ -8,7 +9,7 @@ import { ProgramComponent } from './components';
 
 @NgModule({
   declarations: [ProgramComponent],
-  imports: [],
+  imports: [CommonModule],
   providers: [],
   exports: [ProgramComponent],
 })

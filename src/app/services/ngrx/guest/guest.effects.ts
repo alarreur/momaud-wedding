@@ -24,15 +24,13 @@ export class GuestEffects {
   public loadGuestList$ = createEffect(() =>
     this._actions$.pipe(
       ofType(GuestActions.loadGuestList),
-      mergeMap(({ startAt, limit }) => {
+      mergeMap(() => {
         return this._firestore
           .collection<GuestDto>(FIREBASE_COLLECTION_NAME)
           .stateChanges()
           .pipe(
             mergeMap((actions) => actions),
             map(({ type, payload }) => {
-              console.debug(`[GuestEffects] Firebase state change: ${type}`);
-
               switch (type) {
                 case 'added':
                   return GuestActions.guestAdded({
