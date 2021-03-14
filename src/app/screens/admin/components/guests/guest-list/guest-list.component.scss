@@ -16,6 +16,21 @@
   }
 }
 
-::ng-deep .add-dialog {
-  width: 500px;
+::ng-deep {
+  .add-dialog {
+    width: 500px;
+  }
+
+  .pi.pi-ban,
+  .pi.pi-envelope {
+    color: #80808066;
+  }
+
+  .pi.pi-thumbs-up {
+    color: #32c069;
+  }
+
+  .pi.pi-thumbs-down {
+    color: red;
+  }
 }

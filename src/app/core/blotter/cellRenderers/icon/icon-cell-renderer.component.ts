@@ -15,11 +15,24 @@ import { IconCellRendererParams } from './icon-cell-renderer-params';
 export class IconCellRendererComponent implements ICellRendererAngularComp {
   public params: ICellRendererParams & IconCellRendererParams;
 
+  public icon: string;
+  public tooltip: string;
+
   public agInit(params: ICellRendererParams & IconCellRendererParams): void {
     this.params = params;
+    this.refresh();
   }
 
   public refresh(): boolean {
+    this.icon =
+      typeof this.params.icon === 'function'
+        ? (this.params.icon as (params: ICellRendererParams & IconCellRendererParams) => string)(this.params)
+        : this.params.icon;
+
+    this.tooltip =
+      typeof this.params.tooltip === 'function'
+        ? (this.params.tooltip as (params: ICellRendererParams & IconCellRendererParams) => string)(this.params)
+        : this.params.tooltip;
     return false;
   }
 }

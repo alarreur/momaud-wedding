@@ -61,11 +61,6 @@ export class GuestListComponent implements OnInit {
 
   public ngOnInit(): void {}
 
-  public closeForm(): void {
-    this.editionGuest = null;
-    this.addDialogVisbility = false;
-  }
-
   private initOptions(): void {
     this.gridOptions = {
       getRowNodeId: (guest: Guest) => guest.id,
@@ -82,11 +77,16 @@ export class GuestListComponent implements OnInit {
           width: 30,
         },
         inviteStatus: {
-          width: 120,
-          valueFormatter: (params: GuestValueFormatterParams) => params.value && InviteStatus.toString(params.value),
+          width: 100,
+          cellRenderer: 'iconRenderer',
+          cellRendererParams: <IconCellRendererParams>{
+            icon: (data: any) => InviteStatus.getIcon(data.value),
+            tooltip: (data: any) => InviteStatus.toString(data.value),
+          },
+          cellClass: (params) => `${(params.value as string).toLowerCase()}`,
         },
         relativeGuest: {
-          width: 150,
+          width: 220,
           cellRenderer: 'relativeRenderer',
           cellRendererParams: <RelativeCellRendererParams>{
             guests$: this.guests$,
@@ -113,21 +113,21 @@ export class GuestListComponent implements OnInit {
         {
           field: 'lastName',
           headerName: 'Nom',
-          width: 140,
+          width: 190,
           sort: 'asc',
         },
         {
           field: 'firstName',
           headerName: 'Prénom',
-          width: 140,
+          width: 170,
         },
         {
           field: 'email',
-          width: 270,
+          width: 350,
         },
         {
           field: 'ceremonyStatus',
-          headerName: 'Cérmonie',
+          headerName: 'Cérémonie',
           type: ['inviteStatus'],
         },
         {
@@ -150,11 +150,11 @@ export class GuestListComponent implements OnInit {
           headerName: '+ 1',
           type: ['relativeGuest'],
         },
-        {
-          field: 'parentId',
-          headerName: 'Parent',
-          type: ['relativeGuest'],
-        },
+        // {
+        //   field: 'parentId',
+        //   headerName: 'Parent',
+        //   type: ['relativeGuest'],
+        // },
       ],
     };
   }

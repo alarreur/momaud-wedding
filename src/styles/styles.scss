@@ -1,5 +1,6 @@
 /* Global Style of the application */
 @import 'variables';
+@import 'admin';
 @import 'fonts';
 @import 'primeng/index';
 @import 'ag-grid/index';
@@ -54,4 +55,12 @@ a {
 
 em {
   color: $stand-out-color;
+}
+
+.admin-panel {
+  &,
+  p,
+  li {
+    @include admin-font;
+  }
 }

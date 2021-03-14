@@ -3,7 +3,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Input, OnChanges, SimpleCha
 import { AsyncValidatorFn, FormControl, FormGroup, Validators } from '@angular/forms';
 
 // primeng
-import { MessageService } from 'primeng/api';
+import { MessageService, SelectItem } from 'primeng/api';
 
 // rxjs
 import { BehaviorSubject, combineLatest, EMPTY, Observable, of, Subject } from 'rxjs';
@@ -31,27 +31,28 @@ export class GuestFormComponent implements OnInit, OnChanges {
 
   public form: FormGroup;
 
-  public inviteStatuses = Object.keys(InviteStatus)
-    .filter((key) => key !== 'toString')
+  public inviteStatuses: SelectItem[] = Object.keys(InviteStatus)
+    .filter((key) => ['toString', 'getIcon'].indexOf(key) < 0)
     .map((key) => (InviteStatus as any)[key])
-    .map((key: InviteStatus) => ({
-      key,
-      label: InviteStatus.toString(key),
+    .map((value: InviteStatus) => ({
+      value,
+      label: InviteStatus.toString(value),
+      icon: InviteStatus.getIcon(value),
     }));
 
-  public categories = Object.keys(GuestCategory)
+  public categories: SelectItem[] = Object.keys(GuestCategory)
     .filter((key) => key !== 'toString')
     .map((key) => (GuestCategory as any)[key])
-    .map((key: GuestCategory) => ({
-      key,
-      label: GuestCategory.toString(key),
+    .map((value: GuestCategory) => ({
+      value,
+      label: GuestCategory.toString(value),
     }));
 
-  public hosts = Object.keys(Host)
+  public hosts: SelectItem[] = Object.keys(Host)
     .map((key) => (Host as any)[key])
-    .map((key: Host) => ({
-      key,
-      label: key,
+    .map((value: Host) => ({
+      value,
+      label: value,
     }));
 
   public guestsSuggestions$: Observable<Guest[]>;
@@ -134,6 +135,8 @@ export class GuestFormComponent implements OnInit, OnChanges {
   }
 
   public createForm(): void {
+    const defaultInvitedStatus = InviteStatus.Invited;
+
     this.form = new FormGroup({
       firstName: new FormControl(null, Validators.required),
       lastName: new FormControl(
@@ -149,13 +152,28 @@ export class GuestFormComponent implements OnInit, OnChanges {
       email: new FormControl(null, Validators.email),
       category: new FormControl(null, Validators.required),
       invitedBy: new FormControl(null, Validators.required),
-      ceremonyStatus: new FormControl(null, Validators.required),
-      cocktailStatus: new FormControl(null, Validators.required),
-      dinerStatus: new FormControl(null, Validators.required),
-      brunchStatus: new FormControl(null, Validators.required),
+      ceremonyStatus: new FormControl(defaultInvitedStatus, Validators.required),
+      cocktailStatus: new FormControl(defaultInvitedStatus, Validators.required),
+      dinerStatus: new FormControl(defaultInvitedStatus, Validators.required),
+      brunchStatus: new FormControl(defaultInvitedStatus, Validators.required),
       plusOneId: new FormControl(),
       parentId: new FormControl(),
     });
+  }
+
+  public toto(event: any): void {
+    console.log('toto', event);
+    console.log(this.form.get('ceremonyStatus').value);
+  }
+
+  public toString(obj: any): string {
+    return `{ ${Object.keys(obj)
+      .map((key) => {
+        const value = obj[key];
+
+        return `${key}: ${typeof value === 'string' ? `'${value}'` : this.toString(value)}`;
+      })
+      .join(', ')} }`;
   }
 
   public updateForm(): void {
@@ -182,12 +200,12 @@ export class GuestFormComponent implements OnInit, OnChanges {
               firstName,
               lastName,
               email,
-              category: category && this.categories.find((cat) => cat.key === category),
-              invitedBy: invitedBy && this.hosts.find((host) => host.key === invitedBy),
-              ceremonyStatus: ceremonyStatus && this.inviteStatuses.find((status) => status.key === ceremonyStatus),
-              cocktailStatus: cocktailStatus && this.inviteStatuses.find((status) => status.key === cocktailStatus),
-              dinerStatus: dinerStatus && this.inviteStatuses.find((status) => status.key === dinerStatus),
-              brunchStatus: brunchStatus && this.inviteStatuses.find((status) => status.key === brunchStatus),
+              category,
+              invitedBy,
+              ceremonyStatus,
+              cocktailStatus,
+              dinerStatus,
+              brunchStatus,
               plusOneId: plusOneId && guests.find((guest) => guest.id === plusOneId),
               parentId: parentId && guests.find((guest) => guest.id === parentId),
             });
@@ -205,12 +223,12 @@ export class GuestFormComponent implements OnInit, OnChanges {
       email: dto.email,
       firstName: dto.firstName,
       lastName: dto.lastName,
-      invitedBy: dto.invitedBy.key,
-      category: dto.category.key,
-      brunchStatus: dto.brunchStatus.key,
-      ceremonyStatus: dto.ceremonyStatus.key,
-      cocktailStatus: dto.cocktailStatus.key,
-      dinerStatus: dto.dinerStatus.key,
+      invitedBy: dto.invitedBy,
+      category: dto.category,
+      brunchStatus: dto.brunchStatus,
+      ceremonyStatus: dto.ceremonyStatus,
+      cocktailStatus: dto.cocktailStatus,
+      dinerStatus: dto.dinerStatus,
       plusOneId: dto.plusOneId && dto.plusOneId.id,
       parentId: dto.parentId && dto.parentId.id,
     });
