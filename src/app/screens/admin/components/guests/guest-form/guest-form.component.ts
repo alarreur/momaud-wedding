@@ -161,21 +161,6 @@ export class GuestFormComponent implements OnInit, OnChanges {
     });
   }
 
-  public toto(event: any): void {
-    console.log('toto', event);
-    console.log(this.form.get('ceremonyStatus').value);
-  }
-
-  public toString(obj: any): string {
-    return `{ ${Object.keys(obj)
-      .map((key) => {
-        const value = obj[key];
-
-        return `${key}: ${typeof value === 'string' ? `'${value}'` : this.toString(value)}`;
-      })
-      .join(', ')} }`;
-  }
-
   public updateForm(): void {
     if (this.guest) {
       this._guestService

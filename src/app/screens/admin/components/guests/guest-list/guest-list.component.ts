@@ -25,6 +25,23 @@ export interface GuestValueFormatterParams extends ValueFormatterParams {
   data: Guest;
 }
 
+enum Columns {
+  LastName = 'lastName',
+  FirstName = 'firstName',
+  Email = 'email',
+  CeremonyStatus = 'ceremonyStatus',
+  CocktailStatus = 'cocktailStatus',
+  DinerStatus = 'dinerStatus',
+  BrunchStatus = 'brunchStatus',
+  PlusOneId = 'plusOneId',
+}
+
+enum ColumnTypes {
+  Action = 'action',
+  InviteStatus = 'inviteStatus',
+  RelativeGuest = 'relativeGuest',
+}
+
 @Component({
   selector: 'momo-guest-list',
   templateUrl: './guest-list.component.html',
@@ -61,6 +78,35 @@ export class GuestListComponent implements OnInit {
 
   public ngOnInit(): void {}
 
+  public exportAsCsv(): void {
+    if (this.gridOptions) {
+      this.gridOptions.api.exportDataAsCsv({
+        columnKeys: [
+          Columns.LastName,
+          Columns.FirstName,
+          Columns.Email,
+          Columns.CeremonyStatus,
+          Columns.CocktailStatus,
+          Columns.DinerStatus,
+          Columns.BrunchStatus,
+          Columns.PlusOneId,
+        ],
+        processCellCallback: (params) => {
+          const colType = params.column.getColDef().type;
+
+          if (colType && colType.indexOf(ColumnTypes.RelativeGuest) > -1) {
+            const relativeNode = params.api.getRowNode(params.value);
+            return relativeNode && relativeNode.data && new Guest(relativeNode.data).fullName;
+          } else if (colType && colType.indexOf(ColumnTypes.InviteStatus) > -1) {
+            return InviteStatus.toString(params.value);
+          }
+
+          return params.value;
+        },
+      });
+    }
+  }
+
   private initOptions(): void {
     this.gridOptions = {
       getRowNodeId: (guest: Guest) => guest.id,
@@ -95,7 +141,7 @@ export class GuestListComponent implements OnInit {
       },
       columnDefs: [
         {
-          type: ['action'],
+          type: [ColumnTypes.Action],
           cellRendererParams: <IconCellRendererParams>{
             icon: 'pi pi-user-edit',
             tooltip: 'Editer',
@@ -103,7 +149,7 @@ export class GuestListComponent implements OnInit {
           },
         },
         {
-          type: ['action'],
+          type: [ColumnTypes.Action],
           cellRendererParams: <IconCellRendererParams>{
             icon: 'pi pi-times',
             tooltip: 'Supprimer',
@@ -111,49 +157,49 @@ export class GuestListComponent implements OnInit {
           },
         },
         {
-          field: 'lastName',
+          field: Columns.LastName,
           headerName: 'Nom',
           width: 190,
           sort: 'asc',
         },
         {
-          field: 'firstName',
+          field: Columns.FirstName,
           headerName: 'Prénom',
           width: 170,
         },
         {
-          field: 'email',
+          field: Columns.Email,
           width: 350,
         },
         {
-          field: 'ceremonyStatus',
+          field: Columns.CeremonyStatus,
           headerName: 'Cérémonie',
-          type: ['inviteStatus'],
+          type: [ColumnTypes.InviteStatus],
         },
         {
-          field: 'cocktailStatus',
+          field: Columns.CocktailStatus,
           headerName: 'Cocktail',
-          type: ['inviteStatus'],
+          type: [ColumnTypes.InviteStatus],
         },
         {
-          field: 'dinerStatus',
+          field: Columns.DinerStatus,
           headerName: 'Dîner',
-          type: ['inviteStatus'],
+          type: [ColumnTypes.InviteStatus],
         },
         {
-          field: 'brunchStatus',
+          field: Columns.BrunchStatus,
           headerName: 'Brunch',
-          type: ['inviteStatus'],
+          type: [ColumnTypes.InviteStatus],
         },
         {
-          field: 'plusOneId',
+          field: Columns.PlusOneId,
           headerName: '+ 1',
-          type: ['relativeGuest'],
+          type: [ColumnTypes.RelativeGuest],
         },
         // {
         //   field: 'parentId',
         //   headerName: 'Parent',
-        //   type: ['relativeGuest'],
+        //   type: [ColumnTypes.RelativeGuest],
         // },
       ],
     };

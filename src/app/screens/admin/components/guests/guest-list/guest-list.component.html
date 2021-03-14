@@ -7,6 +7,7 @@
         <input type="text" pInputText placeholder="Rechercher" (keyup)="filterGuest$.next($event.target.value)" />
       </span>
       <button class="add-button" pButton label="Ajouter" (click)="addDialogVisbility = !addDialogVisbility"></button>
+      <button class="p-button-outlined" pButton icon="pi pi-file-excel" (click)="exportAsCsv()"></button>
     </div>
   </div>
   <ag-grid-angular class="ag-theme-alpine" [rowData]="guests$ | async" [gridOptions]="gridOptions"></ag-grid-angular>
