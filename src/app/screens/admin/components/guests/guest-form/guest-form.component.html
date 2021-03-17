@@ -18,10 +18,10 @@
     <label for="password">Categorie *</label>
     <p-dropdown
       [options]="categories"
-      optionLabel="label"
       appendTo="body"
       formControlName="category"
       placeholder="Sélectionnez une categorie"
+      panelStyleClass="admin-panel"
     ></p-dropdown>
     <small class="p-invalid" *ngFor="let error of getErrors('category')">{{ error }}</small>
   </div>
@@ -29,10 +29,10 @@
     <label for="password">Invité par *</label>
     <p-dropdown
       [options]="hosts"
-      optionLabel="label"
       appendTo="body"
       formControlName="invitedBy"
       placeholder="Sélectionnez une personne"
+      panelStyleClass="admin-panel"
     ></p-dropdown>
     <small class="p-invalid" *ngFor="let error of getErrors('invitedBy')">{{ error }}</small>
   </div>
@@ -40,44 +40,72 @@
     <label for="password">Cérémonie *</label>
     <p-dropdown
       [options]="inviteStatuses"
-      optionLabel="label"
       appendTo="body"
       formControlName="ceremonyStatus"
       placeholder="Sélectionnez un statut"
-    ></p-dropdown>
+      panelStyleClass="admin-panel"
+    >
+      <ng-template let-item pTemplate="selectedItem">
+        <span [ngClass]="item.icon"></span><span class="invite-status-label">{{ item.label }}</span>
+      </ng-template>
+      <ng-template let-item pTemplate="item">
+        <span [ngClass]="item.icon"></span><span class="invite-status-label">{{ item.label }}</span>
+      </ng-template>
+    </p-dropdown>
     <small class="p-invalid" *ngFor="let error of getErrors('ceremonyStatus')">{{ error }}</small>
   </div>
   <div class="p-field p-fluid">
     <label for="password">Cocktail *</label>
     <p-dropdown
       [options]="inviteStatuses"
-      optionLabel="label"
       appendTo="body"
       formControlName="cocktailStatus"
       placeholder="Sélectionnez un statut"
-    ></p-dropdown>
+      panelStyleClass="admin-panel"
+    >
+      <ng-template let-item pTemplate="selectedItem">
+        <span [ngClass]="item.icon"></span><span class="invite-status-label">{{ item.label }}</span>
+      </ng-template>
+      <ng-template let-item pTemplate="item">
+        <span [ngClass]="item.icon"></span><span class="invite-status-label">{{ item.label }}</span>
+      </ng-template>
+    </p-dropdown>
     <small class="p-invalid" *ngFor="let error of getErrors('cocktailStatus')">{{ error }}</small>
   </div>
   <div class="p-field p-fluid">
     <label for="password">Dîner *</label>
     <p-dropdown
       [options]="inviteStatuses"
-      optionLabel="label"
       appendTo="body"
       formControlName="dinerStatus"
       placeholder="Sélectionnez un statut"
-    ></p-dropdown>
+      panelStyleClass="admin-panel"
+    >
+      <ng-template let-item pTemplate="selectedItem">
+        <span [ngClass]="item.icon"></span><span class="invite-status-label">{{ item.label }}</span>
+      </ng-template>
+      <ng-template let-item pTemplate="item">
+        <span [ngClass]="item.icon"></span><span class="invite-status-label">{{ item.label }}</span>
+      </ng-template></p-dropdown
+    >
     <small class="p-invalid" *ngFor="let error of getErrors('dinerStatus')">{{ error }}</small>
   </div>
   <div class="p-field p-fluid">
     <label for="password">Brunch *</label>
     <p-dropdown
       [options]="inviteStatuses"
-      optionLabel="label"
       appendTo="body"
       formControlName="brunchStatus"
       placeholder="Sélectionnez un statut"
-    ></p-dropdown>
+      panelStyleClass="admin-panel"
+    >
+      <ng-template let-item pTemplate="selectedItem">
+        <span [ngClass]="item.icon"></span><span class="invite-status-label">{{ item.label }}</span>
+      </ng-template>
+      <ng-template let-item pTemplate="item">
+        <span [ngClass]="item.icon"></span><span class="invite-status-label">{{ item.label }}</span>
+      </ng-template>
+    </p-dropdown>
     <small class="p-invalid" *ngFor="let error of getErrors('brunchStatus')">{{ error }}</small>
   </div>
   <div class="p-field p-fluid">
@@ -91,10 +119,11 @@
       field="fullName"
       dataKey="id"
       placeholder="Start typing a guest name..."
+      panelStyleClass="admin-panel"
     ></p-autoComplete>
     <small class="p-invalid" *ngFor="let error of getErrors('plusOneId')">{{ error }}</small>
   </div>
-  <div class="p-field p-fluid">
+  <!-- <div class="p-field p-fluid">
     <label for="password">Parent</label>
     <p-autoComplete
       appendTo="body"
@@ -107,7 +136,7 @@
       placeholder="Start typing a guest name..."
     ></p-autoComplete>
     <small class="p-invalid" *ngFor="let error of getErrors('parentId')">{{ error }}</small>
-  </div>
+  </div> -->
   <div class="p-d-flex p-jc-end">
     <button pButton label="Cancel" class="p-button-secondary p-button-outlined" (click)="cancel()"></button>
     <button pButton label="Sauvegarder" (click)="save()" [disabled]="cannotSave$ | async"></button>

@@ -96,8 +96,19 @@ export class StepService {
   }
 
   public save(guest: Guest, plusOne?: Guest): Observable<void> {
-    return forkJoin([guest, plusOne].filter((g) => !!g).map((g) => this._guestService.update(g).pipe(first()))).pipe(
-      map(() => void 0)
-    );
+    return forkJoin(
+      [guest, plusOne]
+        .filter((g) => !!g)
+        .map((g) =>
+          this._guestService
+            .update(
+              new Guest({
+                ...g.toDto(),
+                lastAnswer: Date.now(),
+              })
+            )
+            .pipe(first())
+        )
+    ).pipe(map(() => void 0));
   }
 }

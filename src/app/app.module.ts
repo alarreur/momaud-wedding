@@ -1,8 +1,10 @@
 // angular
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 
 // firebase
 import { AngularFireModule } from '@angular/fire';
@@ -35,6 +37,8 @@ import { rootEffets, rootReducers } from './services/ngrx';
 import { GuestService } from './services';
 import { RsvpModule } from './screens/rsvp/rsvp.module';
 import { smallScreenProvider } from './core/providers';
+
+registerLocaleData(localeFr);
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, MenuComponent, LoginComponent],
@@ -79,6 +83,8 @@ import { smallScreenProvider } from './core/providers';
     GuestService,
 
     smallScreenProvider(environment.smallScreenBreakpoint),
+
+    { provide: LOCALE_ID, useValue: 'fr-FR' },
   ],
   bootstrap: [AppComponent],
 })

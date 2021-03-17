@@ -58,6 +58,6 @@ export class EmailComponent implements OnChanges {
   }
 
   public onNext(): void {
-    this.next.emit(new Guest({ ...this.guest, email: this.email }));
+    this.next.emit(new Guest({ ...this.guest.toDto(), email: this.email }));
   }
 }

@@ -7,17 +7,24 @@
         <input type="text" pInputText placeholder="Rechercher" (keyup)="filterGuest$.next($event.target.value)" />
       </span>
       <button class="add-button" pButton label="Ajouter" (click)="addDialogVisbility = !addDialogVisbility"></button>
+      <button class="p-button-outlined" pButton icon="pi pi-file-excel" (click)="exportAsCsv()"></button>
     </div>
   </div>
   <ag-grid-angular class="ag-theme-alpine" [rowData]="guests$ | async" [gridOptions]="gridOptions"></ag-grid-angular>
 </div>
 
-<p-dialog #addDialog header="Ajouter un invité" [(visible)]="addDialogVisbility" styleClass="add-dialog">
+<p-dialog
+  #addDialog
+  header="Ajouter un invité"
+  [(visible)]="addDialogVisbility"
+  (onHide)="editionGuest = null"
+  styleClass="add-dialog"
+>
   <momo-guest-form
     *ngIf="addDialogVisbility"
     [guest]="editionGuest"
-    (saved)="closeForm()"
-    (cancelled)="closeForm()"
+    (saved)="addDialogVisbility = false"
+    (cancelled)="addDialogVisbility = false"
   ></momo-guest-form>
 </p-dialog>
 
