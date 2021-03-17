@@ -1,5 +1,5 @@
 // angular
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Inject, LOCALE_ID } from '@angular/core';
 
 // rxks
 import { Observable, Subject } from 'rxjs';
@@ -20,6 +20,7 @@ import {
   RelativeCellRendererComponent,
   RelativeCellRendererParams,
 } from '@app/core/blotter';
+import { formatDate } from '@angular/common';
 
 export interface GuestValueFormatterParams extends ValueFormatterParams {
   data: Guest;
@@ -34,12 +35,15 @@ enum Columns {
   DinerStatus = 'dinerStatus',
   BrunchStatus = 'brunchStatus',
   PlusOneId = 'plusOneId',
+  LastAnswer = 'lastAnswer',
+  LastUpdate = 'lastUpdate',
 }
 
 enum ColumnTypes {
   Action = 'action',
   InviteStatus = 'inviteStatus',
   RelativeGuest = 'relativeGuest',
+  Timestamp = 'timestamp',
 }
 
 @Component({
@@ -60,7 +64,8 @@ export class GuestListComponent implements OnInit {
   constructor(
     private readonly _guestService: GuestService,
     private readonly _cdr: ChangeDetectorRef,
-    private _confirmationService: ConfirmationService
+    private _confirmationService: ConfirmationService,
+    @Inject(LOCALE_ID) private readonly _locale: string
   ) {
     this.guests$ = this.filterGuest$.pipe(
       startWith(null as string),
@@ -90,15 +95,22 @@ export class GuestListComponent implements OnInit {
           Columns.DinerStatus,
           Columns.BrunchStatus,
           Columns.PlusOneId,
+          Columns.LastAnswer,
+          Columns.LastUpdate,
         ],
         processCellCallback: (params) => {
           const colType = params.column.getColDef().type;
+          const colDef = params.column.getColDef();
 
           if (colType && colType.indexOf(ColumnTypes.RelativeGuest) > -1) {
             const relativeNode = params.api.getRowNode(params.value);
             return relativeNode && relativeNode.data && new Guest(relativeNode.data).fullName;
           } else if (colType && colType.indexOf(ColumnTypes.InviteStatus) > -1) {
             return InviteStatus.toString(params.value);
+          } else if (colDef.valueFormatter) {
+            return typeof colDef.valueFormatter === 'string'
+              ? colDef.valueFormatter
+              : (colDef.valueFormatter as (params: any) => string)(params);
           }
 
           return params.value;
@@ -118,11 +130,11 @@ export class GuestListComponent implements OnInit {
         relativeRenderer: RelativeCellRendererComponent,
       },
       columnTypes: {
-        action: {
+        [ColumnTypes.Action]: {
           cellRenderer: 'iconRenderer',
           width: 30,
         },
-        inviteStatus: {
+        [ColumnTypes.InviteStatus]: {
           width: 100,
           cellRenderer: 'iconRenderer',
           cellRendererParams: <IconCellRendererParams>{
@@ -131,12 +143,16 @@ export class GuestListComponent implements OnInit {
           },
           cellClass: (params) => `${(params.value as string).toLowerCase()}`,
         },
-        relativeGuest: {
+        [ColumnTypes.RelativeGuest]: {
           width: 220,
           cellRenderer: 'relativeRenderer',
           cellRendererParams: <RelativeCellRendererParams>{
             guests$: this.guests$,
           },
+        },
+        [ColumnTypes.Timestamp]: {
+          width: 200,
+          valueFormatter: (params) => (params.value ? formatDate(params.value, 'short', this._locale) : ''),
         },
       },
       columnDefs: [
@@ -159,17 +175,17 @@ export class GuestListComponent implements OnInit {
         {
           field: Columns.LastName,
           headerName: 'Nom',
-          width: 190,
+          width: 150,
           sort: 'asc',
         },
         {
           field: Columns.FirstName,
           headerName: 'Prénom',
-          width: 170,
+          width: 150,
         },
         {
           field: Columns.Email,
-          width: 350,
+          width: 300,
         },
         {
           field: Columns.CeremonyStatus,
@@ -201,6 +217,16 @@ export class GuestListComponent implements OnInit {
         //   headerName: 'Parent',
         //   type: [ColumnTypes.RelativeGuest],
         // },
+        {
+          field: Columns.LastAnswer,
+          headerName: 'Dernière rép.',
+          type: [ColumnTypes.Timestamp],
+        },
+        {
+          field: Columns.LastUpdate,
+          headerName: 'Dernière modif.',
+          type: [ColumnTypes.Timestamp],
+        },
       ],
     };
   }

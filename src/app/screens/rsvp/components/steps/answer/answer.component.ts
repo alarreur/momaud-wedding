@@ -69,7 +69,7 @@ export class AnswerComponent implements OnChanges {
     const propToUpdate = propMappings[this.step];
 
     return new Guest({
-      ...this.guest,
+      ...this.guest.toDto(),
       [propToUpdate]: this.isAttending ? InviteStatus.Attends : InviteStatus.Absent,
     });
   }

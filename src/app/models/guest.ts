@@ -16,6 +16,8 @@ export class Guest {
   public readonly parentId: string;
   public readonly category: GuestCategory;
   public readonly invitedBy: Host;
+  public readonly lastUpdate: Date;
+  public readonly lastAnswer: Date;
 
   public get fullName(): string {
     return this.lastName ? `${this.firstName} ${this.lastName}` : this.firstName;
@@ -34,10 +36,8 @@ export class Guest {
     this.brunchStatus = dto.brunchStatus;
     this.plusOneId = dto.plusOneId;
     this.parentId = dto.parentId;
-  }
-
-  public static sortByLastName(a: Guest, b: Guest): number {
-    return a.lastName.localeCompare(b.lastName);
+    this.lastAnswer = dto.lastAnswer != null ? new Date(dto.lastAnswer) : null;
+    this.lastUpdate = dto.lastUpdate != null ? new Date(dto.lastUpdate) : null;
   }
 
   public isSearchCandidate(searchTerm: string): boolean {
@@ -64,6 +64,7 @@ export class Guest {
 
   public toDto(): GuestDto {
     return {
+      id: this.id,
       brunchStatus: this.brunchStatus,
       category: this.category,
       ceremonyStatus: this.ceremonyStatus,
@@ -75,6 +76,8 @@ export class Guest {
       lastName: this.lastName,
       parentId: this.parentId,
       plusOneId: this.plusOneId,
+      lastAnswer: this.lastAnswer ? this.lastAnswer.getTime() : null,
+      lastUpdate: this.lastUpdate ? this.lastUpdate.getTime() : null,
     };
   }
 }
