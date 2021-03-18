@@ -1,8 +1,14 @@
 // angular
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
+// rxjs
+import { Observable, of } from 'rxjs';
+import { first, map } from 'rxjs/operators';
+
 // app
-import { environment, KeyAddresses } from '@environment';
+import { GuestService } from '@app/services';
+import { environment, KeyAddresses, SIGNED_IN_GUEST_KEY } from '@environment';
+import { InviteStatus } from '@app/models';
 
 @Component({
   selector: 'momo-program',
@@ -12,8 +18,17 @@ import { environment, KeyAddresses } from '@environment';
 })
 export class ProgramComponent implements OnInit {
   public keyAdresses: KeyAddresses = environment.keyAdresses;
+  public displayBrunch$: Observable<boolean>;
 
-  constructor() {}
+  constructor(guestService: GuestService) {
+    const guestId = window.localStorage.getItem(SIGNED_IN_GUEST_KEY);
+    this.displayBrunch$ = guestId
+      ? guestService.get(guestId).pipe(
+          first(),
+          map((guest) => guest.brunchStatus !== InviteStatus.NotInvited)
+        )
+      : of(false);
+  }
 
   ngOnInit(): void {}
 }

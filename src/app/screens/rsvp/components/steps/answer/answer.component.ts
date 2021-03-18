@@ -31,8 +31,8 @@ export class AnswerComponent implements OnChanges {
   @Input() public step: Step;
   @Input() public guest: Guest;
   @Input() public isCurrentStep: boolean;
-  @Output() public onPrevious = new EventEmitter<Guest>();
-  @Output() public onNext = new EventEmitter<Guest>();
+  @Output() public previous = new EventEmitter<Guest>();
+  @Output() public next = new EventEmitter<Guest>();
 
   public Step: typeof Step = Step;
   public isAttending: boolean;
@@ -47,7 +47,7 @@ export class AnswerComponent implements OnChanges {
       assert(
         inviteStatus !== InviteStatus.NotInvited,
         `Guest is not invited to ${this.step}. Preventing from moving forward...`,
-        () => this.previous()
+        () => this.onPrevious()
       );
 
       if (this.guest) {
@@ -57,19 +57,19 @@ export class AnswerComponent implements OnChanges {
     }
   }
 
-  public previous(): void {
-    this.onPrevious.emit(this.save());
+  public onPrevious(): void {
+    this.previous.emit(this.save());
   }
 
-  public next(): void {
-    this.onNext.emit(this.save());
+  public onNext(): void {
+    this.next.emit(this.save());
   }
 
   private save(): Guest {
     const propToUpdate = propMappings[this.step];
 
     return new Guest({
-      ...this.guest,
+      ...this.guest.toDto(),
       [propToUpdate]: this.isAttending ? InviteStatus.Attends : InviteStatus.Absent,
     });
   }

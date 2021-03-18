@@ -1,8 +1,10 @@
 // angular
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 
 // firebase
 import { AngularFireModule } from '@angular/fire';
@@ -28,18 +30,15 @@ import { TooltipModule } from 'primeng/tooltip';
 // environment
 import { environment } from '@environment';
 
-// data
-import { guestListMock } from '@data/guest.mock';
-
 // local
 import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent, MenuComponent, LoginComponent, AppComponent } from './components';
 import { rootEffets, rootReducers } from './services/ngrx';
-import { GuestIoService } from './services/guest-io.service';
-import { GuestIoServiceMock } from './services/guest-io.service.mock';
 import { GuestService } from './services';
 import { RsvpModule } from './screens/rsvp/rsvp.module';
 import { smallScreenProvider } from './core/providers';
+
+registerLocaleData(localeFr);
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, MenuComponent, LoginComponent],
@@ -82,10 +81,10 @@ import { smallScreenProvider } from './core/providers';
     { provide: FUNCTIONS_ORIGIN, useFactory: () => (environment.useEmulators ? 'http://localhost:5001' : undefined) },
 
     GuestService,
-    // GuestIoService,
-    { provide: GuestIoService, useValue: new GuestIoServiceMock(guestListMock) },
 
     smallScreenProvider(environment.smallScreenBreakpoint),
+
+    { provide: LOCALE_ID, useValue: 'fr-FR' },
   ],
   bootstrap: [AppComponent],
 })

@@ -3,17 +3,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 // firebase
-import {
-  AngularFireAuthGuard,
-  canActivate,
-  customClaims,
-  hasCustomClaim,
-  redirectUnauthorizedTo,
-} from '@angular/fire/auth-guard';
-
-// rxjs
-import { map } from 'rxjs/operators';
-import { pipe } from 'rxjs';
+import { canActivate, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 
 // app
 import { RsvpComponent } from '@app/screens/rsvp';
@@ -26,13 +16,13 @@ import { HomeComponent } from './screens/home';
 import { InfoComponent } from './screens/info';
 import { WishlistComponent } from './screens/wishlist';
 
-// const adminOnly = () => hasCustomClaim('admin');
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
-const isAdminOrRedirectToLogin = () =>
-  pipe(
-    customClaims,
-    map((claims) => (claims && claims.admin ? true : ['login']))
-  );
+
+// const isAdminOrRedirectToLogin = () =>
+//   pipe(
+//     customClaims,
+//     map((claims) => (claims && claims.admin ? true : ['login']))
+//   );
 
 const defaultRoute = `/${AppRoute.Home}`;
 

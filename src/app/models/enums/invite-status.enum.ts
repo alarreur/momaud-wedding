@@ -6,7 +6,7 @@ export enum InviteStatus {
 }
 
 export namespace InviteStatus {
-  export function toString(status: InviteStatus) {
+  export function toString(status: InviteStatus): string {
     switch (status) {
       case InviteStatus.Invited:
         return 'Invité';
@@ -16,6 +16,21 @@ export namespace InviteStatus {
         return 'Absent';
       case InviteStatus.Attends:
         return 'Présent';
+      default:
+        return '';
+    }
+  }
+
+  export function getIcon(status: InviteStatus): string {
+    switch (status) {
+      case InviteStatus.Invited:
+        return 'pi pi-envelope';
+      case InviteStatus.NotInvited:
+        return 'pi pi-ban';
+      case InviteStatus.Absent:
+        return 'pi pi-thumbs-down';
+      case InviteStatus.Attends:
+        return 'pi pi-thumbs-up';
       default:
         return '';
     }

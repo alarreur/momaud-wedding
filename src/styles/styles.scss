@@ -1,5 +1,6 @@
 /* Global Style of the application */
 @import 'variables';
+@import 'admin';
 @import 'fonts';
 @import 'primeng/index';
 @import 'ag-grid/index';
@@ -30,12 +31,16 @@ h5 {
   font-size: 1.25rem;
 }
 
+p,
+li {
+  color: $primary-color;
+  font-family: $font-family-paragraph;
+}
+
 p {
   line-height: 1.3em;
   margin-block-start: 1rem;
   margin-block-end: 0;
-  color: $primary-color;
-  font-family: $font-family-paragraph;
   font-style: normal;
   text-align: justify;
 }
@@ -50,4 +55,12 @@ a {
 
 em {
   color: $stand-out-color;
+}
+
+.admin-panel {
+  &,
+  p,
+  li {
+    @include admin-font;
+  }
 }

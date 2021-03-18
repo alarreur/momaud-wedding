@@ -2,6 +2,8 @@ import { GuestCategory } from '../enums/guest-category.enum';
 import { Host } from '../enums/host.enum';
 import { InviteStatus } from '../enums/invite-status.enum';
 
+export type Timestamp = number;
+
 export interface GuestDto {
   readonly id?: string;
   readonly firstName: string;
@@ -15,4 +17,10 @@ export interface GuestDto {
   readonly parentId: string;
   readonly category: GuestCategory;
   readonly invitedBy: Host;
+  readonly lastUpdate?: Timestamp;
+  readonly lastAnswer?: Timestamp;
+}
+
+export function sortByLastName(a: GuestDto, b: GuestDto): number {
+  return a.lastName.localeCompare(b.lastName);
 }

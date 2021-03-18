@@ -38,20 +38,22 @@
           </div>
         </div>
       </li>
-      <li class="sunday">
-        <div class="date">Dimanche 29 août</div>
-      </li>
-      <li>
-        <div class="bullet"></div>
-        <div class="time">12h</div>
-        <div class="desc">
-          <div class="title">Brunch</div>
-          <div class="subtitle">Mas Sainte Anne</div>
-          <div class="address">
-            <a [href]="keyAdresses.sainteAnne" target="_blank">869 chemin de Bigonnet<i class="pi pi-map-marker"></i></a>
+      <ng-container *ngIf="displayBrunch$ | async">
+        <li class="sunday">
+          <div class="date">Dimanche 29 août</div>
+        </li>
+        <li>
+          <div class="bullet"></div>
+          <div class="time">12h</div>
+          <div class="desc">
+            <div class="title">Brunch</div>
+            <div class="subtitle">Mas Sainte Anne</div>
+            <div class="address">
+              <a [href]="keyAdresses.sainteAnne" target="_blank">869 chemin de Bigonnet<i class="pi pi-map-marker"></i></a>
+            </div>
           </div>
-        </div>
-      </li>
+        </li>
+      </ng-container>
     </ul>
   </div>
 </div>

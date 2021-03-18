@@ -5,8 +5,8 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 // rxjs
-import { from, Observable, of } from 'rxjs';
-import { catchError, filter, first, map, switchMap } from 'rxjs/operators';
+import { forkJoin, from, Observable, of } from 'rxjs';
+import { catchError, filter, first, map, switchMap, tap } from 'rxjs/operators';
 
 // angular fire
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -78,7 +78,7 @@ export class GuestService {
       this._firestore.firestore.runTransaction((transaction) => {
         const deleteGuestRef = guestsRef.doc(guest.id);
 
-        return this.getPropertyRelatives(transaction, guestsRef, guest, 'plusOneId')
+        return this.getPropertyRelatives(transaction, guestsRef, guest.toDto(), 'plusOneId')
           .pipe(
             map((plusOneRelative) => {
               // upsert guest
@@ -104,22 +104,38 @@ export class GuestService {
     );
   }
 
-  private upsert(guest: Guest): Observable<Guest> {
+  private upsert(guestToUpsert: Guest): Observable<Guest> {
     const guestsRef = this._firestore.firestore.collection(FIREBASE_COLLECTION_NAME);
+    const isCreation = guestToUpsert.id == null;
 
     return from(
       this._firestore.firestore.runTransaction((transaction) => {
-        const upsertGuestRef = guest.id ? guestsRef.doc(guest.id) : guestsRef.doc();
+        const upsertGuestRef = isCreation ? guestsRef.doc() : guestsRef.doc(guestToUpsert.id);
         const id = upsertGuestRef.id;
 
-        return this.getPropertyRelatives(transaction, guestsRef, { ...guest, id }, 'plusOneId')
-          .pipe(
-            map((plusOneRelative) => {
-              // upsert guest
-              transaction.set(upsertGuestRef, guest.toDto());
+        const dbOldPlusOne$ = isCreation
+          ? of(null)
+          : from(transaction.get(upsertGuestRef)).pipe(
+              map((guestSnapshot) => (<Partial<GuestDto>>guestSnapshot.data()).plusOneId),
+              switchMap((oldPlusOneId) => (oldPlusOneId ? transaction.get(guestsRef.doc(oldPlusOneId)) : of(null))),
+              first()
+            );
+        const dbNewPlusOne$ = this.getPropertyRelatives(transaction, guestsRef, { ...guestToUpsert.toDto(), id }, 'plusOneId');
 
-              if (plusOneRelative) {
-                const { directRelative: directPlusOne, indirectRelative: indirectPlusOne } = plusOneRelative;
+        return forkJoin({ dbOldPlusOne: dbOldPlusOne$, dbNewPlusOne: dbNewPlusOne$ })
+          .pipe(
+            tap(({ dbOldPlusOne, dbNewPlusOne }) => {
+              // upsert guest
+              transaction.set(upsertGuestRef, { ...guestToUpsert.toDto(), id, lastUpdate: Date.now() });
+
+              // unlink oldPlusOne
+              if (dbOldPlusOne) {
+                transaction.update(guestsRef.doc(dbOldPlusOne.id), { plusOneId: null });
+              }
+
+              // link newPlusOne
+              if (dbNewPlusOne) {
+                const { directRelative: directPlusOne, indirectRelative: indirectPlusOne } = dbNewPlusOne;
 
                 if (directPlusOne) {
                   // set plusOneId with new guest id
@@ -127,13 +143,12 @@ export class GuestService {
                 }
 
                 if (indirectPlusOne && indirectPlusOne.dto.id !== id) {
-                  // remove link with previous relative
+                  // unlink newPlusOne's oldPlusOne
                   transaction.update(indirectPlusOne.ref, { plusOneId: null });
                 }
               }
-
-              return id;
-            })
+            }),
+            map(() => id)
           )
           .toPromise();
       })
@@ -151,11 +166,11 @@ export class GuestService {
 
   /**
    * Gets the plusOne or parent (called relatives) of a guest.
-   * @param  {Transaction} transaction
-   * @param  {CollectionReference} collectionRef
-   * @param  {GuestDto} guest The guest for which to fetch the relatives
-   * @param  {string} propertyForRelativeFetch The property for the relative fetch. Possible values are 'plusOneId'.
-   * @param  {boolean=true} fetchIndirectRelative Indicates whether to fetch the relative's relative as well.
+   * @param  transaction The transaction
+   * @param  collectionRef The collection refernce
+   * @param  guest The guest for which to fetch the relatives
+   * @param  propertyForRelativeFetch The property for the relative fetch. Possible values are 'plusOneId'.
+   * @param  fetchIndirectRelative Indicates whether to fetch the relative's relative as well.
    * @returns The direct relative with its indirect relative (ie the relative's relative).
    */
   private getPropertyRelatives(
@@ -171,11 +186,11 @@ export class GuestService {
     if (!guest[propertyForRelativeFetch]) {
       return of(null);
     } else {
-      let directRelativeRef = collectionRef.doc(guest[propertyForRelativeFetch]);
+      const directRelativeRef = collectionRef.doc(guest[propertyForRelativeFetch]);
 
       return from(transaction.get(directRelativeRef)).pipe(
         switchMap((directRelativeSnapshot) => {
-          let directRelativeDto = <GuestDto>{ id: directRelativeSnapshot.id, ...directRelativeSnapshot.data() };
+          const directRelativeDto = <GuestDto>{ id: directRelativeSnapshot.id, ...directRelativeSnapshot.data() };
 
           const directRelative = {
             ref: directRelativeRef,
@@ -194,7 +209,8 @@ export class GuestService {
               directRelative,
             });
           }
-        })
+        }),
+        first()
       );
     }
   }
