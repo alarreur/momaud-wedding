@@ -40,14 +40,43 @@ export class Guest {
     this.lastUpdate = dto.lastUpdate != null ? new Date(dto.lastUpdate) : null;
   }
 
-  public isSearchCandidate(searchTerm: string): boolean {
-    return (
-      searchTerm &&
-      searchTerm.length &&
-      [this.firstName, this.lastName, this.email, this.fullName].some(
+  public isSearchCandidate(
+    filters: { searchTerm: string; categories?: GuestCategory[]; hosts?: Host[] },
+    plusOne?: Guest
+  ): boolean {
+    if (!filters) {
+      return true;
+    }
+
+    const { searchTerm, categories, hosts } = filters;
+
+    if (searchTerm && searchTerm.length) {
+      const isSearchTermMatch = [this.fullName, this.email, plusOne?.fullName].some(
         (property) => property && property.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
-      )
-    );
+      );
+
+      if (!isSearchTermMatch) {
+        return false;
+      }
+    }
+
+    if (categories && categories.length) {
+      const isCategoryMatch = categories.some((category) => category === this.category);
+
+      if (!isCategoryMatch) {
+        return false;
+      }
+    }
+
+    if (hosts && hosts.length) {
+      const isHostMatch = hosts.some((host) => host === this.invitedBy);
+
+      if (!isHostMatch) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   public isDuplicate(guest: Guest): boolean {
