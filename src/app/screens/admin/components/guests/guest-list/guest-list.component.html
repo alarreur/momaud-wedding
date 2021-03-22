@@ -2,6 +2,7 @@
   <div class="header">
     <h2 class="title">Gestion des invités</h2>
     <div class="actions">
+      <span>{{ (guests$ | async)?.length }} invités</span>
       <p-multiSelect
         [options]="categories"
         (onChange)="filterCategory$.next($event.value)"

@@ -40,7 +40,10 @@ export class Guest {
     this.lastUpdate = dto.lastUpdate != null ? new Date(dto.lastUpdate) : null;
   }
 
-  public isSearchCandidate(filters: { searchTerm: string; categories?: GuestCategory[]; hosts?: Host[] }): boolean {
+  public isSearchCandidate(
+    filters: { searchTerm: string; categories?: GuestCategory[]; hosts?: Host[] },
+    plusOne?: Guest
+  ): boolean {
     if (!filters) {
       return true;
     }
@@ -48,7 +51,7 @@ export class Guest {
     const { searchTerm, categories, hosts } = filters;
 
     if (searchTerm && searchTerm.length) {
-      const isSearchTermMatch = [this.firstName, this.lastName, this.email, this.fullName].some(
+      const isSearchTermMatch = [this.fullName, this.email, plusOne?.fullName].some(
         (property) => property && property.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
       );
 

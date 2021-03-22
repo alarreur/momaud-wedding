@@ -40,7 +40,6 @@
     <label for="password">+1</label>
     <p-autoComplete
       appendTo="body"
-      [forceSelection]="true"
       [suggestions]="guestsSuggestions$ | async"
       (completeMethod)="searchGuest$.next($event.query)"
       formControlName="plusOneId"

@@ -87,17 +87,18 @@ export class GuestListComponent implements OnInit {
     private _confirmationService: ConfirmationService,
     @Inject(LOCALE_ID) private readonly _locale: string
   ) {
-    this.guests$ = combineLatest(this.filterSearchTerm$, this.filterCategory$, this.filterHost$).pipe(
+    this.guests$ = combineLatest([this.filterSearchTerm$, this.filterCategory$, this.filterHost$]).pipe(
       switchMap(([searchTerm, categories, hosts]) =>
         _guestService.list().pipe(
           map((guests) => {
-            const matchedGuests = guests.filter((guest) => guest.isSearchCandidate({ searchTerm, categories, hosts }));
-            const plusOnes = matchedGuests
-              .filter((guest) => guest.plusOneId)
-              .map((guest) => guests.find((plusOne) => plusOne.id === guest.plusOneId))
-              .filter((plusOne) => matchedGuests.indexOf(plusOne) < 0);
+            const matchedGuests = guests.filter((guest) =>
+              guest.isSearchCandidate(
+                { searchTerm, categories, hosts },
+                guest.plusOneId && guests.find((g) => g.id === guest.plusOneId)
+              )
+            );
 
-            return [...matchedGuests, ...plusOnes];
+            return matchedGuests;
           })
         )
       )
