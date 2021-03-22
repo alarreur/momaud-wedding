@@ -1,5 +1,16 @@
 // angular
-import { Component, OnInit, ChangeDetectionStrategy, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { AsyncValidatorFn, FormControl, FormGroup, Validators } from '@angular/forms';
 
 // primeng
@@ -29,6 +40,9 @@ export class GuestFormComponent implements OnInit, OnChanges {
   @Output()
   public saved: EventEmitter<Guest> = new EventEmitter<Guest>();
 
+  @ViewChild('firstName', { static: false })
+  public firstNameInput: ElementRef;
+
   public form: FormGroup;
 
   public inviteStatuses: SelectItem[] = Object.keys(InviteStatus)
@@ -49,10 +63,11 @@ export class GuestFormComponent implements OnInit, OnChanges {
     }));
 
   public hosts: SelectItem[] = Object.keys(Host)
+    .filter((key) => key !== 'toString')
     .map((key) => (Host as any)[key])
     .map((value: Host) => ({
       value,
-      label: value,
+      label: Host.toString(value),
     }));
 
   public guestsSuggestions$: Observable<Guest[]>;

@@ -59,7 +59,7 @@ export class GuestService {
   public search(searchTerm: string): Observable<Guest[]> {
     return this.list().pipe(
       filter((guests) => guests && guests.length > 0),
-      map((guests) => guests.filter((guest) => guest.isSearchCandidate(searchTerm)))
+      map((guests) => guests.filter((guest) => guest.isSearchCandidate({ searchTerm })))
     );
   }
 
