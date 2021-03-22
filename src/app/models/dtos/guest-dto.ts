@@ -22,5 +22,9 @@ export interface GuestDto {
 }
 
 export function sortByLastName(a: GuestDto, b: GuestDto): number {
-  return a.lastName.localeCompare(b.lastName);
+  if (a && b && a !== b && a.lastName && b.lastName) {
+    return a.lastName.localeCompare(b.lastName);
+  }
+
+  return 0;
 }

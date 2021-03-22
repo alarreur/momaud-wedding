@@ -1,7 +1,7 @@
 <div class="momo-guest-form" *ngIf="form" [formGroup]="form">
   <div class="p-field p-fluid">
     <label for="password">Prénom *</label>
-    <input type="text" pInputText formControlName="firstName" />
+    <input type="text" pInputText formControlName="firstName" autofocus />
     <small class="p-invalid" *ngFor="let error of getErrors('firstName')">{{ error }}</small>
   </div>
   <div class="p-field p-fluid">
@@ -35,6 +35,21 @@
       panelStyleClass="admin-panel"
     ></p-dropdown>
     <small class="p-invalid" *ngFor="let error of getErrors('invitedBy')">{{ error }}</small>
+  </div>
+  <div class="p-field p-fluid">
+    <label for="password">+1</label>
+    <p-autoComplete
+      appendTo="body"
+      [forceSelection]="true"
+      [suggestions]="guestsSuggestions$ | async"
+      (completeMethod)="searchGuest$.next($event.query)"
+      formControlName="plusOneId"
+      field="fullName"
+      dataKey="id"
+      placeholder="Start typing a guest name..."
+      panelStyleClass="admin-panel"
+    ></p-autoComplete>
+    <small class="p-invalid" *ngFor="let error of getErrors('plusOneId')">{{ error }}</small>
   </div>
   <div class="p-field p-fluid">
     <label for="password">Cérémonie *</label>
@@ -107,21 +122,6 @@
       </ng-template>
     </p-dropdown>
     <small class="p-invalid" *ngFor="let error of getErrors('brunchStatus')">{{ error }}</small>
-  </div>
-  <div class="p-field p-fluid">
-    <label for="password">+1</label>
-    <p-autoComplete
-      appendTo="body"
-      [forceSelection]="true"
-      [suggestions]="guestsSuggestions$ | async"
-      (completeMethod)="searchGuest$.next($event.query)"
-      formControlName="plusOneId"
-      field="fullName"
-      dataKey="id"
-      placeholder="Start typing a guest name..."
-      panelStyleClass="admin-panel"
-    ></p-autoComplete>
-    <small class="p-invalid" *ngFor="let error of getErrors('plusOneId')">{{ error }}</small>
   </div>
   <!-- <div class="p-field p-fluid">
     <label for="password">Parent</label>

@@ -2,17 +2,17 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Inject, LOCALE_ID } from '@angular/core';
 
 // rxks
-import { Observable, Subject } from 'rxjs';
-import { map, startWith, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 // ag-grid
 import { GridOptions, ValueFormatterParams } from 'ag-grid-community';
 
 // primeng
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, SelectItem } from 'primeng/api';
 
 // app
-import { Guest, InviteStatus } from '@app/models';
+import { Guest, GuestCategory, Host, InviteStatus } from '@app/models';
 import { GuestService } from '@app/services';
 import {
   IconCellRendererComponent,
@@ -37,6 +37,8 @@ enum Columns {
   PlusOneId = 'plusOneId',
   LastAnswer = 'lastAnswer',
   LastUpdate = 'lastUpdate',
+  InvitedBy = 'invitedBy',
+  Category = 'category',
 }
 
 enum ColumnTypes {
@@ -54,12 +56,30 @@ enum ColumnTypes {
 })
 export class GuestListComponent implements OnInit {
   public guests$: Observable<Guest[]>;
-  public filterGuest$: Subject<string> = new Subject();
+  public filterSearchTerm$: Subject<string> = new BehaviorSubject(null);
+  public filterCategory$: Subject<GuestCategory[]> = new BehaviorSubject(null);
+  public filterHost$: Subject<Host[]> = new BehaviorSubject(null);
   public addDialogVisbility: boolean;
 
   public editionGuest: Guest;
 
   public gridOptions: GridOptions;
+
+  public categories: SelectItem[] = Object.keys(GuestCategory)
+    .filter((key) => key !== 'toString')
+    .map((key) => (GuestCategory as any)[key])
+    .map((value: GuestCategory) => ({
+      value,
+      label: GuestCategory.toString(value),
+    }));
+
+  public hosts: SelectItem[] = Object.keys(Host)
+    .filter((key) => key !== 'toString')
+    .map((key) => (Host as any)[key])
+    .map((value: Host) => ({
+      value,
+      label: Host.toString(value),
+    }));
 
   constructor(
     private readonly _guestService: GuestService,
@@ -67,12 +87,17 @@ export class GuestListComponent implements OnInit {
     private _confirmationService: ConfirmationService,
     @Inject(LOCALE_ID) private readonly _locale: string
   ) {
-    this.guests$ = this.filterGuest$.pipe(
-      startWith(null as string),
-      switchMap((searchTerm) =>
+    this.guests$ = combineLatest(this.filterSearchTerm$, this.filterCategory$, this.filterHost$).pipe(
+      switchMap(([searchTerm, categories, hosts]) =>
         _guestService.list().pipe(
           map((guests) => {
-            return guests.filter((guest) => !searchTerm || guest.isSearchCandidate(searchTerm));
+            const matchedGuests = guests.filter((guest) => guest.isSearchCandidate({ searchTerm, categories, hosts }));
+            const plusOnes = matchedGuests
+              .filter((guest) => guest.plusOneId)
+              .map((guest) => guests.find((plusOne) => plusOne.id === guest.plusOneId))
+              .filter((plusOne) => matchedGuests.indexOf(plusOne) < 0);
+
+            return [...matchedGuests, ...plusOnes];
           })
         )
       )
@@ -95,6 +120,8 @@ export class GuestListComponent implements OnInit {
           Columns.DinerStatus,
           Columns.BrunchStatus,
           Columns.PlusOneId,
+          Columns.Category,
+          Columns.InvitedBy,
           Columns.LastAnswer,
           Columns.LastUpdate,
         ],
@@ -124,6 +151,10 @@ export class GuestListComponent implements OnInit {
       getRowNodeId: (guest: Guest) => guest.id,
       defaultColDef: {
         sortable: true,
+        filter: true,
+        filterParams: {
+          buttons: ['reset'],
+        },
       },
       frameworkComponents: {
         iconRenderer: IconCellRendererComponent,
@@ -153,6 +184,7 @@ export class GuestListComponent implements OnInit {
         [ColumnTypes.Timestamp]: {
           width: 200,
           valueFormatter: (params) => (params.value ? formatDate(params.value, 'short', this._locale) : ''),
+          filter: false,
         },
       },
       columnDefs: [
@@ -212,6 +244,18 @@ export class GuestListComponent implements OnInit {
           headerName: '+ 1',
           type: [ColumnTypes.RelativeGuest],
         },
+        {
+          field: Columns.Category,
+          headerName: 'Categorie',
+          width: 100,
+          valueFormatter: (params: ValueFormatterParams) => GuestCategory.toString(params.value),
+        },
+        {
+          field: Columns.InvitedBy,
+          headerName: 'Invité par',
+          width: 100,
+          valueFormatter: (params: ValueFormatterParams) => Host.toString(params.value),
+        },
         // {
         //   field: 'parentId',
         //   headerName: 'Parent',
@@ -228,6 +272,9 @@ export class GuestListComponent implements OnInit {
           type: [ColumnTypes.Timestamp],
         },
       ],
+      onRowDoubleClicked: (event) => {
+        this.editGuest(event.data);
+      },
     };
   }
 

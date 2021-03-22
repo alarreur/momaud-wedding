@@ -2,9 +2,21 @@
   <div class="header">
     <h2 class="title">Gestion des invités</h2>
     <div class="actions">
+      <p-multiSelect
+        [options]="categories"
+        (onChange)="filterCategory$.next($event.value)"
+        defaultLabel="Catégories"
+        [showHeader]="false"
+      ></p-multiSelect>
+      <p-multiSelect
+        [options]="hosts"
+        (onChange)="filterHost$.next($event.value)"
+        defaultLabel="Invité par..."
+        [showHeader]="false"
+      ></p-multiSelect>
       <span class="search p-input-icon-left">
         <i class="pi pi-search"></i>
-        <input type="text" pInputText placeholder="Rechercher" (keyup)="filterGuest$.next($event.target.value)" />
+        <input type="text" pInputText placeholder="Rechercher" (keyup)="filterSearchTerm$.next($event.target.value)" />
       </span>
       <button class="add-button" pButton label="Ajouter" (click)="addDialogVisbility = !addDialogVisbility"></button>
       <button class="p-button-outlined" pButton icon="pi pi-file-excel" (click)="exportAsCsv()"></button>
