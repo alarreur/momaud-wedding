@@ -41,14 +41,22 @@ export class Guest {
   }
 
   public isSearchCandidate(
-    filters: { searchTerm: string; categories?: GuestCategory[]; hosts?: Host[] },
+    filters: {
+      searchTerm: string;
+      categories?: GuestCategory[];
+      hosts?: Host[];
+      ceremonyStatus?: InviteStatus;
+      cocktailStatus?: InviteStatus;
+      dinerStatus?: InviteStatus;
+      brunchStatus?: InviteStatus;
+    },
     plusOne?: Guest
   ): boolean {
     if (!filters) {
       return true;
     }
 
-    const { searchTerm, categories, hosts } = filters;
+    const { searchTerm, categories, hosts, ceremonyStatus, cocktailStatus, dinerStatus, brunchStatus } = filters;
 
     if (searchTerm && searchTerm.length) {
       const isSearchTermMatch = [this.fullName, this.email, plusOne?.fullName].some(
@@ -74,6 +82,22 @@ export class Guest {
       if (!isHostMatch) {
         return false;
       }
+    }
+
+    if (ceremonyStatus && ceremonyStatus !== this.ceremonyStatus) {
+      return false;
+    }
+
+    if (cocktailStatus && cocktailStatus !== this.cocktailStatus) {
+      return false;
+    }
+
+    if (dinerStatus && dinerStatus !== this.dinerStatus) {
+      return false;
+    }
+
+    if (brunchStatus && brunchStatus !== this.brunchStatus) {
+      return false;
     }
 
     return true;
