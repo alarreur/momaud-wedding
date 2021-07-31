@@ -56,9 +56,16 @@ enum ColumnTypes {
 })
 export class GuestListComponent implements OnInit {
   public guests$: Observable<Guest[]>;
+
+  // filters
   public filterSearchTerm$: Subject<string> = new BehaviorSubject(null);
   public filterCategory$: Subject<GuestCategory[]> = new BehaviorSubject(null);
   public filterHost$: Subject<Host[]> = new BehaviorSubject(null);
+  public filterCeremony$: Subject<InviteStatus> = new BehaviorSubject(null);
+  public filterCocktail$: Subject<InviteStatus> = new BehaviorSubject(null);
+  public filterDiner$: Subject<InviteStatus> = new BehaviorSubject(null);
+  public filterBrunch$: Subject<InviteStatus> = new BehaviorSubject(null);
+
   public addDialogVisbility: boolean;
 
   public editionGuest: Guest;
@@ -81,26 +88,51 @@ export class GuestListComponent implements OnInit {
       label: Host.toString(value),
     }));
 
+  public statuses: SelectItem[] = Object.keys(InviteStatus)
+    .filter((key) => ['toString', 'getIcon'].indexOf(key) < 0)
+    .map((key) => (InviteStatus as any)[key])
+    .map((value: InviteStatus) => ({
+      value,
+      label: InviteStatus.toString(value),
+    }));
+
   constructor(
     private readonly _guestService: GuestService,
     private readonly _cdr: ChangeDetectorRef,
     private _confirmationService: ConfirmationService,
     @Inject(LOCALE_ID) private readonly _locale: string
   ) {
-    this.guests$ = combineLatest([this.filterSearchTerm$, this.filterCategory$, this.filterHost$]).pipe(
-      switchMap(([searchTerm, categories, hosts]) =>
-        _guestService.list().pipe(
-          map((guests) => {
-            const matchedGuests = guests.filter((guest) =>
-              guest.isSearchCandidate(
-                { searchTerm, categories, hosts },
-                guest.plusOneId && guests.find((g) => g.id === guest.plusOneId)
-              )
-            );
+    this.guests$ = combineLatest([
+      this.filterSearchTerm$,
+      this.filterCategory$,
+      this.filterHost$,
+      this.filterCeremony$,
+      this.filterCocktail$,
+      this.filterDiner$,
+      this.filterBrunch$,
+    ]).pipe(
+      switchMap(
+        ([searchTerm, categories, hosts, ceremonyStatus, cocktailStatus, dinerStatus, brunchStatus]: [
+          string,
+          GuestCategory[],
+          Host[],
+          InviteStatus,
+          InviteStatus,
+          InviteStatus,
+          InviteStatus
+        ]) =>
+          this._guestService.list().pipe(
+            map((guests) => {
+              const matchedGuests = guests.filter((guest) =>
+                guest.isSearchCandidate(
+                  { searchTerm, categories, hosts, ceremonyStatus, cocktailStatus, dinerStatus, brunchStatus },
+                  guest.plusOneId && guests.find((g) => g.id === guest.plusOneId)
+                )
+              );
 
-            return matchedGuests;
-          })
-        )
+              return matchedGuests;
+            })
+          )
       )
     );
 
