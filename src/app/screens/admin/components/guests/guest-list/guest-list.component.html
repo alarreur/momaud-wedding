@@ -3,6 +3,30 @@
     <h2 class="title">Gestion des invités</h2>
     <div class="actions">
       <span>{{ (guests$ | async)?.length }} invités</span>
+      <p-dropdown
+        [options]="statuses"
+        [showClear]="true"
+        placeholder="Cérémonie"
+        (onChange)="filterCeremony$.next($event.value)"
+      ></p-dropdown>
+      <p-dropdown
+        [options]="statuses"
+        [showClear]="true"
+        placeholder="Cocktail"
+        (onChange)="filterCocktail$.next($event.value)"
+      ></p-dropdown>
+      <p-dropdown
+        [options]="statuses"
+        [showClear]="true"
+        placeholder="Dîner"
+        (onChange)="filterDiner$.next($event.value)"
+      ></p-dropdown>
+      <p-dropdown
+        [options]="statuses"
+        [showClear]="true"
+        placeholder="Brunch"
+        (onChange)="filterBrunch$.next($event.value)"
+      ></p-dropdown>
       <p-multiSelect
         [options]="categories"
         (onChange)="filterCategory$.next($event.value)"
