@@ -6,4 +6,6 @@ export enum AppRoute {
   Info = 'infos',
   Admin = 'admin',
   Login = 'login',
+  Thanks = 'merci',
+  Photos = 'photos',
 }

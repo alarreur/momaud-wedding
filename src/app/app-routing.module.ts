@@ -15,6 +15,8 @@ import { AppRoute } from './models';
 import { HomeComponent } from './screens/home';
 import { InfoComponent } from './screens/info';
 import { WishlistComponent } from './screens/wishlist';
+import { ThanksComponent } from './screens/thanks';
+import { PhotosComponent } from './screens/photos';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 
@@ -24,7 +26,7 @@ const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 //     map((claims) => (claims && claims.admin ? true : ['login']))
 //   );
 
-const defaultRoute = `/${AppRoute.Home}`;
+const defaultRoute = `/${AppRoute.Thanks}`;
 
 const routes: Routes = [
   {
@@ -43,6 +45,8 @@ const routes: Routes = [
     ...canActivate(redirectUnauthorizedToLogin),
   },
   { path: AppRoute.Login, component: LoginComponent },
+  { path: AppRoute.Thanks, component: ThanksComponent },
+  { path: AppRoute.Photos, component: PhotosComponent },
   { path: '**', redirectTo: defaultRoute },
 ];
 

@@ -10,6 +10,7 @@ import localeFr from '@angular/common/locales/fr';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 import { AngularFirestoreModule, SETTINGS as FIRESTORE_SETTINGS } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 import { ORIGIN as FUNCTIONS_ORIGIN } from '@angular/fire/functions';
 
 // ngrx
@@ -55,6 +56,7 @@ registerLocaleData(localeFr);
     AngularFireAnalyticsModule,
     AngularFireAnalyticsModule,
     AngularFirestoreModule,
+    AngularFireStorageModule,
 
     // ngrx
     StoreModule.forRoot(rootReducers),

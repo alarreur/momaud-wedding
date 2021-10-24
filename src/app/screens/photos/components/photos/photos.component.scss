@@ -1,0 +1,9 @@
+@import 'variables';
+
+.momo-photos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: $content-max-width;
+  padding: 20px;
+}

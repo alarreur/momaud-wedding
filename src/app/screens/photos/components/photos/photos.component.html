@@ -1,0 +1,12 @@
+<div class="momo-photos">
+  <p-galleria [value]="photos$ | async">
+    <ng-template pTemplate="item" let-photo>
+      <img [src]="photo.url" [title]="photo.name" [alt]="photo.name" />
+    </ng-template>
+    <ng-template pTemplate="thumbnail" let-photo>
+      <div class="p-grid p-nogutter p-justify-center">
+        <img [src]="photo.url" [title]="photo.name" [alt]="photo.name" width="100" />
+      </div>
+    </ng-template>
+  </p-galleria>
+</div>
