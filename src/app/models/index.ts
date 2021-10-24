@@ -6,5 +6,6 @@ export * from './enums/guest-category.enum';
 export * from './guest';
 export * from './guid';
 export * from './rxjs';
+export * from './photo';
 
 export * from './dtos';
